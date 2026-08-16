@@ -31,10 +31,13 @@ after inspecting — they're scratch artifacts, not part of the repo content.
 - `latex/sections/*.tex` — one file per numbered section of the proposal (`00-cover`, `00-proposal-id`,
   `01-title` … `11-references`, `99-signature`). To edit content (e.g. fill in budget numbers, fix a citation),
   edit the relevant file here — not `main.tex`.
-- `latex/fonts/` — TH Sarabun New TTFs, bundled locally (not system-installed) and loaded by absolute filename in
-  `main.tex` via `fontspec`'s `Path=` option. This makes the document portable across machines where the font isn't
-  registered with the OS font system.
+- `latex/fonts/` — TH Sarabun New TTFs, bundled locally (not system-installed) and loaded via a relative path
+  (`Path = fonts/`) in `main.tex`'s `fontspec` setup. This makes the document portable across machines where the
+  font isn't registered with the OS font system.
 - `latex/images/` — figures extracted from the original `.docx` media, referenced by the theory section.
+- `Progress/` — reference-only KKU thesis template materials (`cskkuproject.cls`, an example System Dev project,
+  a blank chapter template), pulled in for later full-report work. Not part of the proposal build and not
+  `\input` anywhere in `latex/main.tex` — don't confuse `cskkuproject.cls` with this repo's own preamble.
 
 ## Non-obvious formatting mechanics in `main.tex`
 

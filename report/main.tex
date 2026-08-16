@@ -1,0 +1,138 @@
+\documentclass{cskkuproject}
+\usepackage{colortbl} % ใช้ \cellcolor ในตาราง Gantt chart (บทที่ 3)
+\usepackage[style=apa,backend=biber]{biblatex} % รูปแบบการอ้างอิง APA 7th edition
+\addbibresource{references.bib}
+
+% ==========================================
+% ข้อมูลโครงงาน — กรอกข้อมูลที่นี่
+% ==========================================
+
+\titleTH{ไดโน : เว็บแอพลิเคชันศูนย์กลางของการท่องเที่ยวจังหวัดขอนแก่น}
+\titleEN{Dino: The central web application for tourism in Khon Kaen}
+
+% ข้อมูลนักศึกษาคนที่ 1
+\firstStudentID{663380203-9}
+\firstStudentPrefixTH{นาย}
+\firstStudentPrefixEN{Mr.}
+\firstStudentNameTH{คเณศ บัวสด}
+\firstStudentNameEN{Khanet Buasod}
+
+% ข้อมูลนักศึกษาคนที่ 2
+\secondStudentID{663380228-3}
+\secondStudentPrefixTH{นาย}
+\secondStudentPrefixEN{Mr.}
+\secondStudentNameTH{ภูริ ชาริชา}
+\secondStudentNameEN{Phuri Charicha}
+
+% ข้อมูลหลักสูตร
+\degreeTH{วิทยาศาสตรบัณฑิต}
+\degreeEN{Bachelor of Science}
+\majorTH{วิทยาการคอมพิวเตอร์}
+\majorEN{Computer Science}
+
+% อาจารย์ที่ปรึกษา
+\advisorTH{อ.ธนพล ตั้งชูพงศ์}
+\advisorEN{Thanapon Tangchupong}
+
+% ปีการศึกษา
+\academicYearTH{2569}
+\academicYearEN{2026}
+
+% รหัสวิชา (CP354 771 = โครงงาน 1, CP354 772 = โครงงาน 2)
+\courseCode{CP354 771}
+\courseName{โครงงานทางวิทยาการคอมพิวเตอร์ 1}
+\semester{1}
+
+% คำสำคัญ -- จาก Research Me (1).docx (บทคัดย่อ)
+\keywordsTH{แอปพลิเคชันการท่องเที่ยว, ปัญญาประดิษฐ์, การดึงข้อมูลเสริม (RAG), โมเดลภาษาขนาดใหญ่, ไมโครเซอร์วิส, ขอนแก่น}
+\keywordsEN{Tourism Application, Artificial Intelligence, Retrieval-Augmented Generation (RAG), Large Language Models (LLMs), Microservices, Khon Kaen}
+
+
+\begin{document}
+
+% ==========================================
+% หน้าปก
+% ==========================================
+% คำสั่งด้านล่างสร้างหน้าปกอัตโนมัติจากข้อมูลที่กรอกด้านบน
+% ไม่ต้องแก้ไขส่วนนี้
+\maketitlepage
+
+% ตั้งค่าเลขหน้าส่วนต้นเป็นอักษรไทย (ก, ข, ค, ...)
+\pagenumbering{arabic}
+\setcounter{page}{0}
+\renewcommand{\thepage}{\ThaiAlph{\value{page}}}
+
+% ==========================================
+% บทคัดย่อ
+% ==========================================
+\begin{abstractTH}
+\input{abstractTH}
+\end{abstractTH}
+
+\begin{abstractEN}
+\input{abstractEN}
+\end{abstractEN}
+
+% ==========================================
+% กิตติกรรมประกาศ
+% ==========================================
+\begin{acknowledgement}
+\input{acknowledgement}
+\end{acknowledgement}
+
+% ==========================================
+% สารบัญ
+% ==========================================
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
+
+% ==========================================
+% สัญลักษณ์และคำย่อ (ถ้ามี — uncomment ด้านล่าง)
+% ==========================================
+% \begin{symbolpage}
+% \input{symbols}
+% \end{symbolpage}
+
+% ==========================================
+% เนื้อเรื่อง 5 บท
+% ==========================================
+% เริ่มนับเลขหน้าใหม่เป็นเลขอารบิก (1, 2, 3, ...)
+% ไม่ต้องแก้ไขส่วนนี้
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\chapterone
+\chaptertwo
+\chapterthree
+\chapterfour
+\chapterfive
+
+% ==========================================
+% เอกสารอ้างอิง
+% ==========================================
+% *** ไม่ต้องแก้ไขส่วนนี้ ***
+% ระบบจะดึงรายการอ้างอิงจากไฟล์ references.bib อัตโนมัติ
+% ให้แก้ไขรายการอ้างอิงในไฟล์ references.bib แทน
+\clearpage
+\makeatletter
+\let\ps@plain\ps@empty
+\makeatother
+\printbibliography[title={เอกสารอ้างอิง},heading=bibintoc]
+
+% ==========================================
+% ภาคผนวก
+% ==========================================
+\input{appendices}
+
+% ==========================================
+% ประวัติผู้เขียน
+% ==========================================
+\begin{biography}
+\input{biography}
+\end{biography}
+
+\end{document}

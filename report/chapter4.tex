@@ -1,0 +1,616 @@
+% =============================================================
+% บทที่ 4 - การวิเคราะห์ระบบ และการพัฒนาโปรแกรม
+% เนื้อหาหลักเรียบเรียงจาก Research Me (1).docx (บทที่ 4 การวิเคราะห์ระบบ และการพัฒนาโปรแกรม)
+% หมายเหตุ: แผนภาพ (Use Case / SSD / Sequence / Activity / ER / Mockup) มีอยู่จริงใน
+% Research Me (1).docx แต่ยังไม่ได้จับคู่ไฟล์ภาพที่แน่ชัด -- ใช้กรอบ placeholder ไว้ก่อน
+% ตามคำอธิบายจากต้นฉบับ ต้องแทรกภาพจริงภายหลัง (ดูหมายเหตุท้ายบทสนทนา)
+% =============================================================
+
+การพัฒนาแอปพลิเคชันส่วนกลางสำหรับการท่องเที่ยวในจังหวัดขอนแก่น (Dino) มุ่งเน้นการใช้เทคโนโลยีปัญญาประดิษฐ์เชิงสร้างสรรค์ (Generative AI) เพื่อแก้ปัญหาความซับซ้อนในการวางแผนการเดินทาง โดยเปลี่ยนจากการใช้อัลกอริทึมแบบดั้งเดิมมาเป็นการใช้ LLM ร่วมกับฐานข้อมูลเวกเตอร์ในการประมวลผล ผลการวิเคราะห์และพัฒนาระบบมีรายละเอียดดังต่อไปนี้
+
+% -----------------------------------------------------------
+\section{การวิเคราะห์ระบบ}
+% -----------------------------------------------------------
+
+\subsection{การวิเคราะห์ปัญหาและการทำงานเดิม}
+
+\subsubsection{ปัญหาการวางแผนการท่องเที่ยว}
+
+ปัญหาสำคัญในปัจจุบันคือการเข้าถึงข้อมูลการท่องเที่ยวที่กระจัดกระจายอยู่ในหลายช่องทาง เช่น เว็บไซต์ หน่วยงานราชการ เพจโซเชียลมีเดีย หรือแอปพลิเคชันทั่วไป นักท่องเที่ยวจำเป็นต้องใช้เวลาค้นหาข้อมูลจากหลายแหล่ง ซึ่งมักพบปัญหาว่าข้อมูลไม่ครบถ้วน ไม่ทันสมัย นอกจากนี้ แหล่งข้อมูลที่มีอยู่ในปัจจุบันมิได้ถูกรวบรวมอย่างเป็นระบบ ทำให้นักท่องเที่ยวประสบความยากลำบากในการเข้าถึงข้อมูลเพื่อใช้ในการวางแผนการเดินทางให้สอดคล้องกับความสนใจและงบประมาณของตนเอง
+
+\subsubsection{การทำงานเดิม}
+
+กระบวนการทำงานแบบดั้งเดิม (Manual Process) กำหนดให้นักท่องเที่ยวต้องดำเนินการสืบค้นและประมวลผลข้อมูลด้วยตนเองผ่านขั้นตอนที่มีความซับซ้อนและใช้เวลามาก ดังนี้
+
+\begin{enumerate}[label=(\arabic*)]
+\item การสืบค้นข้อมูล นักท่องเที่ยวทำการค้นหาข้อมูลสถานที่ท่องเที่ยว ที่พัก และร้านอาหาร ผ่านแพลตฟอร์มต่าง ๆ ที่แยกส่วนกันและไม่มีการเชื่อมโยงข้อมูลอย่างเป็นระบบ
+\item การตรวจสอบเส้นทางและระยะเวลา นักท่องเที่ยวต้องนำรายการสถานที่ที่สนใจไปสืบค้นต่อในระบบภูมิสารสนเทศหรือแอปพลิเคชันแผนที่ เพื่อคำนวณระยะทางและประเมินระยะเวลาในการเดินทาง
+\item การจัดตารางเวลาและงบประมาณ นักท่องเที่ยวต้องทำการคำนวณค่าใช้จ่ายและจัดลำดับแผนการเดินทางด้วยตนเอง (Manual Scheduling) ซึ่งมีโอกาสเกิดข้อผิดพลาดและสร้างความยุ่งยากในเชิงปฏิบัติ
+\end{enumerate}
+
+\subsection{ความต้องการของระบบ}
+
+การวิเคราะห์ความต้องการของระบบถูกแบ่งออกเป็น 2 ส่วนหลัก ได้แก่ ความต้องการเชิงหน้าที่ที่ระบบต้องตอบสนองต่อผู้ใช้งาน และความต้องการที่ไม่ใช่เชิงหน้าที่ซึ่งเป็นตัวกำหนดมาตรฐานและคุณภาพของระบบ
+
+\subsubsection{ความต้องการเชิงฟังก์ชัน}
+
+ความต้องการในส่วนนี้ระบุถึงฟังก์ชันการทำงานหลักที่ระบบแอปพลิเคชันศูนย์กลางการท่องเที่ยวต้องสามารถดำเนินการได้ เพื่อรองรับการใช้งานของนักท่องเที่ยวและผู้ดูแลระบบ แสดงดังตารางที่ \ref{tab:func_req}
+
+\begin{table}[H]
+\centering
+\caption{ความต้องการเชิงฟังก์ชัน (Functional Requirements)}
+\label{tab:func_req}
+\begin{tabular}{|c|p{4cm}|p{7cm}|}
+\hline
+\textbf{รหัส} & \textbf{ชื่อความต้องการ} & \textbf{รายละเอียดความต้องการ} \\
+\hline
+FR-01 & ระบบจัดการและแสดงผลข้อมูลการท่องเที่ยว & ระบบต้องสามารถแสดงรายละเอียดของสถานที่ท่องเที่ยวและกิจกรรม และอนุญาตให้นักท่องเที่ยวค้นหาข้อมูลตามหมวดหมู่ได้ \\ \hline
+FR-02 & ระบบสร้างแผนการเดินทางอัตโนมัติ & ระบบต้องรับข้อมูลเงื่อนไขจากผู้ใช้ ได้แก่ วัน เวลา สถานที่ ความสนใจ งบประมาณ ความเร็วของทริป และประมวลผลเพื่อสร้างแผนการเดินทาง (Trip Planning) ที่จัดเรียงลำดับสถานที่และเวลาได้อย่างเหมาะสมแบบอัตโนมัติ \\ \hline
+FR-03 & ระบบผู้ช่วยเสมือนอัจฉริยะ (Chatbot) & ระบบต้องมีแชตบอตที่ขับเคลื่อนด้วย LLM เพื่อรับคำสั่ง วิเคราะห์บริบท และโต้ตอบให้คำแนะนำด้านการท่องเที่ยวกับผู้ใช้งานผ่านทางเว็บไซต์ \\ \hline
+FR-04 & ระบบจัดการส่วนหลังบ้าน (Back-office) & ระบบต้องมีส่วนให้ผู้ดูแลระบบเข้าสู่ระบบเพื่อดำเนินการจัดการฐานข้อมูล (CRUD) สำหรับเพิ่ม ลบ แก้ไข และอัปเดตข้อมูลสถานที่ท่องเที่ยวและกิจกรรมได้ \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsubsection{ความต้องการที่ไม่ใช่เชิงฟังก์ชัน}
+
+ความต้องการส่วนนี้ครอบคลุมถึงข้อจำกัดทางสถาปัตยกรรมและคุณสมบัติด้านประสิทธิภาพของระบบ เพื่อให้ระบบปัญญาประดิษฐ์และซอฟต์แวร์ทำงานได้อย่างมีเสถียรภาพ แสดงดังตารางที่ \ref{tab:nonfunc_req}
+
+\begin{table}[H]
+\centering
+\caption{ความต้องการที่ไม่ใช่เชิงฟังก์ชัน (Non-Functional Requirements)}
+\label{tab:nonfunc_req}
+\begin{tabular}{|c|p{4cm}|p{7cm}|}
+\hline
+\textbf{รหัส} & \textbf{ชื่อความต้องการ} & \textbf{รายละเอียดความต้องการ} \\
+\hline
+NFR-01 & สถาปัตยกรรมและการรองรับการขยายตัว & ระบบต้องได้รับการออกแบบด้วยสถาปัตยกรรมไมโครเซอร์วิส เพื่อให้แต่ละส่วนทำงานแยกกันอย่างอิสระ และรองรับการขยายตัว (Scalability) เมื่อมีผู้ใช้งานเพิ่มขึ้น \\ \hline
+NFR-02 & ความถูกต้องและความน่าเชื่อถือของ AI & ระบบ LLM ต้องมีกลไกลดการบิดเบือนข้อมูล (Hallucination) โดยทำงานร่วมกับระบบสืบค้นข้อมูล เพื่อบังคับให้อ้างอิงคำตอบจากฐานข้อมูลของระบบเป็นหลัก \\ \hline
+NFR-03 & ประสิทธิภาพในการตอบสนอง (Performance) & ระบบต้องมีความหน่วงเวลา (Latency) ในการประมวลผลและส่งกลับคำตอบจากแชตบอตในระดับที่ต่ำ เพื่อให้การสนทนากับผู้ใช้เป็นไปอย่างราบรื่น \\ \hline
+NFR-04 & ความปลอดภัยของข้อมูล (Security) & ระบบจัดการหลังบ้านต้องมีการยืนยันตัวตน (Authentication) และการกำหนดสิทธิ์ (Authorization) ที่รัดกุม เพื่อป้องกันการเข้าถึงหรือแก้ไขฐานข้อมูลโดยไม่ได้รับอนุญาต \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{Use Case Diagram และรายละเอียด}
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}\textit{แทรกภาพ Tourist Use Case Diagram ที่นี่ (ต้นฉบับใน Research Me (1).docx)}\\ใช้คำสั่ง \texttt{\textbackslash includegraphics}\vspace{3cm}}}
+\caption{Tourist Use Case Diagram}
+\label{fig:usecase_tourist}
+\end{figure}
+
+นักท่องเที่ยว (Tourist) เป็นผู้ใช้งานระดับทั่วไป (End-User) ของระบบสารสนเทศด้านการท่องเที่ยว ซึ่งมีบทบาทสำคัญในการเข้ามาปฏิสัมพันธ์กับระบบเพื่อสืบค้นข้อมูลและวางแผนการเดินทางตามความต้องการของตนเอง ผู้ใช้งานสามารถเรียกดูรายละเอียดข้อมูลกิจกรรมและสถานที่ท่องเที่ยวในเชิงลึก ค้นหาข้อมูลตามเงื่อนไขหรือความสนใจ สร้างแผนการเดินทาง (Trip Planning) ด้วยตนเอง และโต้ตอบกับระบบแชทบอทเพื่อสอบถามข้อมูลหรือขอคำแนะนำเพิ่มเติมได้แบบเรียลไทม์ รายละเอียดเชิงลึกของแต่ละฟังก์ชันแสดงในตารางที่ \ref{tab:uc01}--\ref{tab:uc07}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-01: ถามตอบข้อมูลโดยใช้ Chatbot}
+\label{tab:uc01}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-01 \\ \hline
+\textbf{Actor} & นักท่องเที่ยว (Tourist), Google Gemini API \\ \hline
+\textbf{คำอธิบาย} & นักท่องเที่ยวสามารถโต้ตอบเพื่อสอบถามข้อมูลเกี่ยวกับการท่องเที่ยว สถานที่ กิจกรรมต่าง ๆ หรือฐานความรู้ที่ระบบมี ผ่านอินเทอร์เฟซแชทบอท โดยระบบจะส่งข้อความไปประมวลผลที่ Google Gemini API เพื่อสร้างคำตอบที่ถูกต้องและเป็นธรรมชาติ \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & ระบบเชื่อมต่อกับเครือข่ายอินเทอร์เน็ต และ Google Gemini API อยู่ในสถานะพร้อมใช้งาน \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & 1. นักท่องเที่ยวพิมพ์คำถามหรือข้อความลงในช่องแชทและกดส่ง \newline 2. ระบบรับข้อความและส่งต่อ (API Request) ไปยัง Google Gemini API โดยผ่าน RAG service เพื่อให้ได้ข้อมูลที่ตรงกับฐานข้อมูลที่มีอยู่ \newline 3. Google Gemini API ประมวลผลภาษาธรรมชาติและส่งคำตอบกลับมา (API Response) \newline 4. ระบบแสดงผลคำตอบบนหน้าจอแชทบอทให้นักท่องเที่ยวรับทราบ \\ \hline
+\textbf{กระแสทางเลือก} & 3a. หากไม่สามารถเชื่อมต่อ Google Gemini API ได้ (เช่น Timeout) ระบบจะแสดงข้อความขออภัยและให้ผู้ใช้งานลองใหม่อีกครั้งในภายหลัง \\ \hline
+\textbf{เงื่อนไขภายหลัง} & ข้อมูลการโต้ตอบถูกแสดงผลบนหน้าจอ แสดงประวัติการสนทนา และระบบพร้อมรับคำถามถัดไป \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-02: ค้นหาข้อมูลสถานที่ท่องเที่ยว กิจกรรม และอีเวนท์}
+\label{tab:uc02}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-02 \\ \hline
+\textbf{Actor} & นักท่องเที่ยว (Tourist) \\ \hline
+\textbf{คำอธิบาย} & นักท่องเที่ยวสามารถสืบค้นข้อมูลด้านการท่องเที่ยวภายในระบบ โดยระบุคำค้นหาหรือตัวกรองที่ต้องการ เพื่อดูรายการสถานที่ กิจกรรม หรืออีเวนท์ที่สอดคล้องกับความสนใจ \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & นักท่องเที่ยวอยู่ในหน้าแรก หรือหน้าสำหรับค้นหาข้อมูลของระบบ \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & 1. นักท่องเที่ยวระบุคำค้นหา หรือเลือกหมวดหมู่ที่ต้องการ (สถานที่, อีเวนท์) \newline 2. ระบบตรวจสอบเงื่อนไขและดึงข้อมูลจากฐานข้อมูล \newline 3. ระบบแสดงรายการผลลัพธ์การค้นหาที่ตรงตามเงื่อนไข \\ \hline
+\textbf{กระแสทางเลือก} & 2a. หากไม่มีข้อมูลที่ตรงกับเงื่อนไขการค้นหา ระบบจะแสดงข้อความแจ้งเตือนว่า ``ไม่พบข้อมูลที่ค้นหา'' \\ \hline
+\textbf{เงื่อนไขภายหลัง} & ระบบแสดงรายการผลการค้นหาบนหน้าจอ \\ \hline
+\textbf{Extend} & UC-04 ดูรายละเอียดข้อมูลสถานที่, UC-05 ดูรายละเอียดข้อมูลอีเวนท์ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-04: ดูรายละเอียดข้อมูลสถานที่ (Place Detail)}
+\label{tab:uc04}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-04 \\ \hline
+\textbf{Actor} & นักท่องเที่ยว (Tourist) \\ \hline
+\textbf{คำอธิบาย} & เป็นฟังก์ชันส่วนขยาย (Extension) เมื่อนักท่องเที่ยวต้องการดูข้อมูลเชิงลึกของสถานที่ที่สนใจ ระบบจะแสดงข้อมูลครบถ้วน ได้แก่ ชื่อสถานที่, รูปภาพ (Gallery), คะแนนและรีวิวจากผู้เยี่ยมชม, ที่อยู่, เวลาทำการ, ข้อมูลติดต่อ, สิ่งอำนวยความสะดวก, ช่วงราคา, แผนที่, วิธีชำระเงิน, ที่จอดรถ, การเข้าถึงสำหรับผู้พิการ และสถานีชาร์จรถยนต์ไฟฟ้า (EV) \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & ระบบกำลังแสดงรายการผลการค้นหาสถานที่อยู่ และนักท่องเที่ยวได้เลือกสถานที่ที่สนใจซึ่งมี Place ID พร้อมส่งต่อมาใน URL Parameter \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & 1. นักท่องเที่ยวคลิกเลือกรายการสถานที่ที่สนใจจากผลการค้นหา \newline 2. ระบบแสดงหน้า Loading เพื่อรอแสดงผล \newline 3. เมื่อได้รับข้อมูลสำเร็จ ระบบแสดงหน้ารายละเอียดอย่างครบถ้วน (Hero Section, Gallery, ชื่อสถานที่, คะแนนดาว, ประเภท, ที่อยู่, สถานะเปิด/ปิด, คำอธิบาย, สิ่งอำนวยความสะดวก, รีวิว, ข้อมูลติดต่อ, แผนที่, เวลาทำการ, วิธีชำระเงิน, ที่จอดรถ, การเข้าถึงสำหรับผู้พิการ, สถานีชาร์จ EV และปุ่ม Quick Actions) \\ \hline
+\textbf{กระแสทางเลือก} & [A1] เกิดข้อผิดพลาดในการเรียก API: ระบบแสดงหน้าข้อผิดพลาดพร้อมปุ่ม ``กลับ'' \newline [A2] ไม่พบข้อมูลสถานที่: ระบบแสดงข้อความ ``ไม่พบข้อมูลสถานที่'' กลางหน้าจอ \\ \hline
+\textbf{เงื่อนไขภายหลัง} & นักท่องเที่ยวได้รับทราบข้อมูลรายละเอียดของสถานที่ที่เลือกอย่างครบถ้วน และสามารถเปิดเส้นทางใน Google Maps, โทรติดต่อสถานที่, เขียนรีวิว หรือแชร์สถานที่นี้ \\ \hline
+\textbf{Extend} & ขยายการทำงานของ UC-02 ค้นหาข้อมูลสถานที่ท่องเที่ยว กิจกรรม และอีเวนท์ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-05: ดูรายละเอียดข้อมูลอีเวนท์ (View Event Detail)}
+\label{tab:uc05}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-05 \\ \hline
+\textbf{Actor} & นักท่องเที่ยว (Tourist) \\ \hline
+\textbf{คำอธิบาย} & ฟังก์ชันส่วนขยายของการค้นหาข้อมูล เมื่อนักท่องเที่ยวต้องการดูข้อมูลเชิงลึกของอีเวนท์ (เช่น เทศกาล งานคอนเสิร์ต) ระบบจะแสดงรายละเอียดครบถ้วน ได้แก่ ชื่องาน ประเภท วันเวลาและตารางกิจกรรม สถานที่จัดงานพร้อมแผนที่ ค่าเข้างานและช่องทางซื้อบัตร ข้อมูลผู้จัดงาน รวมถึงความเหมาะสมสำหรับกลุ่มผู้เข้าร่วมประเภทต่าง ๆ \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & ระบบกำลังแสดงรายการผลการค้นหาซึ่งมีรายการประเภท ``อีเวนท์'' ปรากฏอยู่ และอีเวนท์นั้นมีสถานะเป็น published และไม่ถูกยกเลิก \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & 1. นักท่องเที่ยวคลิกเลือกรายการอีเวนท์ที่สนใจจากผลการค้นหา \newline 2. ระบบดึงข้อมูลทั้งหมดจากฐานข้อมูล \newline 3. ระบบแสดงหน้าจอรายละเอียดของอีเวนท์ (ชื่องานและภาพปก, ประเภทงานและแท็ก, วันที่จัดงานและตาราง, สถานที่จัดงานพร้อมพิกัดแผนที่, ข้อมูลค่าเข้างานและลิงก์ซื้อบัตร, ข้อมูลผู้จัดงานและช่องทางติดต่อ, กลุ่มที่เหมาะสม) \newline 4. นักท่องเที่ยวอ่านและรับทราบข้อมูลที่ต้องการ \\ \hline
+\textbf{กระแสทางเลือก} & [A1] ไม่พบข้อมูลอีเวนท์: ระบบแจ้งว่า ``ไม่พบข้อมูลอีเวนท์นี้'' และแนะนำให้กลับไปยังหน้าผลการค้นหา \newline [A2] อีเวนท์ถูกยกเลิก: ระบบแสดงรายละเอียดตามปกติ แต่แจ้งเตือนอย่างชัดเจนว่างานนี้ได้ถูกยกเลิกแล้ว \\ \hline
+\textbf{เงื่อนไขภายหลัง} & นักท่องเที่ยวได้รับทราบข้อมูลรายละเอียดของอีเวนท์ที่เลือกอย่างครบถ้วน และสามารถกดลิงก์ซื้อบัตรหรือดูแผนที่สถานที่จัดงานได้ทันที \\ \hline
+\textbf{Extend} & ขยายการทำงานของ UC-02 ค้นหาข้อมูลสถานที่ท่องเที่ยว กิจกรรม และอีเวนท์ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-06: สร้างแผนการเดินทาง (Trip Planning)}
+\label{tab:uc06}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-06 \\ \hline
+\textbf{Actor} & นักท่องเที่ยว (Tourist) \\ \hline
+\textbf{คำอธิบาย} & นักท่องเที่ยวสามารถจัดการและออกแบบแผนการเดินทางส่วนตัว โดยระบุปัจจัยสำคัญ ได้แก่ วันเดินทาง ที่พัก ความสนใจ งบประมาณ และช่วงเวลาที่ต้องการเดินทางในแต่ละวัน จากนั้นระบบจะใช้ AI ในการวิเคราะห์และสร้างแผนการเดินทางแบบวัน-ต่อ-วัน พร้อมประมาณการระยะทาง เวลา และค่าใช้จ่าย \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & นักท่องเที่ยวเข้าสู่เมนูการสร้างแผนการเดินทาง และระบบพร้อมใช้งาน \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & 1. นักท่องเที่ยวระบุข้อมูลเบื้องต้นสำหรับทริป (วันเริ่มต้น-สิ้นสุด, ชื่อที่พัก, ความสนใจ, ระดับงบประมาณ, สถานที่ที่ต้องการไป, ช่วงเวลาเดินทางในแต่ละวัน) \newline 2. ระบบแนะนำสถานที่ที่สอดคล้องกับความสนใจของผู้ใช้ \newline 3. ระบบประมวลผลข้อมูลที่ได้รับทั้งหมดผ่าน AI \newline 4. ระบบแสดงแผนการเดินทางแบบวัน-ต่อ-วัน (ตารางเวลา ระยะทาง เวลาเดินทาง ค่าใช้จ่ายโดยประมาณ) \newline 5. นักท่องเที่ยวสามารถโต้ตอบกับแผน เช่น ขยาย/ยุบรายละเอียดแต่ละวัน \newline 6. ระบบบันทึกแผนการเดินทางลงในฐานข้อมูลเพื่อเป็นประวัติการสร้าง \\ \hline
+\textbf{กระแสทางเลือก} & 2a. หากกรอกข้อมูลไม่ครบถ้วน ระบบแจ้งเตือนรายการที่ขาดหาย \newline 2b. หากวันสิ้นสุดน้อยกว่าวันเริ่มต้น ระบบแจ้งเตือนให้แก้ไข \newline 2c. หากระยะเวลาทริปเกิน 7 วัน ระบบแจ้งเตือนให้ปรับช่วงเวลา \newline 2d. หากระบบ AI ขัดข้อง ระบบแจ้งว่า ``ระบบไม่สามารถใช้งานได้ชั่วคราว'' \\ \hline
+\textbf{เงื่อนไขภายหลัง} & แผนการเดินทางถูกสร้างและแสดงผลสำเร็จ และถูกบันทึกลงในฐานข้อมูลเพื่อให้ผู้ดูแลระบบสามารถดูและจัดการได้ \\ \hline
+\textbf{Extend} & UC-07 การประเมินแผนการเดินทาง (Trip Evaluation) \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-07: การประเมินแผนการเดินทาง}
+\label{tab:uc07}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-07 \\ \hline
+\textbf{Actor} & นักท่องเที่ยว (Tourist) \\ \hline
+\textbf{คำอธิบาย} & ฟังก์ชันส่วนขยายที่ช่วยนักท่องเที่ยวตรวจสอบความสมเหตุสมผลของแผนการเดินทางที่สร้างขึ้น โดยให้ข้อมูล Feedback กลับมาเพื่อให้ระบบสร้างแผนการเดินทางใหม่ที่เหมาะสมกว่าเดิม \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & นักท่องเที่ยวมีข้อมูลแผนการเดินทางอยู่ในระบบจาก UC-06 สร้างแผนการเดินทาง \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & 1. เมื่อแผนการเดินทางถูกสร้างเสร็จสิ้น ระบบแสดงปุ่ม ``ถูกใจ''/``ไม่ถูกใจ'' ให้กับแต่ละสถานที่ พร้อมช่องกรอกสิ่งที่ต้องการปรับปรุง \newline 2. เมื่อกรอกเรียบร้อย นักท่องเที่ยวกดปุ่ม ``ปรับแก้แผนการเดินทางอีกครั้ง'' \newline 3. ระบบแสดงแผนการเดินทางที่ถูกสร้างขึ้นใหม่ \\ \hline
+\textbf{กระแสทางเลือก} & 2a. หากผู้ใช้ไม่กรอก ถือว่าสถานที่นั้นเหมาะสมแล้ว ไม่เปลี่ยนแปลง \newline 2b. หากกรอกข้อความที่ไม่เกี่ยวข้อง ระบบตอบกลับว่า ``กรุณากรอกข้อมูลที่เป็นประโยชน์ต่อการแก้ไขแผนการเดินทางเท่านั้น'' \\ \hline
+\textbf{เงื่อนไขภายหลัง} & นักท่องเที่ยวได้รับแผนการเดินทางที่ปรับปรุงเรียบร้อยตามความต้องการแล้ว \\ \hline
+\textbf{Extend} & ขยายการทำงานของ UC-06 สร้างแผนการเดินทาง (Trip Planning) \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}\textit{แทรกภาพ Admin Use Case Diagram ที่นี่ (ต้นฉบับใน Research Me (1).docx)}\\ใช้คำสั่ง \texttt{\textbackslash includegraphics}\vspace{3cm}}}
+\caption{Admin Use Case Diagram}
+\label{fig:usecase_admin}
+\end{figure}
+
+ผู้ดูแลระบบ (Administrator) เป็นผู้ใช้งานที่มีสิทธิ์ในระดับสูงของระบบ มีบทบาทสำคัญในการบริหารจัดการโครงสร้างข้อมูลและการทำงานเบื้องหลังของระบบ (Back-end Management) การเข้าถึงระบบต้องผ่านกระบวนการยืนยันตัวตน (Authentication) ก่อนดำเนินการในฟังก์ชันต่าง ๆ ซึ่งครอบคลุมการจัดการข้อมูลสถานที่ท่องเที่ยว ข้อมูลกิจกรรม (Event) และฐานความรู้สำหรับระบบแชทบอทแบบ CRUD (Create, Read, Update, Delete) รายละเอียดแสดงในตารางที่ \ref{tab:uc11}--\ref{tab:uc10}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-11: เข้าสู่ระบบ (Login / Authentication)}
+\label{tab:uc11}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-11 \\ \hline
+\textbf{Actor} & ผู้ดูแลระบบ (Administrator) \\ \hline
+\textbf{คำอธิบาย} & ผู้ดูแลระบบต้องยืนยันตัวตนก่อนเข้าใช้งานระบบจัดการหลังบ้าน (Admin Portal) ระบบตรวจสอบ Email และ Password และกำหนดสิทธิ์ตาม Role (admin) \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & ผู้ดูแลระบบมีบัญชีผู้ใช้ (role: admin) ในฐานข้อมูล (Collection: User) \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & 1. ผู้ดูแลระบบเข้าสู่หน้าล็อกอินของระบบ Admin Portal \newline 2. กรอก Email และ Password \newline 3. ระบบตรวจสอบข้อมูลประจำตัวกับฐานข้อมูล \newline 4. ระบบตรวจสอบว่า role ของบัญชีเป็น 'admin' \newline 5. ระบบสร้าง Session หรือ Token และอนุญาตการเข้าถึง \newline 6. ระบบนำทางผู้ดูแลระบบไปยังหน้า Dashboard \\ \hline
+\textbf{กระแสทางเลือก} & 3a. หาก Email/Password ไม่ถูกต้อง ระบบแสดงข้อความแจ้งเตือน \newline 4a. หาก role ไม่ใช่ 'admin' ระบบปฏิเสธการเข้าถึง \\ \hline
+\textbf{เงื่อนไขภายหลัง} & ผู้ดูแลระบบเข้าสู่ระบบสำเร็จและสามารถเข้าถึงฟังก์ชันจัดการได้ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-06.1/6.2/6.3: จัดการข้อมูลสถานที่ (Create/Update/Delete Place)}
+\label{tab:uc06x}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-06.1 สร้าง / UC-06.2 แก้ไข / UC-06.3 ลบ ข้อมูลสถานที่ \\ \hline
+\textbf{Actor} & ผู้ดูแลระบบ (Administrator) \\ \hline
+\textbf{คำอธิบาย} & ผู้ดูแลระบบเพิ่ม/แก้ไข/ลบข้อมูลสถานที่ท่องเที่ยวใน Collection: Place \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & ผู้ดูแลระบบเข้าสู่ระบบสำเร็จแล้ว (UC-11) \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & \textit{สร้าง:} กรอกข้อมูลหลัก (core.name, location, address) $\rightarrow$ ระบบตรวจสอบความซ้ำซ้อนของ google\_place\_id (Unique) $\rightarrow$ ระบุข้อมูลเพิ่มเติม (features, extra, media, openingHours) $\rightarrow$ บันทึกข้อมูล \newline \textit{แก้ไข:} ระบบแสดงข้อมูลเดิมในฟอร์ม $\rightarrow$ แก้ไขข้อมูล $\rightarrow$ บันทึกการเปลี่ยนแปลง $\rightarrow$ ระบบอัปเดตข้อมูลและปรับ Timestamp \newline \textit{ลบ:} เลือกสถานที่และกด ``ลบ'' $\rightarrow$ ยืนยันการลบ $\rightarrow$ ระบบลบข้อมูลออกจาก Collection: Place \\ \hline
+\textbf{กระแสทางเลือก} & หาก google\_place\_id ซ้ำ ระบบแจ้งเตือน ``สถานที่นี้มีในระบบแล้ว'' \newline หากลบข้อมูลในช่องบังคับขณะแก้ไข ระบบแจ้งเตือนให้กรอกข้อมูล \newline หากสถานที่ถูกเชื่อมโยงอยู่ใน Event หรือ Activity ระบบอาจแสดงคำเตือนก่อนให้ลบ \\ \hline
+\textbf{เงื่อนไขภายหลัง} & ข้อมูลสถานที่ถูกเพิ่ม/อัปเดต/ลบในฐานข้อมูลตามคำสั่ง \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-09.1/9.2/9.3: จัดการข้อมูล Event (Create/Update/Delete Event)}
+\label{tab:uc09x}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-09.1 สร้าง / UC-09.2 แก้ไข / UC-09.3 ลบ ข้อมูล Event \\ \hline
+\textbf{Actor} & ผู้ดูแลระบบ (Administrator) \\ \hline
+\textbf{คำอธิบาย} & ผู้ดูแลระบบสร้าง/แก้ไข/ลบข้อมูลกิจกรรมที่มีเงื่อนไขทางเวลา (เช่น งานคอนเสิร์ต, เทศกาล) ใน Collection: Event \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & ผู้ดูแลระบบเข้าสู่ระบบสำเร็จแล้ว (UC-11) \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & \textit{สร้าง:} กรอกข้อมูลทั่วไป (name, slug, category, description) $\rightarrow$ กำหนดช่วงเวลาจัดงาน (schedule.startDate, endDate, sessions) $\rightarrow$ เลือกสถานที่จัดงาน (venues เชื่อมกับ PlaceId) $\rightarrow$ กำหนดข้อมูลบัตร (admission) และผู้จัดงาน (organizer) $\rightarrow$ ตั้งสถานะเป็น upcoming และบันทึก \newline \textit{แก้ไข:} แก้ไขรายละเอียด หรืออัปเดตสถานะ (status/isPublished) $\rightarrow$ บันทึก \newline \textit{ลบ:} เลือก Event และยืนยันการลบ $\rightarrow$ ระบบลบ Document ออกจาก Collection: Event \\ \hline
+\textbf{กระแสทางเลือก} & หาก startDate ช้ากว่า endDate ระบบแจ้งเตือนให้แก้ไข \newline หาก slug ซ้ำในระบบ ระบบแจ้งเตือนให้ตั้งค่า slug ใหม่ \\ \hline
+\textbf{เงื่อนไขภายหลัง} & ข้อมูล Event ใหม่/อัปเดต/ถูกลบ พร้อมแสดงผลในแอปพลิเคชันตามคำสั่ง \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{Use Case UC-10.1/10.2/10.3: จัดการฐานความรู้ (Create/Update/Delete KnowledgeBase)}
+\label{tab:uc10}
+\begin{tabular}{|p{3.2cm}|p{10cm}|}
+\hline
+\textbf{Use Case ID} & UC-10.1 สร้าง / UC-10.2 แก้ไข / UC-10.3 ลบ ฐานความรู้ \\ \hline
+\textbf{Actor} & ผู้ดูแลระบบ (Administrator) \\ \hline
+\textbf{คำอธิบาย} & ผู้ดูแลระบบเพิ่ม/แก้ไข/ลบชุดข้อมูลความรู้ที่ใช้เป็น Context ให้แชทบอท \\ \hline
+\textbf{เงื่อนไขเบื้องต้น} & ผู้ดูแลระบบเข้าสู่ระบบสำเร็จแล้ว (UC-11) \\ \hline
+\textbf{กระแสหลัก (Main Flow)} & \textit{สร้าง:} กรอกหัวข้อ (title) และเนื้อหา (content) $\rightarrow$ เลือกหมวดหมู่ (category เช่น transport, food-culture) $\rightarrow$ กำหนดสถานะ isActive และ isPinned $\rightarrow$ บันทึกลง Collection: KnowledgeBase \newline \textit{แก้ไข:} แก้ไข content หรือเปลี่ยนสถานะ isPinned/isActive $\rightarrow$ ระบบอัปเดตข้อมูล หากมีการเปลี่ยน isPinned ระบบจะจัดการ System Prompt ใหม่ \newline \textit{ลบ:} เลือกฐานความรู้และยืนยันการลบ $\rightarrow$ ระบบลบข้อมูลออก และอัปเดต System Prompt หากความรู้นั้นเคยถูก Pin ไว้ \\ \hline
+\textbf{กระแสทางเลือก} & หากเนื้อหาหรือหัวข้อซ้ำกับรายการที่มีอยู่ ระบบแจ้งเตือนให้ตรวจสอบ \newline หากกรอกข้อมูล Required ไม่ครบ ระบบแจ้งเตือน \newline หาก KnowledgeBase มี isPinned=true อยู่ ระบบอาจแจ้งเตือนเป็นพิเศษก่อนลบ \\ \hline
+\textbf{เงื่อนไขภายหลัง} & แชทบอทมีชุดข้อมูลใหม่/อัปเดต/ถูกลบสำหรับใช้งานตามคำสั่ง \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{System Sequence Diagram}
+
+\subsubsection{สำหรับผู้ใช้งานทั่วไป (นักท่องเที่ยว)}
+
+ระบบในส่วนของผู้ใช้งานทั่วไปประกอบด้วยฟังก์ชันหลักที่มีตรรกะการทำงานแยกจากกันอย่างชัดเจน จึงแยกแผนภาพออกตามฟังก์ชันหลัก ดังนี้
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ System Sequence Diagram: Chatbot / ค้นหาข้อมูล / สร้างแผนการเดินทาง}\vspace{2.5cm}}}
+\caption{System Sequence Diagram สำหรับผู้ใช้งานทั่วไป}
+\label{fig:ssd_tourist}
+\end{figure}
+
+\textbf{ฟังก์ชันถามตอบข้อมูลโดยใช้ Chatbot:} กระบวนการเริ่มต้นเมื่อนักท่องเที่ยวส่งคำถามหรือข้อความเข้าสู่ระบบ ภายใต้เงื่อนไขทางเลือก 2 กรณี คือ (1) ประมวลผลสำเร็จ ระบบส่งคำตอบกลับไปแสดงผลบนแชทบอท หรือ (2) เกิดข้อผิดพลาด/หมดเวลาตอบสนอง (Timeout) ระบบแสดงข้อความขออภัยและเสนอให้ลองใหม่
+
+\textbf{ฟังก์ชันค้นหาข้อมูลสถานที่และกิจกรรม:} เริ่มต้นเมื่อนักท่องเที่ยวส่งคำสั่งค้นหาพร้อมพารามิเตอร์ (คำค้นหา, หมวดหมู่) หากพบข้อมูลตรงเงื่อนไข ระบบแสดงผลลัพธ์การค้นหา หากไม่พบระบบแจ้งเตือน สำหรับการดูรายละเอียดเชิงลึก (เงื่อนไขทางเลือกเสริม) หากดึงข้อมูลสำเร็จระบบแสดงรายละเอียดครบถ้วน หากผิดพลาดหรือข้อมูลสูญหายระบบแจ้งเตือน
+
+\textbf{ฟังก์ชันสร้างแผนการเดินทาง:} เริ่มต้นเมื่อนักท่องเที่ยวส่งเงื่อนไขทริป (วันที่เดินทาง รูปแบบที่พัก ความสนใจ งบประมาณ) ระบบตรวจสอบความถูกต้องของข้อมูลนำเข้าก่อน (เช่น ระยะเวลาเกิน 7 วัน) จากนั้นตรวจสอบความพร้อมของบริการ AI หากพร้อมใช้งานระบบแสดงผลแผนการเดินทางแบบรายวัน หากไม่พร้อมระบบแจ้งงดให้บริการชั่วคราว นอกจากนี้ยังรองรับกระบวนการประเมินและปรับปรุงแผน (Feedback) โดยตรวจสอบคุณภาพของข้อมูลตอบรับก่อนนำไปประมวลผลร่วมกับ AI เพื่อสร้างแผนฉบับปรับปรุงใหม่
+
+\subsubsection{สำหรับผู้ดูแลระบบ (Admin Portal)}
+
+ระบบในส่วนของผู้ดูแลระบบประกอบด้วยฟังก์ชันการจัดการข้อมูลพื้นฐาน (CRUD) ซึ่งมีรูปแบบมาตรฐานคล้ายคลึงกัน คือผู้ดูแลระบบต้องผ่านการตรวจสอบสิทธิ์ (Authentication) ก่อน จากนั้นจึงส่งคำสั่งจัดการข้อมูลไปยังระบบและระบบตอบกลับสถานะการดำเนินการ โดยแยกส่วนการจัดการฐานความรู้ (Knowledge Base) ออกมาต่างหากเนื่องจากมีกระบวนการทำงานที่แตกต่างกัน
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ System Sequence Diagram: การเข้าสู่ระบบ/จัดการข้อมูลมาตรฐาน และการจัดการฐานความรู้}\vspace{2.5cm}}}
+\caption{System Sequence Diagram สำหรับผู้ดูแลระบบ}
+\label{fig:ssd_admin}
+\end{figure}
+
+การจัดการข้อมูลแบบมาตรฐาน: ผู้ใช้งานส่งคำขอเข้าสู่ระบบ ระบบตรวจสอบความถูกต้องของข้อมูลบัญชี หากถูกต้องระบบอนุญาตให้เข้าถึงฟังก์ชัน CRUD โดยแต่ละคำสั่งระบบจะติดต่อกับฐานข้อมูลและส่งผลลัพธ์กลับ
+
+การจัดการฐานความรู้: ผู้ดูแลระบบเลือกคำสั่ง (Create/Update/Delete) ระบบแสดงฟอร์มหรือกล่องยืนยัน เมื่อส่งข้อมูลแล้วระบบตรวจสอบภายใต้เงื่อนไขทางเลือก -- หากไม่ผ่านการตรวจสอบหรือหัวข้อซ้ำซ้อน ระบบแจ้งข้อผิดพลาด หากผ่านเกณฑ์ ระบบยืนยันความสำเร็จและปรับปรุงบริบทข้อมูล (System Prompt) ของ AI โดยอัตโนมัติ
+
+\subsection{แผนภาพกิจกรรม (Activity Diagram)}
+
+ก่อนอธิบายการรับส่งข้อมูลระหว่าง Component ย่อย โครงงานนี้ได้จำลองตรรกะการตัดสินใจของอัลกอริทึมในการสร้างแผนการเดินทาง (Trip Planning Algorithm) เพื่อแสดงกระบวนการทำงานแบบเป็นลำดับขั้นตอน ตั้งแต่การรับเงื่อนไขจากผู้ใช้ การประมวลผล RAG การส่งคำสั่งให้ LLM ไปจนถึงการจัดการข้อมูลหลังการประมวลผล (Post-processing)
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ Activity Diagram: ตรรกะการประมวลผลเพื่อสร้างแผนการเดินทาง}\vspace{2.5cm}}}
+\caption{Activity Diagram ตรรกะการประมวลผลเพื่อสร้างแผนการเดินทาง}
+\label{fig:activity_diagram}
+\end{figure}
+
+แผนภาพใช้รูปแบบการแบ่งช่อง (Swimlane) แสดงขอบเขตความรับผิดชอบของ 4 องค์ประกอบหลัก ได้แก่ ผู้ใช้งาน (User/Client), ระบบหลังบ้าน (Backend: TripBuilder Service), ฐานข้อมูลและการดึงข้อมูล (Database \& RAG), และโมเดลภาษาขนาดใหญ่ (LLM) โดยมีขั้นตอนดังนี้ (1) ผู้ใช้งานส่งเงื่อนไขการเดินทาง (TripInput) เข้าสู่ระบบ (2) ระบบหลังบ้านคำนวณช่องว่าง (Slot) ของเวลาในทริป ค้นหาโรงแรม สถานที่บังคับ (Must-Go) และใช้ RAG ค้นหาสถานที่เพิ่มเติมตามความสนใจ พร้อมกรองตามระดับงบประมาณ (3) ระบบสร้าง Dynamic Prompt จากความเร็วทริป (Pace) และงบประมาณ ส่งให้ LLM ประมวลผลและจัดเรียงตารางเวลาเบื้องต้น คืนผลลัพธ์เป็น JSON (4) ระบบหลังบ้านแปลงข้อมูล JSON และวนลูปตรวจสอบทีละสถานที่ในแต่ละวัน คำนวณระยะทางและเวลาเดินทางจริง ตรวจสอบเวลาเปิด-ปิด (หากต้องรอเปิดนานกว่า 45 นาที แทรกกิจกรรม ``พักผ่อนตามอัธยาศัย'' หากรอน้อยกว่ากำหนดสถานะ ``Waiting'') คำนวณเวลาแวะพักตามลักษณะทริปและค่าน้ำมัน (5) ระบบวนลูปจนครบทุกสถานที่ สรุปภาพรวมและค่าใช้จ่ายทั้งหมด พร้อมส่งผลลัพธ์ (TripResponse) กลับไปแสดงผลให้ผู้ใช้งานทราบ
+
+% -----------------------------------------------------------
+\section{การออกแบบระบบ}
+% -----------------------------------------------------------
+
+\subsection{สถาปัตยกรรมของระบบ}
+
+แนวคิดการออกแบบระบบถูกพัฒนาภายใต้สถาปัตยกรรมไมโครเซอร์วิส เพื่อแยกส่วนการทำงานออกจากกันอย่างชัดเจน ทั้งในเชิงตรรกะ (Logical) และเชิงกายภาพ (Physical) ทำให้แอปพลิเคชันสามารถรองรับการขยายตัว (Scalability) ได้ดี
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ System Architecture Diagram}\vspace{2.5cm}}}
+\caption{สถาปัตยกรรมของระบบ}
+\label{fig:architecture}
+\end{figure}
+
+\begin{enumerate}
+\item \textbf{ส่วนติดต่อผู้ใช้งาน (Frontend Component):} พัฒนาด้วย React แยกเป็น 2 แพลตฟอร์ม คือ Mobile Application สำหรับผู้ใช้งานทั่วไป (USER) และ Web Application สำหรับผู้ดูแลระบบ (ADMIN)
+\item \textbf{ส่วนการจัดการระบบหลัก (Core Backend Component):} ใช้ Node.js (Express) ทำหน้าที่ควบคุมลอจิกพื้นฐาน บริหารจัดการฐานข้อมูลหลัก (MongoDB/Firebase) และเป็นตัวกลางเชื่อมต่อ (API Gateway ภายใน) เพื่อส่งต่อคำสั่งที่ซับซ้อนไปยังฝั่ง AI รวมถึงจัดการ Data Pipeline ดึงข้อมูลจาก Google Places API
+\item \textbf{ส่วนประมวลผลปัญญาประดิษฐ์ (AI \& Algorithm Component):} พัฒนาด้วย Python (FastAPI) ทำหน้าที่รับคำสั่งจาก Node.js เพื่อกระจายงานไปยังโมเดล LLM (ผ่าน Ollama) และโต้ตอบกับ Vector Database (Chroma) สำหรับระบบ RAG และการวางแผนการเดินทาง
+\end{enumerate}
+
+\subsection{Sequence Diagram}
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ Detailed Sequence Diagram: การสร้างแผนการเดินทางด้วย RAG/LLM และ Chatbot}\vspace{2.5cm}}}
+\caption{Detailed Sequence Diagram สำหรับผู้ใช้งานทั่วไป}
+\label{fig:sequence_user}
+\end{figure}
+
+\textbf{การสร้างแผนการเดินทางด้วย RAG และ LLM} ประกอบด้วย 5 ส่วนหลัก ได้แก่ นักท่องเที่ยว (User), API Gateway, RAG Service, Vector Database และ LLM มีลำดับขั้นตอน 8 ขั้นตอน: (1) ผู้ใช้ป้อนเงื่อนไขการเดินทางผ่าน API Gateway (2) API Gateway ส่งต่อคำขอไปยัง RAG Service (3) RAG Service สืบค้นข้อมูลสถานที่ที่สอดคล้องใน Vector Database (4) Vector Database คืนค่าข้อมูลบริบท (Context) (5) RAG Service ประกอบ Context และ Prompt ส่งให้ LLM (6) LLM สร้างผลลัพธ์แผนการเดินทางส่งคืน RAG Service (7) RAG Service ส่งแผนที่สมบูรณ์กลับไปยัง API Gateway (8) API Gateway แสดงผลบนหน้าจอผู้ใช้
+
+\textbf{การทำงานของระบบผู้ช่วยเสมือน (Chatbot)} มีลำดับเหตุการณ์ 9 ขั้นตอน: ผู้ใช้ส่งคำถามผ่าน API Gateway $\rightarrow$ ส่งต่อไปยัง Chatbot Service $\rightarrow$ ค้นหาบริบทใน Vector Database $\rightarrow$ ดึงข้อมูลสถานที่ที่เกี่ยวข้อง 3 อันดับแรก $\rightarrow$ ประกอบคำสั่ง (System Prompt + Context Prompt + User Message) $\rightarrow$ ส่งให้ LLM ประมวลผล $\rightarrow$ LLM สร้างคำตอบส่งคืน Chatbot Service $\rightarrow$ ส่งคืนคำตอบไปยัง API Gateway $\rightarrow$ แสดงผลบนหน้าจอผู้ใช้
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ Detailed Sequence Diagram: การบันทึกและแก้ไขข้อมูลผ่าน API (ฝั่งผู้ดูแลระบบ)}\vspace{2.5cm}}}
+\caption{Detailed Sequence Diagram สำหรับผู้ดูแลระบบ}
+\label{fig:sequence_admin}
+\end{figure}
+
+การจัดการข้อมูล (สถานที่/กิจกรรม/อีเวนต์) ผ่านสถาปัตยกรรมแบบบริการ (Service-Oriented Architecture) ประกอบด้วย Frontend, API Gateway, Data Service, Embedding Service, ฐานข้อมูลเชิงเอกสาร (Document Database) และฐานข้อมูลเวกเตอร์ กระบวนการเริ่มจากผู้ดูแลระบบส่งคำขอผ่าน API Gateway ซึ่งตรวจสอบสิทธิ์ (Authentication/Authorization) ก่อนส่งต่อไปยัง Data Service เพื่อตรวจสอบความถูกต้องของข้อมูล (Data Validation) และบันทึก/ปรับปรุงข้อมูลลงฐานข้อมูลเชิงเอกสาร จากนั้นส่งข้อความไปยัง Embedding Service เพื่อแบ่งข้อความ (Chunking) และแปลงเป็นเวกเตอร์ (Embedding) ก่อนจัดเก็บในฐานข้อมูลเวกเตอร์ สุดท้ายส่งผลลัพธ์กลับไปยังส่วนติดต่อผู้ใช้ในรูปแบบสถานะสำเร็จ
+
+\subsection{การออกแบบฐานข้อมูล}
+
+ระบบใช้ฐานข้อมูลเชิงเอกสาร (Document-Oriented Database) ด้วย MongoDB เป็นฐานข้อมูลหลัก และใช้ฐานข้อมูลเวกเตอร์สำหรับจัดเก็บเวกเตอร์ฝังตัว (Embedding Vectors) ที่ใช้ในกระบวนการค้นคืนข้อมูลเชิงความหมาย (Semantic Retrieval) การออกแบบฐานข้อมูลมุ่งเน้นความยืดหยุ่น รองรับข้อมูลกึ่งโครงสร้าง (Semi-Structured Data) ที่ได้จาก Google Places API และข้อมูลที่ผู้ดูแลระบบเพิ่มเข้าสู่ระบบ
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ ER Diagram แสดงการออกแบบฐานข้อมูลระบบ}\vspace{2.5cm}}}
+\caption{E-R Diagram แสดงการออกแบบฐานข้อมูลระบบ}
+\label{fig:erd}
+\end{figure}
+
+โครงสร้างของแต่ละตารางแสดงดังตารางที่ \ref{tab:db_place}--\ref{tab:db_user}
+
+\begin{table}[H]
+\centering
+\caption{ตารางฐานข้อมูล Place (สถานที่ท่องเที่ยว)}
+\label{tab:db_place}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\_id & ObjectId & Primary Key \\ \hline
+google\_place\_id & String (unique) & รหัสสถานที่จาก Google \\ \hline
+core.name & String & ชื่อสถานที่ \\ \hline
+core.primaryType & String & ประเภทหลัก \\ \hline
+core.types & Array & ประเภททั้งหมด \\ \hline
+core.location & Object & lat, lng \\ \hline
+core.rating & Number & คะแนนรีวิว \\ \hline
+core.userRatingCount & Number & จำนวนรีวิว \\ \hline
+core.priceLevel & Number & ระดับราคา \\ \hline
+contact.phone & String & เบอร์โทร \\ \hline
+contact.website & String & เว็บไซต์ \\ \hline
+address.formatted & String & ที่อยู่ \\ \hline
+openingHours & Object & เวลาทำการ \\ \hline
+media.photos & Array & รูปภาพ \\ \hline
+reviews & Array & รีวิว \\ \hline
+features & Object & คุณสมบัติสถานที่ \\ \hline
+extra & Object & ข้อมูลเพิ่มเติม \\ \hline
+maps & Object & ลิงก์ Google Maps \\ \hline
+metadata & Object & ข้อมูลการดึงล่าสุด \\ \hline
+createdAt / updatedAt & Date & วันที่สร้าง / แก้ไข \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{ตารางฐานข้อมูล KnowledgeBase}
+\label{tab:db_kb}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\_id & ObjectId & Primary Key \\ \hline
+title & String & หัวข้อข้อมูล \\ \hline
+content & String & เนื้อหา \\ \hline
+category & Enum & transport, weather, local-customs ฯลฯ \\ \hline
+isActive & Boolean & เปิดใช้งาน \\ \hline
+isPinned & Boolean & ใส่ใน system prompt \\ \hline
+tags & Array & คีย์เวิร์ด \\ \hline
+metadata.sourceUrl & String & แหล่งอ้างอิง \\ \hline
+createdAt & Date & วันที่สร้าง \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{ตารางฐานข้อมูล Event}
+\label{tab:db_event}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\_id & ObjectId & Primary Key \\ \hline
+name & String & ชื่องาน \\ \hline
+slug & String & URL \\ \hline
+category & Enum & festival, concert ฯลฯ \\ \hline
+description & String & รายละเอียด \\ \hline
+venues & Array & สถานที่จัด \\ \hline
+schedule.startDate / endDate & Date & วันเริ่ม / วันสิ้นสุด \\ \hline
+admission & Object & ข้อมูลบัตร \\ \hline
+organizer & Object & ผู้จัด \\ \hline
+status & Enum & upcoming, ongoing \\ \hline
+metadata & Object & สถานะเผยแพร่ \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{ตารางฐานข้อมูล Itinerary}
+\label{tab:db_itinerary}
+{\small
+\begin{tabular}{|p{6.3cm}|p{1.8cm}|p{4.7cm}|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\_id & ObjectId & Primary Key \\ \hline
+title & String & ชื่อทริป \\ \hline
+theme & String & ธีมการเดินทาง \\ \hline
+total\_days & Number & จำนวนวันทั้งหมด \\ \hline
+total\_distance\_km & Number & ระยะทางรวม (กม.) \\ \hline
+total\_cost\_estimate & Number & ค่าใช้จ่ายรวมประเมิน (บาท) \\ \hline
+generatedBy & String & แหล่งที่มา (Default: ``llm''/``system'') \\ \hline
+isPublic & Boolean & สถานะการเผยแพร่ (Default: false) \\ \hline
+userId & ObjectId & อ้างอิงเจ้าของทริป (User) \\ \hline
+note & String & หมายเหตุจากระบบ \\ \hline
+itin[].day / date & Number / String & วันที่ของทริป \\ \hline
+itin[].day\_cost\_estimate & Number & ค่าใช้จ่ายประเมินในแต่ละวัน \\ \hline
+itin[].day\_travel\_time\_total & Number & เวลาเดินทางรวมในแต่ละวัน (นาที) \\ \hline
+itin[].schedule[].place.* & Mixed & Snapshot ของสถานที่ (id, name, lat/lng, types, rating, price\_level, address) \\ \hline
+itin[].schedule[].arrival\_time / departure\_time & String & เวลาที่ไปถึง / ออกจากสถานที่ \\ \hline
+itin[].schedule[].travel\_time\_min / distance\_km & Number & เวลา / ระยะทางจากสถานที่ก่อนหน้า \\ \hline
+itin[].schedule[].status & String & สถานะ (เช่น ``Open'', ``End of Day'') \\ \hline
+itin[].schedule[].wait\_time\_min & Number & เวลารอ (ถ้ามี) \\ \hline
+summary & Object & ข้อมูลสรุปทริป \\ \hline
+createdAt & Date & วันที่สร้างแผนการเดินทาง \\
+\hline
+\end{tabular}
+\par}
+\vspace{2pt}
+\noindent\textit{หมายเหตุ: \texttt{itin[]} ย่อมาจาก \texttt{itinerary[]} (ชื่อเต็มของฟิลด์อาเรย์ในเอกสาร)}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{ตารางฐานข้อมูล EmbeddingDocument (Vector Store)}
+\label{tab:db_embedding}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\_id & ObjectId & Primary Key \\ \hline
+sourceType & Enum & place, activity, event \\ \hline
+sourceId & ObjectId & อ้างอิงต้นทาง \\ \hline
+google\_place\_id & String & (ถ้ามี) \\ \hline
+chunkText & String & ข้อความที่ใช้ embed \\ \hline
+embedding & Array(Number) & เวกเตอร์ \\ \hline
+createdAt & Date & วันที่สร้าง \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{ตารางฐานข้อมูล User (Admin)}
+\label{tab:db_user}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+\_id & ObjectId & Primary Key \\ \hline
+name & String & ชื่อ \\ \hline
+email & String & อีเมล (ใช้ล็อกอิน) \\ \hline
+password & String (hashed) & รหัสผ่านที่ผ่านการเข้ารหัส \\ \hline
+role & String & สิทธิ์การใช้งาน (เช่น admin) \\ \hline
+createdAt & Date & วันที่สร้าง \\
+\hline
+\end{tabular}
+\end{table}
+
+ตาราง Place ถูกออกแบบมาเพื่อจัดเก็บข้อมูลเชิงลึกของสถานที่ท่องเที่ยว ร้านอาหาร และจุดสนใจต่าง ๆ แบบรวมศูนย์ รองรับการบูรณาการร่วมกับระบบภายนอก (เช่น google\_place\_id) ตาราง KnowledgeBase ทำหน้าที่เป็นคลังความรู้ส่วนกลาง โดยแอตทริบิวต์ isPinned กำหนดเงื่อนไขในการดึงข้อมูลไปใช้เป็น System Prompt ตาราง Event มุ่งเน้นบริหารจัดการข้อมูลกิจกรรมที่มีข้อจำกัดทางเวลา ตาราง Itinerary จัดเก็บรายละเอียดแผนการเดินทางที่สร้างโดยระบบ (AI-generated) แบบเบ็ดเสร็จ ตาราง EmbeddingDocument รองรับสถาปัตยกรรม RAG โดยแปลงข้อความให้อยู่ในรูปแบบเวกเตอร์ และตาราง User ถูกออกแบบมาเพื่อการบริหารจัดการสิทธิและการเข้าถึงระบบของผู้ดูแลระบบเป็นหลัก โดยจัดเก็บรหัสผ่านในรูปแบบที่ผ่านการเข้ารหัส (Hashed Password)
+
+\subsection{Mockup User Interface}
+
+\begin{figure}[H]
+\centering
+\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ Wireframe แสดงการใช้งานระบบ}\vspace{2.5cm}}}
+\caption{Wireframe แสดงการใช้งานระบบ}
+\label{fig:mockup}
+\end{figure}
+
+\subsubsection{ส่วนของผู้ใช้งานทั่วไป (Client-Side)}
+
+ได้รับการออกแบบในรูปแบบแอปพลิเคชันสำหรับสมาร์ทโฟน (Mobile Application) เพื่อเน้นความสะดวกในการเข้าถึงข้อมูลระหว่างการเดินทาง ประกอบด้วยหน้าจอและฟังก์ชันการทำงานที่สำคัญ ได้แก่
+
+\begin{itemize}
+\item หน้าหลัก (Home) และหน้ารายละเอียดสถานที่: แสดงผลข้อมูล รูปภาพ และรายละเอียดของสถานที่ท่องเที่ยวต่าง ๆ พร้อมระบบนำทาง (Navigation)
+\item ระบบวางแผนการเดินทางและแนะนำสถานที่ (Trip Planning \& Recommend): ช่วยให้นักท่องเที่ยวออกแบบเส้นทาง หรือรับการแนะนำสถานที่ท่องเที่ยวที่เหมาะสมตามความต้องการ
+\item ระบบถาม-ตอบอัตโนมัติ (Chatbot): ทำหน้าที่เป็นผู้ช่วยเสมือนจริง ครอบคลุมข้อมูลทั่วไปเกี่ยวกับจังหวัดขอนแก่น การช่วยเหลือนักท่องเที่ยว และข้อมูลเชิงลึกเกี่ยวกับสถานที่ท่องเที่ยวที่จัดเก็บไว้ในฐานข้อมูล
+\end{itemize}
+
+\subsubsection{ส่วนของผู้ดูแลระบบ (Admin-Side)}
+
+ได้รับการออกแบบในรูปแบบเว็บแอปพลิเคชัน (Web Application) สำหรับการใช้งานบนคอมพิวเตอร์ เพื่อประสิทธิภาพในการบริหารจัดการฐานข้อมูลขนาดใหญ่ ประกอบด้วยส่วนการทำงานหลัก ได้แก่
+
+\begin{itemize}
+\item หน้ากระดานสรุปข้อมูล (Dashboard): แสดงผลภาพรวมและสถิติที่สำคัญของระบบ เช่น ตัวเลขสถิติการใช้งาน ข้อมูลสถานที่ยอดนิยม หรือกิจกรรมที่ได้รับความสนใจ
+\item ระบบจัดการฐานข้อมูล (Data Management): แบ่งออกเป็นส่วนการจัดการ ``ข้อมูลสถานที่ท่องเที่ยว'' และ ``ข้อมูลกิจกรรม'' ช่วยให้ผู้ดูแลระบบสามารถเพิ่ม ลบ ตรวจสอบสถานะ และแก้ไขปรับปรุงข้อมูลในระบบให้เป็นปัจจุบันอยู่เสมอ
+\end{itemize}
+
+% -----------------------------------------------------------
+\section{การพัฒนาโปรแกรม}
+% -----------------------------------------------------------
+
+\subsection{ภาษาและเครื่องมือที่ใช้ในการพัฒนา}
+
+\begin{enumerate}
+\item \textbf{Frontend:} React (Web/Mobile)
+\item \textbf{Backend:} Node.js (Express), Python (FastAPI สำหรับ AI Gateway)
+\item \textbf{Database:} MongoDB (ข้อมูลกึ่งโครงสร้าง), Chroma (ฐานข้อมูลเวกเตอร์)
+\item \textbf{AI \& Libraries:} โมเดลภาษาขนาดใหญ่ (LLM) ผ่าน OpenAI API, ไลบรารีสำหรับสร้าง RAG Pipeline
+\item \textbf{API ภายนอก:} Google Places API สำหรับดึงข้อมูลตั้งต้น (Data Seeding)
+\end{enumerate}
+
+\subsection{โครงสร้างของโปรแกรม}
+
+% TODO: ยังไม่มีรายละเอียดโครงสร้างโฟลเดอร์ฝั่ง Frontend (การแบ่ง Components, Pages, Assets) ในเอกสารต้นฉบับ -- กรอกเพิ่มเติมภายหลัง
+
+\subsection{ข้อกำหนดเฉพาะของแต่ละส่วน}
+
+% TODO: ยังไม่มีรายละเอียดข้อกำหนดเฉพาะ (Program Specification) ของแต่ละฟังก์ชันในเอกสารต้นฉบับ -- กรอกเพิ่มเติมภายหลัง
+
+\subsection{การติดต่อกับฐานข้อมูลและ Services}
+
+% TODO: ยังไม่มีรายละเอียดวิธีการเชื่อมต่อ MongoDB / Chroma DB (เช่น ผ่าน Mongoose หรือ Client Library ใด) ในเอกสารต้นฉบับ -- กรอกเพิ่มเติมภายหลัง
+
+% -----------------------------------------------------------
+\section{การทดสอบระบบ}
+% -----------------------------------------------------------
+
+\subsection{วิธีการทดสอบ}
+
+\subsubsection{การทดสอบยอมรับจากผู้ใช้ (User Acceptance Testing: UAT)}
+
+ทดสอบกับกลุ่มผู้ใช้เป้าหมาย (นักศึกษา/นักท่องเที่ยวในจังหวัดขอนแก่น) โดยใช้เกณฑ์ประเมินด้านความง่ายในการใช้งาน (Ease of Use) ความพึงพอใจ (Satisfaction) และความเข้าใจในการนำเสนอข้อมูล
+
+\subsubsection{วิธีการประเมินผลของการวิจัย (LLM as a Judge)}
+
+เพื่อให้มั่นใจว่าแผนการเดินทางและคำแนะนำที่ระบบสร้างขึ้นด้วย AI มีความถูกต้องและใช้งานได้จริง งานวิจัยนี้ได้พัฒนากลไกการตรวจสอบผลลัพธ์โดยใช้ LLM อีกตัวหนึ่งทำหน้าที่เป็น ``ผู้ประเมิน'' (Judge) แทนการเขียนฟังก์ชันตรวจสอบแบบตายตัว โดยใช้เกณฑ์การประเมินดังตารางที่ \ref{tab:llm_judge}
+
+\begin{table}[H]
+\centering
+\caption{เกณฑ์การประเมินคุณภาพแผนการเดินทางด้วยเทคนิค LLM-as-a-Judge}
+\label{tab:llm_judge}
+\begin{tabular}{|p{5.2cm}|c|p{6.5cm}|}
+\hline
+\textbf{มิติการประเมิน} & \textbf{คะแนนเต็ม} & \textbf{ปัจจัยที่ใช้พิจารณา} \\
+\hline
+1. ความสอดคล้องกับข้อจำกัดและเงื่อนไข (Constraint Compliance) & 40 & สถานที่บังคับ (Must-go places), จังหวะการเดินทาง (Trip pace), กรอบงบประมาณ (Budget level), กรอบเวลา (Time bounds) \\ \hline
+2. ความสมเหตุสมผลด้านพื้นที่และเวลา (Spatial-Temporal Logic) & 30 & การเดินทางและเส้นทาง (Travel feasibility), การจัดตารางมื้ออาหาร (Meal scheduling), ความเหมาะสมของเวลา (Time appropriateness) \\ \hline
+3. การตอบสนองความชอบส่วนบุคคลและประสบการณ์ (Personalization \& Experience) & 30 & ความตรงใจ (Interest alignment), ความลื่นไหลของทริป (Natural flow), ความหลากหลาย (Diversity of POIs) \\ \hline
+\textbf{รวม} & \textbf{100} & \\
+\hline
+\end{tabular}
+\end{table}
+
+มิติที่ 1 (Constraint Compliance) จะหักคะแนนเมื่อ: แผนการเดินทางไม่บรรจุสถานที่ที่ผู้ใช้งานระบุว่า ``ต้องไป''; จัดสรรเวลาไม่สอดคล้องกับรูปแบบความเร็วของทริปที่กำหนด (เช่น ขาดการเว้นระยะพักในรูปแบบผ่อนคลาย หรือมีช่วงเวลาว่างมากเกินไปในรูปแบบอัดแน่น); เลือกสถานที่ที่มีระดับราคาขัดแย้งกับงบประมาณ; หรือจัดตารางกิจกรรมล่วงเลยเวลาเริ่มต้น/สิ้นสุดของวัน
+
+มิติที่ 2 (Spatial-Temporal Logic) จะหักคะแนนเมื่อ: กำหนดเวลาเดินทางน้อยกว่าความเป็นจริงหรือจัดเส้นทางวกวน (Zigzagging); จัดมื้ออาหารหลักติดต่อกันโดยไม่มีกิจกรรมอื่นคั่น; หรือจัดตารางกิจกรรมขัดกับบริบทของสถานที่ (เช่น จัดตารางเยี่ยมชมตลาดกลางคืนในเวลากลางวัน)
+
+มิติที่ 3 (Personalization \& Experience) จะเพิ่มคะแนนเมื่อสถานที่ถูกคัดเลือกตรงกับความสนใจของผู้ใช้อย่างแม่นยำ และลำดับกิจกรรมมีความต่อเนื่องสลับอารมณ์การท่องเที่ยวได้ดี แต่จะหักคะแนนหากแผนการเดินทางมีความจำเจ ซ้ำซ้อน หรือขาดจุดเด่น (เช่น จัดกำหนดการเยี่ยมชมวัด 4 แห่งติดต่อกัน)
+
+\subsection{ผลการทดสอบ}
+
+ผลการทดสอบและความคืบหน้าล่าสุดของแต่ละส่วนของระบบ ณ ช่วงเวลาจัดทำรายงานฉบับนี้ แสดงไว้ในบทที่ 5 หัวข้อ ``สรุปผลการดำเนินโครงงาน'' เนื่องจากระบบยังอยู่ระหว่างการพัฒนาและยังไม่ได้เชื่อมต่อกันแบบครบวงจร (End-to-End) การทดสอบแบบ UAT เต็มรูปแบบจึงยังไม่ได้ดำเนินการ
