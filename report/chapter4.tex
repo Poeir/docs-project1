@@ -1,9 +1,10 @@
 % =============================================================
 % บทที่ 4 - การวิเคราะห์ระบบ และการพัฒนาโปรแกรม
 % เนื้อหาหลักเรียบเรียงจาก Research Me (1).docx (บทที่ 4 การวิเคราะห์ระบบ และการพัฒนาโปรแกรม)
-% หมายเหตุ: แผนภาพ (Use Case / SSD / Sequence / Activity / ER / Mockup) มีอยู่จริงใน
-% Research Me (1).docx แต่ยังไม่ได้จับคู่ไฟล์ภาพที่แน่ชัด -- ใช้กรอบ placeholder ไว้ก่อน
-% ตามคำอธิบายจากต้นฉบับ ต้องแทรกภาพจริงภายหลัง (ดูหมายเหตุท้ายบทสนทนา)
+% หมายเหตุ: แผนภาพ (Use Case / SSD / Sequence / Activity / ER / Mockup) จับคู่ไฟล์ภาพจริง
+% จาก Research Me (1).docx แล้ว (report/images/diagram-*.png) ยกเว้น System Sequence Diagram
+% แบบรวม 3 ฟังก์ชัน (Chatbot/ค้นหาข้อมูล/สร้างแผนการเดินทาง) ที่ยังไม่มีภาพต้นฉบับ -- คงกรอบ
+% placeholder ไว้ก่อน
 % =============================================================
 
 การพัฒนาแอปพลิเคชันส่วนกลางสำหรับการท่องเที่ยวในจังหวัดขอนแก่น (Dino) มุ่งเน้นการใช้เทคโนโลยีปัญญาประดิษฐ์เชิงสร้างสรรค์ (Generative AI) เพื่อแก้ปัญหาความซับซ้อนในการวางแผนการเดินทาง โดยเปลี่ยนจากการใช้อัลกอริทึมแบบดั้งเดิมมาเป็นการใช้ LLM ร่วมกับฐานข้อมูลเวกเตอร์ในการประมวลผล ผลการวิเคราะห์และพัฒนาระบบมีรายละเอียดดังต่อไปนี้
@@ -76,7 +77,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}\textit{แทรกภาพ Tourist Use Case Diagram ที่นี่ (ต้นฉบับใน Research Me (1).docx)}\\ใช้คำสั่ง \texttt{\textbackslash includegraphics}\vspace{3cm}}}
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-usecase-tourist.png}
 \caption{Tourist Use Case Diagram}
 \label{fig:usecase_tourist}
 \end{figure}
@@ -192,7 +193,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{3cm}\textit{แทรกภาพ Admin Use Case Diagram ที่นี่ (ต้นฉบับใน Research Me (1).docx)}\\ใช้คำสั่ง \texttt{\textbackslash includegraphics}\vspace{3cm}}}
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-usecase-admin.png}
 \caption{Admin Use Case Diagram}
 \label{fig:usecase_admin}
 \end{figure}
@@ -292,9 +293,16 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ System Sequence Diagram: การเข้าสู่ระบบ/จัดการข้อมูลมาตรฐาน และการจัดการฐานความรู้}\vspace{2.5cm}}}
-\caption{System Sequence Diagram สำหรับผู้ดูแลระบบ}
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-ssd-admin-login.png}
+\caption{System Sequence Diagram: การเข้าสู่ระบบและจัดการข้อมูลมาตรฐาน}
 \label{fig:ssd_admin}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-ssd-admin-kb.png}
+\caption{System Sequence Diagram: การจัดการฐานความรู้ (Knowledge Base)}
+\label{fig:ssd_admin_kb}
 \end{figure}
 
 การจัดการข้อมูลแบบมาตรฐาน: ผู้ใช้งานส่งคำขอเข้าสู่ระบบ ระบบตรวจสอบความถูกต้องของข้อมูลบัญชี หากถูกต้องระบบอนุญาตให้เข้าถึงฟังก์ชัน CRUD โดยแต่ละคำสั่งระบบจะติดต่อกับฐานข้อมูลและส่งผลลัพธ์กลับ
@@ -307,7 +315,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ Activity Diagram: ตรรกะการประมวลผลเพื่อสร้างแผนการเดินทาง}\vspace{2.5cm}}}
+\includegraphics[width=0.9\textwidth,keepaspectratio]{images/diagram-activity.png}
 \caption{Activity Diagram ตรรกะการประมวลผลเพื่อสร้างแผนการเดินทาง}
 \label{fig:activity_diagram}
 \end{figure}
@@ -324,7 +332,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ System Architecture Diagram}\vspace{2.5cm}}}
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-architecture.png}
 \caption{สถาปัตยกรรมของระบบ}
 \label{fig:architecture}
 \end{figure}
@@ -339,8 +347,8 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ Detailed Sequence Diagram: การสร้างแผนการเดินทางด้วย RAG/LLM และ Chatbot}\vspace{2.5cm}}}
-\caption{Detailed Sequence Diagram สำหรับผู้ใช้งานทั่วไป}
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-sequence-trip.png}
+\caption{Detailed Sequence Diagram: การสร้างแผนการเดินทางด้วย RAG และ LLM}
 \label{fig:sequence_user}
 \end{figure}
 
@@ -350,7 +358,14 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ Detailed Sequence Diagram: การบันทึกและแก้ไขข้อมูลผ่าน API (ฝั่งผู้ดูแลระบบ)}\vspace{2.5cm}}}
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-sequence-chatbot.png}
+\caption{Detailed Sequence Diagram: การทำงานของระบบผู้ช่วยเสมือน (Chatbot)}
+\label{fig:sequence_chatbot}
+\end{figure}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-sequence-admin-data.png}
 \caption{Detailed Sequence Diagram สำหรับผู้ดูแลระบบ}
 \label{fig:sequence_admin}
 \end{figure}
@@ -363,7 +378,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ ER Diagram แสดงการออกแบบฐานข้อมูลระบบ}\vspace{2.5cm}}}
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-erd.png}
 \caption{E-R Diagram แสดงการออกแบบฐานข้อมูลระบบ}
 \label{fig:erd}
 \end{figure}
@@ -525,7 +540,7 @@ createdAt & Date & วันที่สร้าง \\
 
 \begin{figure}[H]
 \centering
-\fbox{\parbox{0.8\textwidth}{\centering\vspace{2.5cm}\textit{แทรกภาพ Wireframe แสดงการใช้งานระบบ}\vspace{2.5cm}}}
+\includegraphics[width=0.95\textwidth,keepaspectratio]{images/diagram-mockup.png}
 \caption{Wireframe แสดงการใช้งานระบบ}
 \label{fig:mockup}
 \end{figure}
