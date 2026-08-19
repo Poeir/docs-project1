@@ -3,6 +3,15 @@
 \usepackage[style=apa,backend=biber]{biblatex} % รูปแบบการอ้างอิง APA 7th edition
 \addbibresource{references.bib}
 
+% ความกว้างจริงของป้าย "(1)" ใช้จัดตำแหน่งรายการแบบ (1)(2)(3) ให้บรรทัดแรกเริ่มพอดีกับ
+% \parindent ปัจจุบัน (เท่ากับตำแหน่งข้อความหัวข้อ เช่น "ขอบเขต") โดยไม่มีช่องว่างเกิน
+\newlength{\parenlabelwidth}
+\settowidth{\parenlabelwidth}{(1)}
+
+% ความกว้างของป้ายย่อยสไตล์ "(2.1)" ใช้กับรายการย่อยซ้อนใน (1)(2)(3) เดิม
+\newlength{\subParenLabelWidth}
+\settowidth{\subParenLabelWidth}{(2.1)}
+
 % ==========================================
 % ข้อมูลโครงงาน — กรอกข้อมูลที่นี่
 % ==========================================
