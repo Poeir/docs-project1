@@ -31,6 +31,7 @@
 
 การวิเคราะห์ความต้องการของระบบถูกแบ่งออกเป็น 2 ส่วนหลัก ได้แก่ ความต้องการเชิงหน้าที่ที่ระบบต้องตอบสนองต่อผู้ใช้งาน และความต้องการที่ไม่ใช่เชิงหน้าที่ซึ่งเป็นตัวกำหนดมาตรฐานและคุณภาพของระบบ
 
+\needspace{6\baselineskip}
 \subsubsection{ความต้องการเชิงฟังก์ชัน}
 
 ความต้องการในส่วนนี้ระบุถึงฟังก์ชันการทำงานหลักที่ระบบแอปพลิเคชันศูนย์กลางการท่องเที่ยวต้องสามารถดำเนินการได้ เพื่อรองรับการใช้งานของนักท่องเที่ยวและผู้ดูแลระบบ แสดงดังตารางที่ \ref{tab:func_req}
@@ -53,6 +54,7 @@ FR-06 & ระบบช่วยจัดการเนื้อหาด้ว
 \end{tabular}
 \end{table}
 
+\needspace{6\baselineskip}
 \subsubsection{ความต้องการที่ไม่ใช่เชิงฟังก์ชัน}
 
 ความต้องการส่วนนี้ครอบคลุมถึงข้อจำกัดทางสถาปัตยกรรมและคุณสมบัติด้านประสิทธิภาพของระบบ เพื่อให้ระบบปัญญาประดิษฐ์และซอฟต์แวร์ทำงานได้อย่างมีเสถียรภาพ แสดงดังตารางที่ \ref{tab:nonfunc_req}
@@ -134,7 +136,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \label{fig:usecase_tourist}
 \end{figure}
 
-นักท่องเที่ยว (Tourist) เป็นผู้ใช้งานระดับทั่วไป (End-User) ของระบบสารสนเทศด้านการท่องเที่ยว ซึ่งมีบทบาทสำคัญในการเข้ามาปฏิสัมพันธ์กับระบบเพื่อสืบค้นข้อมูลและวางแผนการเดินทางตามความต้องการของตนเอง ผู้ใช้งานสามารถเรียกดูรายละเอียดข้อมูลกิจกรรมและสถานที่ท่องเที่ยวในเชิงลึก ค้นหาข้อมูลตามเงื่อนไขหรือความสนใจ สร้างแผนการเดินทาง (Trip Planning) ด้วยตนเอง และโต้ตอบกับระบบแชตบอตเพื่อสอบถามข้อมูลหรือขอคำแนะนำเพิ่มเติมได้แบบเรียลไทม์ รายละเอียดเชิงลึกของแต่ละฟังก์ชันแสดงในตารางที่ \ref{tab:uc01}--\ref{tab:uc08}
+นักท่องเที่ยว เป็นผู้ใช้งานระดับทั่วไปของระบบสารสนเทศด้านการท่องเที่ยว ซึ่งมีบทบาทสำคัญในการเข้ามาปฏิสัมพันธ์กับระบบเพื่อสืบค้นข้อมูลและวางแผนการเดินทางตามความต้องการของตนเอง ผู้ใช้งานสามารถเรียกดูรายละเอียดข้อมูลกิจกรรมและสถานที่ท่องเที่ยวในเชิงลึก ค้นหาข้อมูลตามเงื่อนไขหรือความสนใจ สร้างแผนการเดินทางด้วยตนเอง และโต้ตอบกับระบบแชตบอตเพื่อสอบถามข้อมูลหรือขอคำแนะนำเพิ่มเติมได้แบบเรียลไทม์ รายละเอียดเชิงลึกของแต่ละฟังก์ชันแสดงในตารางที่ \ref{tab:uc01}--\ref{tab:uc08}
 
 \begin{table}[H]
 \centering
@@ -299,57 +301,36 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\resizebox{0.98\linewidth}{!}{%
+\resizebox{0.95\linewidth}{!}{%
 \begin{tikzpicture}[
-  usecase/.style={ellipse, draw, thick, align=center, text width=3.1cm, minimum height=1.2cm, font=\small, inner sep=3pt},
-  subcase/.style={ellipse, draw, thick, align=center, text width=2.5cm, minimum height=0.9cm, font=\scriptsize, inner sep=2pt},
-  node distance=3.5cm and 2.9cm
+  usecase/.style={ellipse, draw, thick, align=center, text width=3.3cm, minimum height=1.2cm, font=\small, inner sep=3pt},
+  node distance=2.6cm and 3.2cm
 ]
-\node[usecase] (uc11) {เข้าสู่ระบบ\\(UC-11)};
-\node[usecase, below=of uc11] (ucplace) {จัดการข้อมูลสถานที่\\(UC-06.1/6.2/6.3)};
+\node[usecase] (uc14) {ดูภาพรวมสถิติของระบบ\\(UC-14)};
+\node[usecase, below=of uc14] (ucplace) {จัดการข้อมูลสถานที่\\(UC-06.1/6.2/6.3)};
 \node[usecase, below=of ucplace] (ucevent) {จัดการข้อมูล Event\\(UC-09.1/9.2/9.3)};
 \node[usecase, below=of ucevent] (uckb) {จัดการฐานความรู้\\(UC-10.1/10.2/10.3)};
 \node[usecase, below=of uckb] (ucqr) {จัดการ QR Code และของรางวัล\\(UC-06.5)};
-\node[subcase, right=of ucplace, yshift=1.0cm] (place1) {สร้างข้อมูลสถานที่};
-\node[subcase, right=of ucplace] (place2) {แก้ไขข้อมูลสถานที่};
-\node[subcase, right=of ucplace, yshift=-1.0cm] (place3) {ลบข้อมูลสถานที่};
-\draw[-{Triangle[open,length=2.5mm]}] (place1) -- (ucplace);
-\draw[-{Triangle[open,length=2.5mm]}] (place2) -- (ucplace);
-\draw[-{Triangle[open,length=2.5mm]}] (place3) -- (ucplace);
 
-\node[subcase, right=of ucevent, yshift=1.0cm] (event1) {สร้างข้อมูล Event};
-\node[subcase, right=of ucevent] (event2) {แก้ไขข้อมูล Event};
-\node[subcase, right=of ucevent, yshift=-1.0cm] (event3) {ลบข้อมูล Event};
-\draw[-{Triangle[open,length=2.5mm]}] (event1) -- (ucevent);
-\draw[-{Triangle[open,length=2.5mm]}] (event2) -- (ucevent);
-\draw[-{Triangle[open,length=2.5mm]}] (event3) -- (ucevent);
+\node[usecase, right=of uc14, yshift=-0.4cm] (uc13) {ดึงข้อมูลกิจกรรมจาก\\โพสต์ด้วย AI (UC-13)};
+\node[usecase, right=of ucevent, yshift=0.3cm] (uc11) {เข้าสู่ระบบ\\(UC-11)};
 
-\node[usecase, right=of event1, xshift=0.6cm, yshift=0.2cm] (uc13) {ดึงข้อมูลกิจกรรมจาก\\โพสต์ด้วย AI (UC-13)};
 \draw[-{Stealth[length=2.5mm]}, dashed] (uc13) -- node[above,font=\scriptsize,fill=white,inner sep=1pt]{\guillemotleft extend\guillemotright} (ucevent);
+\draw[-{Stealth[length=2.5mm]}, dashed] (ucplace) to[bend left=10]
+  node[pos=0.45, above, font=\scriptsize, fill=white, inner sep=1pt]{\guillemotleft include\guillemotright} (uc11);
+\draw[-{Stealth[length=2.5mm]}, dashed] (ucevent) -- node[above,font=\scriptsize,fill=white,inner sep=1pt]{\guillemotleft include\guillemotright} (uc11);
+\draw[-{Stealth[length=2.5mm]}, dashed] (uckb) to[bend right=10]
+  node[pos=0.45, below, font=\scriptsize, fill=white, inner sep=1pt]{\guillemotleft include\guillemotright} (uc11);
+\draw[-{Stealth[length=2.5mm]}, dashed] (ucqr) to[bend right=22]
+  node[pos=0.35, below, font=\scriptsize, fill=white, inner sep=1pt]{\guillemotleft include\guillemotright} (uc11);
 
-\node[subcase, right=of uckb, yshift=1.0cm] (kb1) {สร้างฐานความรู้};
-\node[subcase, right=of uckb] (kb2) {แก้ไขฐานความรู้};
-\node[subcase, right=of uckb, yshift=-1.0cm] (kb3) {ลบฐานความรู้};
-\draw[-{Triangle[open,length=2.5mm]}] (kb1) -- (uckb);
-\draw[-{Triangle[open,length=2.5mm]}] (kb2) -- (uckb);
-\draw[-{Triangle[open,length=2.5mm]}] (kb3) -- (uckb);
-
-\draw[-{Stealth[length=2.5mm]}, dashed] (ucplace) to[bend left=8]
-  node[pos=0.45, right, font=\scriptsize, fill=white, inner sep=1pt, xshift=1pt]{\guillemotleft include\guillemotright} (uc11);
-\draw[-{Stealth[length=2.5mm]}, dashed] (ucevent) to[bend left=18]
-  node[pos=0.4, right, font=\scriptsize, fill=white, inner sep=1pt, xshift=1pt]{\guillemotleft include\guillemotright} (uc11);
-\draw[-{Stealth[length=2.5mm]}, dashed] (uckb) to[bend right=8]
-  node[pos=0.45, left, font=\scriptsize, fill=white, inner sep=1pt, xshift=-1pt]{\guillemotleft include\guillemotright} (uc11);
-\draw[-{Stealth[length=2.5mm]}, dashed] (ucqr) to[bend right=18]
-  node[pos=0.35, left, font=\scriptsize, fill=white, inner sep=1pt, xshift=-1pt]{\guillemotleft include\guillemotright} (uc11);
-
-\node[draw, thick, inner sep=0.7cm, fit=(uc11)(ucplace)(ucevent)(uckb)(ucqr)(place1)(place3)(event1)(event3)(kb1)(kb3)(uc13)] (boundary) {};
+\node[draw, thick, inner sep=0.7cm, fit=(uc14)(ucplace)(ucevent)(uckb)(ucqr)(uc13)(uc11)] (boundary) {};
 \node[font=\bfseries\small, anchor=north] at (boundary.north) {\vphantom{Ay}Admin Portal};
 
 \umlactor{$(boundary.west)+(-1.9,0)$}{ผู้ดูแลระบบ\\(Administrator)}
 \coordinate (admin2) at ($(boundary.west)+(-1.3,0.55)$);
 
-\draw[thick] (admin2) -- (uc11);
+\draw[thick] (admin2) -- (uc14);
 \draw[thick] (admin2) -- (ucplace);
 \draw[thick] (admin2) -- (ucevent);
 \draw[thick] (admin2) -- (uckb);
@@ -360,7 +341,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \label{fig:usecase_admin}
 \end{figure}
 
-ผู้ดูแลระบบ (Administrator) เป็นผู้ใช้งานที่มีสิทธิ์ในระดับสูงของระบบ มีบทบาทสำคัญในการบริหารจัดการโครงสร้างข้อมูลและการทำงานเบื้องหลังของระบบ (Back-end Management) โดยผ่านหน้าล็อกอินของ Admin Portal ก่อน (ดู UC-11) ซึ่งครอบคลุมการจัดการข้อมูลสถานที่ท่องเที่ยว ข้อมูลกิจกรรม (Event) ฐานความรู้สำหรับระบบแชตบอต และรายการ QR/ของรางวัล แบบ CRUD (Create, Read, Update, Delete) รวมถึงเครื่องมือช่วยจัดการเนื้อหาด้วย AI รายละเอียดแสดงในตารางที่ \ref{tab:uc11}--\ref{tab:uc13}
+ผู้ดูแลระบบ เป็นผู้ใช้งานที่มีสิทธิ์ในระดับสูงของระบบ มีบทบาทสำคัญในการบริหารจัดการโครงสร้างข้อมูลและการทำงานเบื้องหลังของระบบโดยผ่านหน้าล็อกอินของ Admin Portal ก่อน (ดู UC-11) ซึ่งครอบคลุมการจัดการข้อมูลสถานที่ท่องเที่ยว ข้อมูลกิจกรรม (Event) ฐานความรู้สำหรับระบบแชตบอต และรายการ QR/ของรางวัล แบบ CRUD (Create, Read, Update, Delete) รวมถึงเครื่องมือช่วยจัดการเนื้อหาด้วย AI รายละเอียดแสดงในตารางที่ \ref{tab:uc11}--\ref{tab:uc13}
 
 \begin{table}[H]
 \centering
@@ -482,6 +463,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \end{tabular}
 \end{table}
 
+\clearpage
 \subsection{System Sequence Diagram}
 
 \subsubsection{สำหรับผู้ใช้งานทั่วไป (นักท่องเที่ยว)}
@@ -557,6 +539,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \label{fig:ssd_point_redeem}
 \end{figure}
 
+\needspace{5\baselineskip}
 ฟังก์ชันแลกของรางวัล (Redemption): เมื่อนักท่องเที่ยวเดินทางมาถึงสำนักงาน ททท. ขอนแก่นและแจ้งความประสงค์ขอแลกของรางวัลกับเจ้าหน้าที่ เจ้าหน้าที่ค้นหาบัญชีผู้ใช้ของนักท่องเที่ยวและเลือกของรางวัลที่ต้องการแลกในระบบ ภายใต้เงื่อนไขทางเลือก 2 กรณี คือ (1) ยอดพอยท์คงเหลือเพียงพอกับต้นทุนของรางวัล ระบบหักพอยท์ตามต้นทุนของรางวัล บันทึกประวัติการแลก และแสดงผลสำเร็จ หรือ (2) ยอดพอยท์คงเหลือไม่เพียงพอ ระบบแสดงข้อความแจ้งเตือนและปิดใช้งานปุ่มยืนยัน (ดู UC-08; รายละเอียดการทำงานภายในระบบแสดงในภาพที่ \ref{fig:sequence_point_redeem} หัวข้อ Sequence Diagram)
 
 \subsection{แผนภาพกิจกรรม (Activity Diagram)}
@@ -570,6 +553,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \label{fig:activity_diagram}
 \end{figure}
 
+\needspace{10\baselineskip}
 แผนภาพใช้รูปแบบการแบ่งช่อง (Swimlane) แสดงขอบเขตความรับผิดชอบของ 4 องค์ประกอบหลัก ได้แก่ ผู้ใช้งาน (User/Client), ระบบหลังบ้าน (Backend: TripBuilder Service), ฐานข้อมูลและการดึงข้อมูล (Database \& RAG), และโมเดลภาษาขนาดใหญ่ (LLM) โดยมีขั้นตอนดังนี้ (1) ผู้ใช้งานส่งเงื่อนไขการเดินทาง (TripInput) เข้าสู่ระบบ (2) ระบบหลังบ้านคำนวณช่องว่าง (Slot) ของเวลาในทริป ค้นหาโรงแรม สถานที่บังคับ (Must-Go) และใช้ RAG ค้นหาสถานที่เพิ่มเติมตามความสนใจ พร้อมกรองตามระดับงบประมาณ (3) ระบบสร้าง Dynamic Prompt จากความเร็วทริป (Pace) และงบประมาณ ส่งให้ LLM ประมวลผลและจัดเรียงตารางเวลาเบื้องต้น คืนผลลัพธ์เป็น JSON (4) ระบบหลังบ้านแปลงข้อมูล JSON และวนลูปตรวจสอบทีละสถานที่ในแต่ละวัน คำนวณระยะทางและเวลาเดินทางจริง ตรวจสอบเวลาเปิด-ปิด (หากต้องรอเปิดนานกว่า 45 นาที แทรกกิจกรรม ``พักผ่อนตามอัธยาศัย'' หากรอน้อยกว่ากำหนดสถานะ ``Waiting'') คำนวณเวลาแวะพักตามลักษณะทริปและค่าน้ำมัน (5) ระบบวนลูปจนครบทุกสถานที่ สรุปภาพรวมและค่าใช้จ่ายทั้งหมด พร้อมส่งผลลัพธ์ (TripResponse) กลับไปแสดงผลให้ผู้ใช้งานทราบ
 
 % -----------------------------------------------------------
@@ -588,10 +572,13 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \end{figure}
 
 \begin{enumerate}[label=(\arabic*),leftmargin=0pt,itemindent=\dimexpr\parindent+\parenlabelwidth+1em\relax,align=right,labelwidth=\parenlabelwidth,labelsep=1em]
-\item ส่วนติดต่อผู้ใช้งาน (Frontend Component): พัฒนาด้วย React ร่วมกับ Vite และ react-router-dom เป็นเว็บแอปพลิเคชัน (Web Application) เพียงชุดเดียว ให้บริการทั้งฝั่งผู้ใช้งานทั่วไป (Tourist) และส่วน Admin Portal ภายใต้เส้นทาง (Route) เดียวกัน ยังไม่มีการแยกพัฒนาเป็น Mobile Application ต่างหาก
-\item ส่วนการจัดการระบบหลัก (Core Backend Component): ใช้ Node.js (Express) ทำหน้าที่เป็น REST API ให้บริการ CRUD ข้อมูลสถานที่ กิจกรรม ฐานความรู้ QR และของรางวัล โดยเชื่อมต่อฐานข้อมูล PostgreSQL ผ่าน Supabase (บริการ PostgreSQL ที่มีการจัดการให้ -- Managed Service) ด้วยไลบรารี @supabase/supabase-js ส่วนนี้ไม่ได้ทำหน้าที่เป็น API Gateway ให้ AI Service -- Frontend เรียก AI Service (chatbot-service) โดยตรงเป็นอีกบริการหนึ่งแยกจากกัน และมีสคริปต์ Data Pipeline แยกต่างหาก (backend/scripts) สำหรับดึงและนำเข้าข้อมูลจาก Google Places API
-\item ส่วนบริการปัญญาประดิษฐ์ (AI Service): พัฒนาด้วย Python (FastAPI) เป็นบริการอิสระ (chatbot-service) ที่ Frontend เรียกใช้งานโดยตรง ทำหน้าที่ประมวลผล RAG, แชตบอต และ Trip Planner โดยเรียกใช้โมเดลภาษาขนาดใหญ่ (Google Gemini รุ่น gemini-2.5-flash/gemini-2.5-pro) ผ่าน API Gateway ของมหาวิทยาลัยขอนแก่นที่มีรูปแบบ Request/Response แบบเดียวกับ OpenAI API (ไม่ได้ใช้ Ollama หรือรันโมเดลภายในเครื่อง) และค้นคืนข้อมูล (Retrieval) จาก Vector Database ซึ่งไม่ได้แยกเป็นฐานข้อมูลต่างหาก (ไม่ใช่ Chroma) แต่ใช้ส่วนขยาย pgvector ที่ติดตั้งอยู่ในฐานข้อมูล PostgreSQL ตัวเดียวกับที่ Core Backend ใช้ (คอลัมน์ embedding ในตาราง places และ knowledge\_base) โดยแปลงข้อความเป็นเวกเตอร์ด้วยโมเดล sentence-transformers (paraphrase-multilingual-MiniLM-L12-v2) ที่รันในเครื่องของบริการเอง ไม่ได้เรียกผ่าน API ภายนอก
+\item ส่วนติดต่อผู้ใช้งาน (Frontend): เว็บแอปพลิเคชันพัฒนาด้วย React เพียงชุดเดียว ให้บริการทั้งฝั่งผู้ใช้งานทั่วไปและส่วน Admin Portal
+\needspace{3\baselineskip}
+\item ส่วนบริการข้อมูลหลัก (Core Backend): ให้บริการ REST API สำหรับจัดการข้อมูลสถานที่ กิจกรรม ฐานความรู้ QR และของรางวัล เชื่อมต่อกับฐานข้อมูล PostgreSQL เป็นหลัก
+\item ส่วนบริการปัญญาประดิษฐ์ (AI Service): บริการอิสระที่รับผิดชอบระบบแชตบอตและ Trip Planner โดยประมวลผลร่วมกับโมเดลภาษาขนาดใหญ่และเทคนิค RAG
 \end{enumerate}
+
+ทั้งสามส่วนสื่อสารกันโดย Frontend เรียกทั้ง Core Backend และ AI Service โดยตรง (ไม่ผ่านกันเอง) และใช้ฐานข้อมูล PostgreSQL ร่วมกันเป็นจุดเชื่อมข้อมูลระหว่างบริการ รายละเอียดเครื่องมือ ไลบรารี และโมเดลที่ใช้พัฒนาแต่ละส่วนแสดงในหัวข้อการพัฒนาโปรแกรม
 
 \subsection{Sequence Diagram}
 
@@ -602,7 +589,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \label{fig:sequence_user}
 \end{figure}
 
-การสร้างแผนการเดินทางด้วย RAG และ LLM ประกอบด้วย 4 ส่วนหลัก ได้แก่ นักท่องเที่ยว (Frontend), Trip Planner Service (chatbot-service), ฐานข้อมูล PostgreSQL/pgvector (Vector Search) และ LLM มีลำดับขั้นตอนโดยสรุป: (1) Frontend ส่งคำขอเงื่อนไขการเดินทางไปยัง Trip Planner Service โดยตรง (2) Trip Planner Service ค้นหาสถานที่ที่สอดคล้องกับความสนใจในตาราง places ผ่านฟังก์ชัน match\_places (Vector Similarity ด้วย pgvector) พร้อมกรองตามงบประมาณและขอบเขตพื้นที่ (3) ฐานข้อมูลคืนค่ารายชื่อสถานที่ที่เกี่ยวข้อง (4) Trip Planner Service ประกอบ Prompt จากสถานที่ที่ได้และเงื่อนไขผู้ใช้ ส่งให้ LLM สร้างตารางเวลาเบื้องต้น (5) LLM ส่งผลลัพธ์กลับเป็น JSON (6) Trip Planner Service ตรวจสอบคุณภาพแผนด้วย LLM-as-a-Judge และคำนวณระยะทาง/เวลา/สถานะเปิด-ปิดจริงเพิ่มเติม (Post-processing) (7) Trip Planner Service ส่งแผนที่สมบูรณ์กลับไปยัง Frontend โดยตรงเพื่อแสดงผล
+กระบวนการสร้างแผนการเดินทางด้วยเทคนิค RAG ร่วมกับ LLM เกี่ยวข้องกับองค์ประกอบหลัก 4 ส่วน ได้แก่ ส่วนติดต่อผู้ใช้งานฝั่งนักท่องเที่ยว (Frontend) บริการวางแผนการเดินทาง (Trip Planner Service) ฐานข้อมูล PostgreSQL ที่ติดตั้งส่วนขยาย pgvector สำหรับการค้นคืนเชิงเวกเตอร์ (Vector Search) และโมเดลภาษาขนาดใหญ่ (LLM) โดยเริ่มต้นจาก Frontend ส่งคำขอพร้อมเงื่อนไขการเดินทางไปยัง Trip Planner Service โดยตรง จากนั้น Trip Planner Service จะเรียกใช้ฟังก์ชัน match\_places เพื่อค้นหาสถานที่ในตาราง places ที่สอดคล้องกับความสนใจของผู้ใช้ด้วยเทคนิค Vector Similarity ผ่าน pgvector พร้อมทั้งกรองผลลัพธ์ตามระดับงบประมาณและขอบเขตพื้นที่ที่ระบุไว้ เมื่อฐานข้อมูลส่งคืนรายชื่อสถานที่ที่เกี่ยวข้องแล้ว Trip Planner Service จะนำข้อมูลดังกล่าวมาประกอบเป็น Prompt ร่วมกับเงื่อนไขของผู้ใช้ เพื่อส่งให้ LLM ประมวลผลและจัดสร้างตารางเวลาเบื้องต้น ก่อนที่ LLM จะส่งผลลัพธ์กลับมาในรูปแบบ JSON จากนั้น Trip Planner Service จะตรวจสอบคุณภาพของแผนด้วยเทคนิค LLM-as-a-Judge ควบคู่กับการคำนวณระยะทาง เวลาเดินทาง และสถานะการเปิด-ปิดจริงของแต่ละสถานที่เพิ่มเติม (Post-processing) ก่อนส่งแผนการเดินทางฉบับสมบูรณ์กลับไปยัง Frontend โดยตรงเพื่อแสดงผลแก่ผู้ใช้งาน
 
 \begin{figure}[H]
 \centering
@@ -611,7 +598,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \label{fig:sequence_chatbot}
 \end{figure}
 
-การทำงานของระบบผู้ช่วยเสมือน (แชตบอต) มีลำดับเหตุการณ์โดยสรุป: Frontend ส่งคำถามไปยัง แชตบอต Service (chatbot-service) โดยตรง $\rightarrow$ แชตบอต Service ค้นหาบริบทที่เกี่ยวข้องในตาราง places/knowledge\_base ผ่าน pgvector (Vector Similarity Search) $\rightarrow$ ดึงข้อมูลสถานที่/ความรู้ที่เกี่ยวข้องมากที่สุด $\rightarrow$ ประกอบคำสั่ง (System Prompt + Context ที่ค้นได้ + ประวัติการสนทนา + ข้อความผู้ใช้) $\rightarrow$ ส่งให้ LLM ประมวลผลแบบ Streaming $\rightarrow$ LLM ทยอยส่งคำตอบกลับ $\rightarrow$ แชตบอต Service ส่งต่อคำตอบแบบ Streaming ไปยัง Frontend $\rightarrow$ แสดงผลบนหน้าจอผู้ใช้แบบทยอยปรากฏ (Streaming Response)
+การทำงานของระบบผู้ช่วยเสมือน (แชตบอต) เริ่มต้นเมื่อ Frontend ส่งคำถามของผู้ใช้ไปยังแชตบอต Service (chatbot-service) โดยตรง จากนั้นแชตบอต Service จะค้นหาบริบทที่เกี่ยวข้องในตาราง places และ knowledge\_base ด้วยเทคนิค Vector Similarity Search ผ่าน pgvector เพื่อดึงข้อมูลสถานที่และความรู้ที่มีความเกี่ยวข้องมากที่สุด แล้วนำข้อมูลดังกล่าวมาประกอบเป็นคำสั่งสำหรับ LLM ร่วมกับ System Prompt ประวัติการสนทนา และข้อความของผู้ใช้ ก่อนส่งให้ LLM ประมวลผลและทยอยส่งคำตอบกลับมาแบบ Streaming ซึ่งแชตบอต Service จะส่งต่อคำตอบดังกล่าวไปยัง Frontend เพื่อแสดงผลบนหน้าจอผู้ใช้งานแบบทยอยปรากฏตามลำดับ (Streaming Response)
 
 \begin{figure}[H]
 \centering
@@ -620,7 +607,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \label{fig:sequence_admin}
 \end{figure}
 
-การจัดการข้อมูล (สถานที่/กิจกรรม/ฐานความรู้/QR/ของรางวัล) ทำผ่าน Core Backend (Node.js/Express) โดยตรง กระบวนการเริ่มจากผู้ดูแลระบบส่งคำขอจาก Admin Portal ไปยัง Backend ซึ่งบันทึก/ปรับปรุงข้อมูลลงตารางที่เกี่ยวข้องในฐานข้อมูล PostgreSQL (Supabase) แล้วส่งผลลัพธ์กลับไปยังส่วนติดต่อผู้ใช้ในรูปแบบสถานะสำเร็จ การอัปเดตค่า Embedding ที่เกี่ยวข้องดำเนินการตามที่ระบุในหัวข้อการติดต่อกับฐานข้อมูลและ Services
+การจัดการข้อมูลในส่วนต่าง ๆ ได้แก่ สถานที่ท่องเที่ยว กิจกรรม ฐานความรู้ QR Code และของรางวัล ดำเนินการผ่าน Core Backend (Node.js/Express) โดยตรง โดยกระบวนการเริ่มต้นเมื่อผู้ดูแลระบบส่งคำขอจากหน้าจอ Admin Portal ไปยัง Backend ซึ่งจะทำหน้าที่บันทึกหรือปรับปรุงข้อมูลลงในตารางที่เกี่ยวข้องภายในฐานข้อมูล PostgreSQL (Supabase) จากนั้นจึงส่งผลลัพธ์กลับไปยังส่วนติดต่อผู้ใช้งานในรูปแบบสถานะการดำเนินการสำเร็จ สำหรับกรณีที่ต้องมีการอัปเดตค่า Embedding ที่เกี่ยวข้อง ดำเนินการตามรายละเอียดที่ระบุไว้ในหัวข้อการติดต่อกับฐานข้อมูลและ Services
 
 \begin{figure}[H]
 \centering
@@ -644,84 +631,15 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 ระบบใช้ฐานข้อมูลเชิงสัมพันธ์ (Relational Database) ด้วย PostgreSQL ผ่านบริการ Supabase เป็นฐานข้อมูลหลักเพียงฐานเดียว โดยติดตั้งส่วนขยาย pgvector เพิ่มเติมเพื่อให้คอลัมน์ embedding ในตาราง places และ knowledge\_base จัดเก็บเวกเตอร์ฝังตัว (Embedding Vectors) ที่ใช้ในกระบวนการค้นคืนข้อมูลเชิงความหมาย (Semantic Retrieval) ได้โดยตรง จึงไม่มีฐานข้อมูลเวกเตอร์แยกต่างหาก ข้อมูลกึ่งโครงสร้าง (Semi-Structured Data) ที่ได้จาก Google Places API ซึ่งไม่สามารถแตกเป็นคอลัมน์ตายตัวได้ทั้งหมด ถูกเก็บสำรองไว้ในคอลัมน์ประเภท jsonb (raw\_data) เพื่อความยืดหยุ่น
 
-ความสัมพันธ์ระหว่างตารางแสดงดังภาพที่ \ref{fig:erd} โดยเขียนตามสัญกรณ์ Chen (Chen Notation) ในระดับแนวคิด (Conceptual Level) -- สี่เหลี่ยมผืนผ้าแทน Entity วงรีแทน Attribute (ขีดเส้นใต้คือ Primary Key) สี่เหลี่ยมข้าวหลามตัดแทนความสัมพันธ์ (Relationship) พร้อมกำกับ Cardinality แบบ (min, max) บนเส้นเชื่อมแต่ละด้าน และกรอบเส้นประ (knowledge\_base) คือ Entity อิสระที่ไม่มีความสัมพันธ์กับ Entity อื่น เพื่อความกระชับ ภาพนี้แสดงเฉพาะ Primary Key ของแต่ละ Entity เท่านั้น รายละเอียดคอลัมน์ทั้งหมดแสดงในตารางที่ \ref{tab:db_place}--\ref{tab:db_redemptions} ถัดไป
+ความสัมพันธ์ระหว่างตารางแสดงดังภาพที่ \ref{fig:erd} เขียนด้วยสัญกรณ์ Crow's Foot แสดงชื่อฟิลด์และชนิดข้อมูลของทุก Entity โดย knowledge\_base (กรอบเส้นประ) เป็น Entity อิสระที่ไม่มีความสัมพันธ์กับ Entity อื่น รายละเอียดคำอธิบายของแต่ละคอลัมน์แสดงในตารางที่ \ref{tab:db_place}--\ref{tab:db_redemptions} ถัดไป
 
-ความสัมพันธ์ ``สแกน'' (ระหว่าง users กับ qrs) และ ``แลก'' (ระหว่าง users กับ rewards) เป็นความสัมพันธ์แบบ กลุ่มต่อกลุ่ม (Many-to-Many) ที่มี Attribute ของตัวเอง (points\_earned/scanned\_at และ points\_spent/redeemed\_by/redeemed\_at ตามลำดับ) ซึ่งเมื่อแปลงเป็นฐานข้อมูลเชิงสัมพันธ์จริงจะกลายเป็นตาราง qr\_scans และ redemptions ตามลำดับ (ดูตารางที่ \ref{tab:db_qrscans}, \ref{tab:db_redemptions}) ส่วนความสัมพันธ์ ``จัดขึ้นที่'' ระหว่าง places กับ events เป็นความสัมพันธ์แบบ Optional -- events ด้านที่มี Cardinality (0,1) หมายความว่ากิจกรรมหนึ่งรายการอาจจะยังไม่ได้ผูกกับสถานที่ใดในตาราง places เลยก็ได้ (กรอกแค่ venue\_name/venue\_lat/venue\_lng เอง) แต่ถ้าสถานที่จัดงานนั้นมีอยู่แล้วในตาราง places ก็สามารถผูกไว้เพื่อให้แสดงรายการกิจกรรมที่จะเกิดขึ้น ณ สถานที่นั้นได้
+\needspace{7\baselineskip}
+ความสัมพันธ์ ``สแกน'' (users--qrs) และ ``แลก'' (users--rewards) เป็นความสัมพันธ์แบบกลุ่มต่อกลุ่มที่มี Attribute ของตัวเอง (points\_earned/scanned\_at และ points\_spent/redeemed\_by/redeemed\_at ตามลำดับ) สอดคล้องกับตาราง qr\_scans และ redemptions ในฐานข้อมูลจริงตามลำดับ (ดูตารางที่ \ref{tab:db_qrscans}, \ref{tab:db_redemptions}) โดย redeemed\_by เป็น Foreign Key อ้างอิงกลับไปยังตาราง users เช่นกัน แต่จำกัดเฉพาะบัญชีที่มี role เป็น admin เพื่อบันทึกว่าเจ้าหน้าที่คนใดเป็นผู้ดำเนินการแลกให้ ส่วนความสัมพันธ์ ``จัดขึ้นที่'' ระหว่าง places กับ events เป็นความสัมพันธ์แบบ Optional โดยฝั่ง events มี Cardinality (0,1) เนื่องจากกิจกรรมบางรายการอาจไม่ได้ผูกกับสถานที่ในตาราง places โดยตรง (ระบุเพียง venue\_name/venue\_lat/venue\_lng)
 
 \begin{figure}[H]
 \centering
-\resizebox{0.98\linewidth}{!}{%
-\begin{tikzpicture}[
-  entity/.style={draw, thick, rectangle, minimum width=2.5cm, minimum height=0.85cm, align=center, font=\small, inner sep=3pt},
-  standalone/.style={draw, thick, rectangle, dashed, minimum width=2.5cm, minimum height=0.85cm, align=center, font=\small, inner sep=3pt},
-  relationship/.style={draw, thick, diamond, minimum width=2.0cm, minimum height=1.3cm, align=center, font=\scriptsize, inner sep=1pt},
-  attribute/.style={draw, thin, ellipse, align=center, font=\scriptsize, inner sep=2pt},
-  edge/.style={thick},
-  card/.style={font=\scriptsize, fill=white, inner sep=1pt},
-  node distance=3.0cm and 4.4cm
-]
-
-% ---------- entities ----------
-\node[entity] (users) {users};
-\node[entity, below=of users] (qrs) {qrs};
-\node[entity, below=of qrs] (places) {places};
-\node[entity, below=of places] (events) {events};
-\node[entity, right=of users] (rewards) {rewards};
-\node[standalone, above right=1.4cm and 0.3cm of rewards] (kb) {knowledge\_base};
-
-% ---------- relationships ----------
-\node[relationship] (rel_scan) at ($(users)!0.5!(qrs)$) {สแกน};
-\node[relationship] (rel_has) at ($(qrs)!0.5!(places)$) {มี};
-\node[relationship] (rel_occurs) at ($(places)!0.5!(events)$) {จัดขึ้นที่};
-\node[relationship] (rel_redeem) at ($(users)!0.5!(rewards)$) {แลก};
-
-\draw[edge] (users) -- (rel_scan) -- (qrs);
-\draw[edge] (qrs) -- (rel_has) -- (places);
-\draw[edge] (places) -- (rel_occurs) -- (events);
-\draw[edge] (users) -- (rel_redeem) -- (rewards);
-
-% ---------- cardinalities ----------
-\node[card] at ($(users)!0.3!(rel_scan)$) {(0,N)};
-\node[card] at ($(rel_scan)!0.3!(qrs)$) {(0,N)};
-\node[card] at ($(qrs)!0.3!(rel_has)$) {(1,1)};
-\node[card] at ($(rel_has)!0.3!(places)$) {(1,N)};
-\node[card] at ($(places)!0.3!(rel_occurs)$) {(0,N)};
-\node[card] at ($(rel_occurs)!0.3!(events)$) {(0,1)};
-\node[card] at ($(users)!0.3!(rel_redeem)$) {(0,N)};
-\node[card] at ($(rel_redeem)!0.3!(rewards)$) {(0,N)};
-
-% ---------- entity key attributes (PK) ----------
-\node[attribute, left=0.9cm of users] (users_id) {\underline{id}};
-\draw[thin] (users) -- (users_id);
-\node[attribute, left=0.9cm of qrs] (qrs_id) {\underline{id}};
-\draw[thin] (qrs) -- (qrs_id);
-\node[attribute, left=0.9cm of places] (places_id) {\underline{id}};
-\draw[thin] (places) -- (places_id);
-\node[attribute, left=0.9cm of events] (events_id) {\underline{id}};
-\draw[thin] (events) -- (events_id);
-\node[attribute, above=0.7cm of rewards] (rewards_id) {\underline{id}};
-\draw[thin] (rewards) -- (rewards_id);
-\node[attribute, above=0.7cm of kb] (kb_id) {\underline{id}};
-\draw[thin] (kb) -- (kb_id);
-
-% ---------- relationship attributes ----------
-% rel_scan: up/down taken by entity edges -> attributes go to the left (away from rel_redeem)
-\node[attribute, above left=0.6cm and 0.6cm of rel_scan] (a_earned) {points\_earned};
-\node[attribute, below left=0.6cm and 0.6cm of rel_scan] (a_scannedat) {scanned\_at};
-\draw[thin] (rel_scan) -- (a_earned);
-\draw[thin] (rel_scan) -- (a_scannedat);
-
-% rel_redeem: left/right taken by entity edges -> attributes go up/down
-\node[attribute, above left=1.0cm and 0.5cm of rel_redeem] (a_spent) {points\_spent};
-\node[attribute, above right=1.0cm and 0.5cm of rel_redeem] (a_by) {redeemed\_by};
-\node[attribute, below=1.0cm of rel_redeem] (a_redat) {redeemed\_at};
-\draw[thin] (rel_redeem) -- (a_spent);
-\draw[thin] (rel_redeem) -- (a_by);
-\draw[thin] (rel_redeem) -- (a_redat);
-
-\end{tikzpicture}%
-}
-\caption{E-R Diagram (Chen Notation) แสดงความสัมพันธ์ระหว่าง Entity ในฐานข้อมูล}
+\includegraphics[width=\linewidth,keepaspectratio]{images/diagram-er.png}
+\caption{E-R Diagram แสดงโครงสร้างและความสัมพันธ์ระหว่างตารางในฐานข้อมูล}
 \label{fig:erd}
 \end{figure}
 
@@ -837,24 +755,23 @@ created\_at / updated\_at & timestamptz & วันที่สร้าง / �
 \hline
 id & uuid & Primary Key \\ \hline
 place\_id & uuid (foreign key $\to$ places.id) & สถานที่ที่ผูก QR นี้ไว้ \\ \hline
-points & integer & จำนวนพอยท์ที่ได้รับเมื่อสแกน (ค่าเดียวที่ใช้อ้างอิงสำหรับ QR ของสถานที่นี้ -- ตาราง places ไม่มีคอลัมน์ point เก็บซ้ำ) \\
+points & integer & จำนวนพอยท์ที่ได้รับเมื่อสแกน \\
 \hline
 \end{tabular}
 \end{table}
 
-ระบบสะสม/แลกพอยท์ (UC-03, UC-08) ต้องมีที่เก็บยอดพอยท์ของผู้ใช้แต่ละคน ประวัติการสแกน (สำหรับตรวจสอบเงื่อนไข 1 ครั้ง/สถานที่/วัน) และประวัติการแลกของรางวัล ซึ่งยังไม่มีตารางรองรับในฉบับก่อนหน้า จึงเพิ่มตารางที่เกี่ยวข้องดังตารางที่ \ref{tab:db_users}--\ref{tab:db_redemptions}
-
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล users (บัญชีผู้ใช้งานสำหรับระบบพอยท์)}
+\caption{ตารางฐานข้อมูล users (บัญชีผู้ใช้งานของระบบ ครอบคลุมทั้งนักท่องเที่ยวและผู้ดูแลระบบ)}
 \label{tab:db_users}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
-id & uuid & Primary Key \\ \hline
-display\_name & text & ชื่อที่แสดงของผู้ใช้ (ตารางนี้เก็บเฉพาะข้อมูลที่จำเป็นสำหรับระบบพอยท์ -- ยังไม่มีคอลัมน์รหัสผ่านหรือข้อมูลยืนยันตัวตน เนื่องจากระบบยืนยันตัวตนจริงยังไม่ได้พัฒนา ดู NFR-04, UC-11) \\ \hline
-points\_balance & integer & ยอดพอยท์สะสมคงเหลือ ปรับปรุงทุกครั้งที่มีการสแกน QR (UC-03) หรือแลกของรางวัล (UC-08) \\ \hline
+id & uuid & Primary Key -- อ้างอิงตัวเดียวกับ auth.users.id ของ Supabase Auth ซึ่งเป็นผู้จัดเก็บ Credential (email/password) แทนที่จะเก็บซ้ำในตารางนี้ \\ \hline
+role & text (tourist / admin) & บทบาทของบัญชี กำหนดสิทธิ์การเข้าถึง -- tourist เข้าถึงฟังก์ชันทั่วไปของระบบ, admin เข้าถึง Admin Portal เพิ่มเติม \\ \hline
+display\_name & text & ชื่อที่แสดงของผู้ใช้ \\ \hline
+points\_balance & integer & ยอดพอยท์สะสมคงเหลือ มีความหมายเฉพาะบัญชีที่มี role เป็น tourist ปรับปรุงทุกครั้งที่มีการสแกน QR (UC-03) หรือแลกของรางวัล (UC-08) \\ \hline
 created\_at / updated\_at & timestamptz & วันที่สร้าง / แก้ไข \\
 \hline
 \end{tabular}
@@ -871,7 +788,7 @@ created\_at / updated\_at & timestamptz & วันที่สร้าง / �
 id & uuid & Primary Key \\ \hline
 user\_id & uuid (foreign key $\to$ users.id) & ผู้ใช้ที่สแกน \\ \hline
 qr\_id & uuid (foreign key $\to$ qrs.id) & QR ที่ถูกสแกน (เชื่อมโยงไปยังสถานที่ผ่าน qrs.place\_id) \\ \hline
-points\_earned & integer & จำนวนพอยท์ที่ได้รับจากการสแกนครั้งนี้ (คัดลอกค่าจาก qrs.points ณ เวลาที่สแกน) \\ \hline
+points\_earned & integer & จำนวนพอยท์ที่ได้รับจากการสแกนครั้งนี้ \\ \hline
 scanned\_at & timestamptz & เวลาที่สแกน ใช้ตรวจสอบเงื่อนไขสะสมพอยท์จากสถานที่เดียวกันได้สูงสุด 1 ครั้งต่อวัน (UC-03) \\
 \hline
 \end{tabular}
@@ -889,17 +806,27 @@ id & uuid & Primary Key \\ \hline
 user\_id & uuid (foreign key $\to$ users.id) & ผู้ใช้ที่แลกของรางวัล \\ \hline
 reward\_id & uuid (foreign key $\to$ rewards.id) & ของรางวัลที่แลก \\ \hline
 points\_spent & integer & จำนวนพอยท์ที่ใช้แลก (คัดลอกค่าจาก rewards.cost ณ เวลาที่แลก) \\ \hline
-redeemed\_by & text & ชื่อ/รหัสเจ้าหน้าที่ผู้ดำเนินการแลกให้ ณ สำนักงาน ททท. ขอนแก่น (UC-08) \\ \hline
+redeemed\_by & uuid (foreign key $\to$ users.id) & บัญชีผู้ดูแลระบบ (role เป็น admin) ที่เป็นผู้ดำเนินการแลกให้ ณ สำนักงาน ททท. ขอนแก่น (UC-08) \\ \hline
 redeemed\_at & timestamptz & เวลาที่แลก \\
 \hline
 \end{tabular}
 \end{table}
 
-ตาราง places ถูกออกแบบมาเพื่อจัดเก็บข้อมูลเชิงลึกของสถานที่ท่องเที่ยว ร้านอาหาร และจุดสนใจต่าง ๆ แบบรวมศูนย์ รองรับการบูรณาการร่วมกับระบบภายนอก (เช่น google\_place\_id) ตาราง knowledge\_base ทำหน้าที่เป็นคลังความรู้ส่วนกลาง โดยแอตทริบิวต์ is\_pinned กำหนดเงื่อนไขในการดึงข้อมูลไปใช้เป็น System Prompt ตาราง events มุ่งเน้นบริหารจัดการข้อมูลกิจกรรมที่มีข้อจำกัดทางเวลา โดย events.place\_id อ้างอิงกลับไปยัง places.id แบบ Optional (เป็นค่าว่างได้) เพื่อเชื่อมโยงว่ากิจกรรมนั้นจัดขึ้น ณ สถานที่ใดในตาราง places ถ้ามี ตาราง rewards และ qrs รองรับระบบสะสม/แลกพอยท์ (UC-03, UC-08) โดย qrs.place\_id อ้างอิงกลับไปยัง places.id เพื่อระบุว่า QR แต่ละใบผูกกับสถานที่ใด ส่วนตาราง users, qr\_scans และ redemptions รองรับการเก็บยอดพอยท์และประวัติธุรกรรมของผู้ใช้แต่ละคน โดย qr\_scans.qr\_id และ redemptions.reward\_id อ้างอิงกลับไปยัง qrs.id และ rewards.id ตามลำดับ ขณะที่ทั้งสองตารางอ้างอิง user\_id กลับไปยัง users.id เพื่อระบุว่าธุรกรรมนั้นเป็นของผู้ใช้คนใด
-
-ขอบเขตของแบบจำลองฐานข้อมูล: การออกแบบฉบับนี้ยังไม่รวมตาราง Itinerary สำหรับบันทึกแผนการเดินทางที่สร้างแล้ว (สัมพันธ์กับ UC-06) และตาราง users ที่เพิ่มเข้ามาเก็บเฉพาะข้อมูลที่จำเป็นสำหรับระบบพอยท์เท่านั้น ยังไม่ใช่ตารางบัญชีผู้ใช้/ผู้ดูแลระบบแบบเต็มรูปแบบที่รองรับการยืนยันตัวตนจริง (รหัสผ่าน, Session, สิทธิ์การเข้าถึง) ซึ่งสัมพันธ์กับ NFR-04 และ UC-11 Embedding Vector ก็ไม่ได้แยกเป็นตารางต่างหาก (ไม่มี EmbeddingDocument) แต่ฝังเป็นคอลัมน์ embedding อยู่ในตาราง places และ knowledge\_base โดยตรงตามที่กล่าวไปแล้วข้างต้น
-
+\clearpage
 \subsection{Mockup User Interface}
+
+ในขั้นตอนการออกแบบส่วนติดต่อผู้ใช้งาน (User Interface) คณะผู้จัดทำได้จัดทำแบบร่างหน้าจอ (Wireframe) เพื่อกำหนดโครงสร้างของหน้าจอ ตำแหน่งองค์ประกอบ และลำดับขั้นตอนการใช้งานของแต่ละฟังก์ชันหลักไว้ล่วงหน้าก่อนดำเนินการพัฒนาจริง โดยแบ่งการนำเสนอออกเป็นส่วนของผู้ใช้งานทั่วไป (Client-Side) และส่วนของผู้ดูแลระบบ (Admin-Side) ตามรายละเอียดดังนี้
+
+\subsubsection{ส่วนของผู้ใช้งานทั่วไป (Client-Side)}
+
+ได้รับการออกแบบในรูปแบบเว็บแอปพลิเคชัน (Web Application) แบบ Responsive ที่รองรับการใช้งานผ่านเบราว์เซอร์บนสมาร์ทโฟนเป็นหลัก เพื่อเน้นความสะดวกในการเข้าถึงข้อมูลระหว่างการเดินทาง โดยไม่ต้องติดตั้งแอปพลิเคชันแยกต่างหาก ประกอบด้วยหน้าจอและฟังก์ชันการทำงานที่สำคัญ ได้แก่
+
+\begin{enumerate}[label=(1.\arabic*),leftmargin=0pt,itemindent=\dimexpr\parindent+\parenlabelwidth+1em+\subParenLabelWidth+1em\relax,align=right,labelwidth=\subParenLabelWidth,labelsep=1em]
+\item หน้าหลัก (Home) และหน้ารายละเอียดสถานที่/กิจกรรม: แสดงผลข้อมูล รูปภาพ และรายละเอียดของสถานที่ท่องเที่ยว/กิจกรรมต่าง ๆ พร้อมระบบนำทาง (Navigation)
+\item ระบบวางแผนการเดินทางและแนะนำสถานที่ (Trip Planning \& Recommend): ช่วยให้นักท่องเที่ยวออกแบบเส้นทาง หรือรับการแนะนำสถานที่ท่องเที่ยวที่เหมาะสมตามความต้องการ พร้อมปรับแผนได้ทันทีบนหน้าจอ (UC-06, UC-07)
+\item ระบบถาม-ตอบอัตโนมัติ (แชตบอต): ทำหน้าที่เป็นผู้ช่วยเสมือนจริง ครอบคลุมข้อมูลทั่วไปเกี่ยวกับจังหวัดขอนแก่น การช่วยเหลือนักท่องเที่ยว และข้อมูลเชิงลึกเกี่ยวกับสถานที่ท่องเที่ยวที่จัดเก็บไว้ในฐานข้อมูล
+\item หน้าพอยท์สะสม (Points): สแกน QR เพื่อสะสมพอยท์ และแลกของรางวัล (UC-03, UC-08)
+\end{enumerate}
 
 \begin{figure}[H]
 \centering
@@ -946,26 +873,6 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 
 ภาพที่ \ref{fig:wireframe_login} แสดงหน้าเข้าสู่ระบบ (Login) และสมัครสมาชิก (Signup) สำหรับนักท่องเที่ยว ซึ่งเป็นเงื่อนไขเบื้องต้นก่อนการใช้งานฟังก์ชันที่ผูกกับบัญชีผู้ใช้ เช่น การสะสมพอยท์
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-wireframe-admin.png}
-\caption{Wireframe ส่วนผู้ดูแลระบบ (หน้าเข้าสู่ระบบ, แดชบอร์ด และแบบฟอร์มจัดการข้อมูลสถานที่)}
-\label{fig:wireframe_admin}
-\end{figure}
-
-ภาพที่ \ref{fig:wireframe_admin} แสดง Wireframe ของ Admin Portal เริ่มตั้งแต่หน้าเข้าสู่ระบบ (Admin Login) ตาม UC-11 หน้าแดชบอร์ด (Admin Dashboard) ที่สรุปภาพรวมสถิติของระบบตาม UC-14 จนถึงแบบฟอร์มจัดการข้อมูลสถานที่ (Place Form) ซึ่งใช้โครงสร้างรูปแบบเดียวกันกับแบบฟอร์มจัดการข้อมูลกิจกรรมและฐานความรู้ตาม UC-06.1/6.2/6.3
-
-\subsubsection{ส่วนของผู้ใช้งานทั่วไป (Client-Side)}
-
-ได้รับการออกแบบในรูปแบบเว็บแอปพลิเคชัน (Web Application) แบบ Responsive ที่รองรับการใช้งานผ่านเบราว์เซอร์บนสมาร์ทโฟนเป็นหลัก เพื่อเน้นความสะดวกในการเข้าถึงข้อมูลระหว่างการเดินทาง โดยไม่ต้องติดตั้งแอปพลิเคชันแยกต่างหาก ประกอบด้วยหน้าจอและฟังก์ชันการทำงานที่สำคัญ ได้แก่
-
-\begin{enumerate}[label=(1.\arabic*),leftmargin=0pt,itemindent=\dimexpr\parindent+\parenlabelwidth+1em+\subParenLabelWidth+1em\relax,align=right,labelwidth=\subParenLabelWidth,labelsep=1em]
-\item หน้าหลัก (Home) และหน้ารายละเอียดสถานที่/กิจกรรม: แสดงผลข้อมูล รูปภาพ และรายละเอียดของสถานที่ท่องเที่ยว/กิจกรรมต่าง ๆ พร้อมระบบนำทาง (Navigation)
-\item ระบบวางแผนการเดินทางและแนะนำสถานที่ (Trip Planning \& Recommend): ช่วยให้นักท่องเที่ยวออกแบบเส้นทาง หรือรับการแนะนำสถานที่ท่องเที่ยวที่เหมาะสมตามความต้องการ พร้อมปรับแผนได้ทันทีบนหน้าจอ (UC-06, UC-07)
-\item ระบบถาม-ตอบอัตโนมัติ (แชตบอต): ทำหน้าที่เป็นผู้ช่วยเสมือนจริง ครอบคลุมข้อมูลทั่วไปเกี่ยวกับจังหวัดขอนแก่น การช่วยเหลือนักท่องเที่ยว และข้อมูลเชิงลึกเกี่ยวกับสถานที่ท่องเที่ยวที่จัดเก็บไว้ในฐานข้อมูล
-\item หน้าพอยท์สะสม (Points): สแกน QR เพื่อสะสมพอยท์ และแลกของรางวัล (UC-03, UC-08)
-\end{enumerate}
-
 \subsubsection{ส่วนของผู้ดูแลระบบ (Admin-Side)}
 
 ได้รับการออกแบบในรูปแบบเว็บแอปพลิเคชัน (Web Application) เดียวกันกับฝั่งผู้ใช้งานทั่วไป (คนละเส้นทาง/Route ในโปรเจกต์เดียวกัน ไม่ใช่แอปพลิเคชันแยก) สำหรับการใช้งานบนคอมพิวเตอร์ เพื่อประสิทธิภาพในการบริหารจัดการฐานข้อมูลขนาดใหญ่ ประกอบด้วยส่วนการทำงานหลัก ได้แก่
@@ -974,6 +881,15 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 \item หน้ากระดานสรุปข้อมูล (Dashboard): แสดงผลภาพรวมของระบบ
 \item ระบบจัดการฐานข้อมูล (Data Management): แบ่งเป็นส่วนการจัดการ ``ข้อมูลสถานที่ท่องเที่ยว'' ``ข้อมูลกิจกรรม'' ``ฐานความรู้ (Knowledge Base)'' และ ``QR/ของรางวัล'' ช่วยให้ผู้ดูแลระบบสามารถเพิ่ม ลบ ตรวจสอบสถานะ และแก้ไขปรับปรุงข้อมูลในระบบให้เป็นปัจจุบันอยู่เสมอ โดยฟอร์มจัดการกิจกรรมมีเครื่องมือช่วยดึงข้อมูลจากข้อความโพสต์ด้วย AI ประกอบอยู่ด้วย (UC-13)
 \end{enumerate}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-wireframe-admin.png}
+\caption{Wireframe ส่วนผู้ดูแลระบบ (หน้าเข้าสู่ระบบ, แดชบอร์ด และแบบฟอร์มจัดการข้อมูลสถานที่)}
+\label{fig:wireframe_admin}
+\end{figure}
+
+ภาพที่ \ref{fig:wireframe_admin} แสดง Wireframe ของ Admin Portal เริ่มตั้งแต่หน้าเข้าสู่ระบบ (Admin Login) ตาม UC-11 หน้าแดชบอร์ด (Admin Dashboard) ที่สรุปภาพรวมสถิติของระบบตาม UC-14 จนถึงแบบฟอร์มจัดการข้อมูลสถานที่ (Place Form) ซึ่งใช้โครงสร้างรูปแบบเดียวกันกับแบบฟอร์มจัดการข้อมูลกิจกรรมและฐานความรู้ตาม UC-06.1/6.2/6.3
 
 % -----------------------------------------------------------
 \section{การพัฒนาโปรแกรม}
@@ -986,6 +902,7 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 \item Backend (Core API): Node.js กับ Express, เชื่อมต่อฐานข้อมูลผ่าน @supabase/supabase-js
 \item AI Service: Python กับ FastAPI, เป็นบริการอิสระแยกจาก Core API (ไม่ได้ทำหน้าที่เป็น API Gateway ให้กัน)
 \item Database: PostgreSQL ผ่านบริการ Supabase (Managed Service) พร้อมส่วนขยาย pgvector สำหรับ Vector Search
+\needspace{4\baselineskip}
 \item AI \& Libraries: โมเดลภาษาขนาดใหญ่ Google Gemini (gemini-2.5-flash สำหรับ แชตบอต/Event Extraction, gemini-2.5-pro สำหรับ Trip Planner Generator/Judge) เรียกผ่าน KKU AI Gateway ที่มีรูปแบบ API แบบเดียวกับ OpenAI (ไลบรารี openai Python SDK), sentence-transformers (paraphrase-multilingual-MiniLM-L12-v2) สำหรับสร้าง Embedding ในเครื่อง
 \item API ภายนอก: Google Places API สำหรับดึงข้อมูลตั้งต้น (Data Seeding), Serper API สำหรับค้นหาข้อมูลเสริมประกอบการสร้างคำอธิบายสถานที่ด้วย AI
 \end{enumerate}
@@ -1002,7 +919,29 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 
 \subsubsection{วิธีการประเมินผลของการวิจัย (LLM as a Judge)}
 
-เพื่อให้มั่นใจว่าแผนการเดินทางที่ระบบสร้างขึ้นด้วย AI มีความถูกต้องและใช้งานได้จริง งานวิจัยนี้ได้พัฒนากลไกการตรวจสอบผลลัพธ์โดยใช้ LLM อีกตัวหนึ่ง (gemini-2.5-pro) ทำหน้าที่เป็น ``ผู้ประเมิน'' (Judge) แทนการเขียนฟังก์ชันตรวจสอบแบบตายตัว โดยเป็นขั้นตอนที่ทำงานอัตโนมัติอยู่เบื้องหลังทุกครั้งที่มีการสร้างแผนการเดินทาง (UC-06) ไม่ใช่กระบวนการที่ผู้ใช้เห็นหรือสั่งงานเอง เกณฑ์การประเมินและกลไกการทำงานจริงมีดังนี้
+เพื่อให้มั่นใจว่าแผนการเดินทางที่ระบบสร้างขึ้นด้วย AI มีความถูกต้องและใช้งานได้จริง งานวิจัยนี้ได้พัฒนากลไกการตรวจสอบผลลัพธ์โดยใช้ LLM อีกตัวหนึ่ง (gemini-2.5-pro) ทำหน้าที่เป็น ``ผู้ประเมิน'' (Judge) แทนการเขียนฟังก์ชันตรวจสอบแบบตายตัว โดยเป็นขั้นตอนที่ทำงานอัตโนมัติอยู่เบื้องหลังทุกครั้งที่มีการสร้างแผนการเดินทาง (UC-06) ไม่ใช่กระบวนการที่ผู้ใช้เห็นหรือสั่งงานเอง
+
+ในการออกแบบกลไกดังกล่าว ได้กำหนดเกณฑ์การให้คะแนน (Rubric) ที่ใช้เป็นแนวทางให้ LLM Judge พิจารณาให้คะแนนคุณภาพของแผนการเดินทางในเชิงคุณภาพ แบ่งออกเป็น 3 มิติ รวม 100 คะแนน ดังตารางที่ \ref{tab:llm_judge_rubric}
+
+\begin{table}[H]
+\centering
+\caption{เกณฑ์การให้คะแนน (Rubric) สำหรับประเมินคุณภาพแผนการเดินทางด้วยเทคนิค LLM-as-a-Judge}
+\label{tab:llm_judge_rubric}
+{\small
+\begin{tabular}{|p{2.7cm}|p{1.2cm}|p{3.3cm}|p{5.3cm}|}
+\hline
+\textbf{มิติการประเมิน} & \textbf{คะแนนเต็ม} & \textbf{ปัจจัยที่ใช้พิจารณา} & \textbf{รายละเอียดเกณฑ์การให้คะแนน} \\
+\hline
+1. ความสอดคล้องกับข้อจำกัดและเงื่อนไข (Constraint Compliance) & 40 & สถานที่บังคับ (Must-go Places) \newline จังหวะการเดินทาง (Trip Pace) \newline กรอบงบประมาณ (Budget Level) \newline กรอบเวลา (Time Bounds) & หักคะแนนเมื่อ: \newline -- ไม่บรรจุสถานที่ที่ผู้ใช้งานระบุว่า ``ต้องไป'' ลงในแผน \newline -- จัดสรรเวลาไม่สอดคล้องกับรูปแบบความเร็วของทริปที่กำหนด \newline -- เลือกสถานที่หรือร้านอาหารที่ขัดกับระดับงบประมาณ \newline -- จัดตารางกิจกรรมล่วงเลยเวลาเริ่มต้นหรือสิ้นสุดของวัน \\ \hline
+2. ความสมเหตุสมผลด้านพื้นที่และเวลา (Spatial-Temporal Logic) & 30 & การเดินทางและเส้นทาง (Travel Feasibility) \newline การจัดตารางมื้ออาหาร (Meal Scheduling) \newline ความเหมาะสมของเวลา (Time Appropriateness) & หักคะแนนเมื่อ: \newline -- กำหนดเวลาเดินทางน้อยกว่าความเป็นจริง หรือจัดเส้นทางวกวน \newline -- จัดมื้ออาหารหลักติดต่อกันโดยไม่มีกิจกรรมอื่นคั่น \newline -- จัดตารางกิจกรรมขัดกับบริบทของสถานที่ (เช่น ตลาดกลางคืนในเวลากลางวัน) \\ \hline
+3. การตอบสนองความชอบส่วนบุคคลและประสบการณ์ (Personalization \& Experience) & 30 & ความตรงใจ (Interest Alignment) \newline ความลื่นไหลของทริป (Natural Flow) \newline ความหลากหลาย (Diversity of POIs) & บวกคะแนนเพิ่มเมื่อ: \newline -- สถานที่ถูกคัดเลือกมาอย่างแม่นยำและตรงกับความสนใจของผู้ใช้ \newline -- ลำดับกิจกรรมมีความต่อเนื่องและสลับอารมณ์การท่องเที่ยวได้ดี \newline หักคะแนนเมื่อ: \newline -- แผนการเดินทางมีความจำเจ ซ้ำซ้อน หรือมีรูปแบบทั่วไปที่ขาดจุดเด่น \\ \hline
+\multicolumn{2}{|r|}{\textbf{รวมคะแนนทั้งหมด}} & \multicolumn{2}{l|}{\textbf{100}} \\
+\hline
+\end{tabular}
+\par}
+\end{table}
+
+ในการนำไปใช้งานจริง ระบบแปลงผลการประเมินตามเกณฑ์ข้างต้นให้อยู่ในรูปแบบตัวแปรที่ Backend ตรวจสอบได้ ดังตารางที่ \ref{tab:llm_judge}
 
 \begin{table}[H]
 \centering

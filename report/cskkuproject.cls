@@ -315,23 +315,62 @@
 
 % ------------------------------------------------
 % Centered TOC / LOT / LOF titles (robust)
+% "(ต่อ)" continuation header on overflow pages: \chapter* locks the
+% first page to pagestyle "plain" (=fancy, no left-header text) via the
+% \ps@plain=\ps@fancy hack above; \pagestyle{...bis} issued right after
+% only takes effect from the *next* page onward, i.e. exactly the
+% continuation pages if the list overflows past one page.
 % ------------------------------------------------
 \makeatletter
+
+\fancypagestyle{tocbis}{%
+  \fancyhf{}%
+  \setlength{\headheight}{22.2pt}%
+  \fancyhead[C]{\Large\bfseries สารบัญ (ต่อ)}%
+  \fancyhead[R]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+\fancypagestyle{lotbis}{%
+  \fancyhf{}%
+  \setlength{\headheight}{22.2pt}%
+  \fancyhead[C]{\Large\bfseries สารบัญตาราง (ต่อ)}%
+  \fancyhead[R]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
+\fancypagestyle{lofbis}{%
+  \fancyhf{}%
+  \setlength{\headheight}{22.2pt}%
+  \fancyhead[C]{\Large\bfseries สารบัญภาพ (ต่อ)}%
+  \fancyhead[R]{\thepage}%
+  \renewcommand{\headrulewidth}{0pt}%
+}
 
 \renewcommand{\tableofcontents}{
   \chapter*{\centering\Large\bfseries สารบัญ}
   \addcontentsline{toc}{chapter}{สารบัญ}
+  \pagestyle{tocbis}
   \@starttoc{toc}
+  \clearpage
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[R]{\thepage}
+  \setlength{\headheight}{15pt}
 }
 
 
 \renewcommand{\listoftables}{
   \chapter*{\centering\Large\bfseries สารบัญตาราง}
   \addcontentsline{toc}{chapter}{สารบัญตาราง}
+  \pagestyle{lotbis}
   \begingroup
     \let\addvspace\@gobble
     \@starttoc{lot}
   \endgroup
+  \clearpage
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[R]{\thepage}
+  \setlength{\headheight}{15pt}
 }
 \renewcommand*\l@table[2]{%
   \@dottedtocline{1}{0em}{1.5em}{ตารางที่~#1}{#2}%
@@ -340,10 +379,16 @@
 \renewcommand{\listoffigures}{
   \chapter*{\centering\Large\bfseries สารบัญภาพ}
   \addcontentsline{toc}{chapter}{สารบัญภาพ}
+  \pagestyle{lofbis}
   \begingroup
     \let\addvspace\@gobble
     \@starttoc{lof}
   \endgroup
+  \clearpage
+  \pagestyle{fancy}
+  \fancyhf{}
+  \fancyhead[R]{\thepage}
+  \setlength{\headheight}{15pt}
 }
 \renewcommand*\l@figure[2]{%
   \@dottedtocline{1}{0em}{1.5em}{ภาพที่~#1}{#2}%

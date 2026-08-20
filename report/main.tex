@@ -1,4 +1,5 @@
 \documentclass{cskkuproject}
+\usepackage{needspace} % ใช้ \needspace กันย่อหน้า/หัวข้อถูกตัดข้ามหน้าแบบดูไม่ดี
 \usepackage{colortbl} % ใช้ \cellcolor ในตาราง Gantt chart (บทที่ 3)
 \usepackage[style=apa,backend=biber]{biblatex} % รูปแบบการอ้างอิง APA 7th edition
 \addbibresource{references.bib}
@@ -114,6 +115,14 @@
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
+% กัน pagestyle ของสารบัญตาราง/ภาพ (ต่อ) ค้างข้ามมาที่บทที่ 1 —
+% \pagestyle ของ fancyhdr มีผลเริ่มจากหน้าที่ shipout ถัดไปเท่านั้น
+% ดังนั้นต้องสั่งซ้ำตรงนี้ให้ชัวร์ก่อนเข้าเนื้อหาบทที่ 1
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\setlength{\headheight}{15pt}
+
 \chapterone
 \chaptertwo
 \chapterthree
@@ -133,15 +142,15 @@
 \printbibliography[title={เอกสารอ้างอิง},heading=bibintoc]
 
 % ==========================================
-% ภาคผนวก
-% ==========================================
-\input{appendices}
-
-% ==========================================
 % ประวัติผู้เขียน
 % ==========================================
 \begin{biography}
 \input{biography}
 \end{biography}
+
+% ==========================================
+% แบบฟอร์มรับรองจากที่ปรึกษา (หน้าสุดท้าย)
+% ==========================================
+\input{advisor-form}
 
 \end{document}

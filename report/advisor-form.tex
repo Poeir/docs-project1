@@ -1,0 +1,71 @@
+%======================================================================
+% แบบฟอร์มรับรองจากที่ปรึกษา (Advisor certification form)
+% หมายเหตุ: ใช้ข้อมูลจากมาโครที่กรอกไว้ใน main.tex โดยตรง ไม่ต้องแก้ไขในไฟล์นี้
+%======================================================================
+\clearpage
+\thispagestyle{empty}
+\makeatletter
+
+\begin{center}
+\textbf{แบบฟอร์มรับรองจากที่ปรึกษา}
+\end{center}
+
+\vspace{0.5cm}
+\noindent\textbf{ชื่อเรื่อง} \@titleTH \\
+\hspace*{2cm} \@titleEN
+
+\vspace{0.5cm}
+\noindent\textbf{รายชื่อผู้ทำโครงงาน}\\
+1. ชื่อ-นามสกุล \@firstStudentPrefixTH\@firstStudentNameTH \hspace{1em} รหัสประจำตัว \@firstStudentID\\
+\IfEmptyTF{\@secondStudentID}{}{%
+2. ชื่อ-นามสกุล \@secondStudentPrefixTH\@secondStudentNameTH \hspace{1em} รหัสประจำตัว \@secondStudentID\\
+}
+
+\vspace{0.5cm}
+\noindent\textbf{อาจารย์ที่ปรึกษาโครงงาน}\\
+1. ชื่อ-นามสกุล \@advisorTH
+
+\vspace{1.5cm}
+\begin{flushright}
+\begin{tabular}{c}
+(ลงชื่อ) \hbox to 3cm{\dotfill} คเณศ \hbox to 3cm{\dotfill} \\[2pt]
+( \@firstStudentPrefixTH\@firstStudentNameTH ) \\[2pt]
+วันที่ 20/08/2569
+\end{tabular}
+\end{flushright}
+
+\IfEmptyTF{\@secondStudentID}{}{%
+\vspace{0.8cm}
+\begin{flushright}
+\begin{tabular}{c}
+(ลงชื่อ) \hbox to 3cm{\dotfill} ภูริ \hbox to 3cm{\dotfill} \\[2pt]
+( \@secondStudentPrefixTH\@secondStudentNameTH ) \\[2pt]
+วันที่ 20/08/2569
+\end{tabular}
+\end{flushright}
+}
+
+\vspace{1.5cm}
+\noindent การตรวจสอบจากอาจารย์ที่ปรึกษาโครงงาน
+
+\vspace{0.3cm}
+\noindent\hrulefill
+
+\noindent\hrulefill
+
+\noindent\hrulefill
+
+\noindent\hrulefill
+
+\noindent\hrulefill
+
+\vspace{1cm}
+\begin{flushright}
+\begin{tabular}{c}
+(ลงชื่อ) \hbox to 6cm{\dotfill} \\[2pt]
+( \@advisorTH ) \\[2pt]
+วันที่ 20/08/2569
+\end{tabular}
+\end{flushright}
+
+\makeatother
