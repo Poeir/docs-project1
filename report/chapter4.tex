@@ -93,21 +93,19 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \centering
 \resizebox{0.98\linewidth}{!}{%
 \begin{tikzpicture}[
-  usecase/.style={ellipse, draw, thick, align=center, text width=3.3cm, minimum height=1.3cm, font=\small, inner sep=3pt},
-  node distance=2.9cm and 2.7cm
+  usecase/.style={ellipse, draw, thick, align=center, text width=3.3cm, minimum height=1.3cm, font=\small, inner sep=3pt}
 ]
-\node[usecase] (uc01) {ถามตอบข้อมูลโดยใช้ แชตบอต\\(UC-01)};
-\node[usecase, below=of uc01] (uc02) {ค้นหาข้อมูลสถานที่ท่องเที่ยว กิจกรรม และอีเวนท์\\(UC-02)};
-\node[usecase, below=of uc02] (uc03) {สแกน QR Code เพื่อสะสมพอยท์\\(UC-03)};
-\node[usecase, below=of uc03] (uc06) {สร้างแผนการเดินทาง\\(UC-06)};
+% -- ตำแหน่งกำหนดตายตัวทุกโหนด (ไม่ใช้ below=of/right=of แบบลูกโซ่) เพื่อป้องกันการทับซ้อนกันเอง --
+\node[usecase] (uc01) at (0,0)     {ถามตอบข้อมูลโดยใช้ แชตบอต\\(UC-01)};
+\node[usecase] (uc02) at (0,-3.6)  {ค้นหาข้อมูลสถานที่ท่องเที่ยว กิจกรรม และอีเวนท์\\(UC-02)};
+\node[usecase] (uc03) at (0,-7.2)  {สแกน QR Code เพื่อสะสมพอยท์\\(UC-03)};
+\node[usecase] (uc06) at (0,-10.8) {สร้างแผนการเดินทาง\\(UC-06)};
 
-\node[usecase, right=of uc02, yshift=1.0cm] (uc04) {ดูรายละเอียดข้อมูลสถานที่\\(UC-04)};
-\node[usecase, right=of uc02, yshift=-1.0cm] (uc05) {ดูรายละเอียดข้อมูลอีเวนท์\\(UC-05)};
-
-\node[usecase, right=of uc03] (uc08) {แลกของรางวัลด้วยพอยท์\\(UC-08)};
-
-\node[usecase, right=of uc06, yshift=1.0cm] (uc064) {กรองสถานที่ตามขอบเขตพื้นที่\\(UC-06.4)};
-\node[usecase, right=of uc06, yshift=-1.0cm] (uc07) {การปรับแผนการเดินทาง\\(UC-07)};
+\node[usecase] (uc04)  at (7.0,-2.5)  {ดูรายละเอียดข้อมูลสถานที่\\(UC-04)};
+\node[usecase] (uc05)  at (7.0,-4.7)  {ดูรายละเอียดข้อมูลอีเวนท์\\(UC-05)};
+\node[usecase] (uc08)  at (7.0,-7.2)  {แลกของรางวัลด้วยพอยท์\\(UC-08)};
+\node[usecase] (uc064) at (7.0,-9.7)  {กรองสถานที่ตามขอบเขตพื้นที่\\(UC-06.4)};
+\node[usecase] (uc07)  at (7.0,-11.9) {การปรับแผนการเดินทาง\\(UC-07)};
 
 \draw[-{Stealth[length=2.5mm]}, dashed] (uc04) -- node[above,font=\scriptsize,fill=white,inner sep=1pt]{\guillemotleft extend\guillemotright} (uc02);
 \draw[-{Stealth[length=2.5mm]}, dashed] (uc05) -- node[below,font=\scriptsize,fill=white,inner sep=1pt]{\guillemotleft extend\guillemotright} (uc02);
@@ -115,14 +113,14 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \draw[-{Stealth[length=2.5mm]}, dashed] (uc064) -- node[above,font=\scriptsize,fill=white,inner sep=1pt]{\guillemotleft extend\guillemotright} (uc06);
 \draw[-{Stealth[length=2.5mm]}, dashed] (uc07) -- node[below,font=\scriptsize,fill=white,inner sep=1pt]{\guillemotleft extend\guillemotright} (uc06);
 
-\node[draw, thick, inner sep=0.7cm, fit=(uc01)(uc02)(uc03)(uc06)(uc04)(uc05)(uc08)(uc064)(uc07)] (boundary) {};
+\node[draw, thick, inner sep=0.8cm, fit=(uc01)(uc02)(uc03)(uc06)(uc04)(uc05)(uc08)(uc064)(uc07)] (boundary) {};
 \node[font=\bfseries\small, anchor=north] at (boundary.north) {\vphantom{Ay}Tourism Information System};
 
-\umlactor{$(boundary.west)+(-1.9,0)$}{นักท่องเที่ยว\\(Tourist)}
-\coordinate (tourist) at ($(boundary.west)+(-1.3,0.55)$);
+\umlactor{$(boundary.west)+(-2.0,0)$}{นักท่องเที่ยว\\(Tourist)}
+\coordinate (tourist) at ($(boundary.west)+(-1.4,0.55)$);
 
-\umlactor{$(boundary.east)+(1.9,-2.9)$}{ผู้ดูแลระบบ\\(Administrator)}
-\coordinate (admin) at ($(boundary.east)+(1.5,-2.35)$);
+\umlactor{$(boundary.east)+(2.0,-3.4)$}{ผู้ดูแลระบบ\\(Administrator)}
+\coordinate (admin) at ($(boundary.east)+(1.6,-2.85)$);
 
 \draw[thick] (tourist) -- (uc01);
 \draw[thick] (tourist) -- (uc02);
@@ -327,14 +325,15 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \node[draw, thick, inner sep=0.7cm, fit=(uc14)(ucplace)(ucevent)(uckb)(ucqr)(uc13)(uc11)] (boundary) {};
 \node[font=\bfseries\small, anchor=north] at (boundary.north) {\vphantom{Ay}Admin Portal};
 
-\umlactor{$(boundary.west)+(-1.9,0)$}{ผู้ดูแลระบบ\\(Administrator)}
-\coordinate (admin2) at ($(boundary.west)+(-1.3,0.55)$);
+\umlactor{$(boundary.west)+(-2.0,0)$}{ผู้ดูแลระบบ\\(Administrator)}
+\coordinate (admin2) at ($(boundary.west)+(-1.4,0.55)$);
 
 \draw[thick] (admin2) -- (uc14);
 \draw[thick] (admin2) -- (ucplace);
 \draw[thick] (admin2) -- (ucevent);
 \draw[thick] (admin2) -- (uckb);
 \draw[thick] (admin2) -- (ucqr);
+\draw[thick] (admin2) -- (uc11);
 \end{tikzpicture}%
 }
 \caption{Admin Use Case Diagram}
@@ -521,7 +520,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \subsubsection{สำหรับระบบสะสมคะแนน (Point System)}
 
-ระบบสะสมคะแนนมีลักษณะแตกต่างจากฟังก์ชันอื่นตรงที่ผู้ใช้งานที่เกี่ยวข้องสลับบทบาทกันระหว่างสองช่วง คือ นักท่องเที่ยว (Tourist) เป็นผู้ปฏิสัมพันธ์กับระบบโดยตรงในช่วงสะสมคะแนน ขณะที่ผู้ดูแลระบบ -- เจ้าหน้าที่ ททท. ขอนแก่น (Administrator) เป็นผู้ปฏิสัมพันธ์กับระบบแทนนักท่องเที่ยวในช่วงแลกของรางวัล จึงแยกแผนภาพออกเป็น 2 ส่วนตามลำดับ
+ระบบสะสมคะแนนมีลักษณะแตกต่างจากฟังก์ชันอื่นตรงที่ผู้ใช้งานที่เกี่ยวข้องสลับบทบาทกันระหว่างสองช่วง คือ นักท่องเที่ยว เป็นผู้ปฏิสัมพันธ์กับระบบโดยตรงในช่วงสะสมคะแนน ขณะที่ผู้ดูแลระบบ -- เจ้าหน้าที่ ททท. ขอนแก่น (Administrator) เป็นผู้ปฏิสัมพันธ์กับระบบแทนนักท่องเที่ยวในช่วงแลกของรางวัล จึงแยกแผนภาพออกเป็น 2 ส่วนตามลำดับ
 
 \begin{figure}[H]
 \centering
@@ -562,7 +561,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \subsection{สถาปัตยกรรมของระบบ}
 
-แนวคิดการออกแบบระบบถูกพัฒนาภายใต้สถาปัตยกรรมไมโครเซอร์วิส เพื่อแยกส่วนการทำงานออกจากกันอย่างชัดเจน ทั้งในเชิงตรรกะ (Logical) และเชิงกายภาพ (Physical) ทำให้แอปพลิเคชันสามารถรองรับการขยายตัว (Scalability) ได้ดี
+แนวคิดการออกแบบระบบถูกพัฒนาภายใต้สถาปัตยกรรมไมโครเซอร์วิส (Microservices Architecture) เพื่อแยกส่วนการทำงานออกจากกันอย่างชัดเจน ทำให้แต่ละส่วนพัฒนา ทดสอบ และรองรับการขยายตัวได้อย่างอิสระ ระบบแบ่งออกเป็น 3 ส่วนหลักที่ทำงานเป็นบริการอิสระต่อกัน (Independent Services) ดังภาพที่ \ref{fig:architecture}
 
 \begin{figure}[H]
 \centering
@@ -629,7 +628,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \subsection{การออกแบบฐานข้อมูล}
 
-ระบบใช้ฐานข้อมูลเชิงสัมพันธ์ (Relational Database) ด้วย PostgreSQL ผ่านบริการ Supabase เป็นฐานข้อมูลหลักเพียงฐานเดียว โดยติดตั้งส่วนขยาย pgvector เพิ่มเติมเพื่อให้คอลัมน์ embedding ในตาราง places และ knowledge\_base จัดเก็บเวกเตอร์ฝังตัว (Embedding Vectors) ที่ใช้ในกระบวนการค้นคืนข้อมูลเชิงความหมาย (Semantic Retrieval) ได้โดยตรง จึงไม่มีฐานข้อมูลเวกเตอร์แยกต่างหาก ข้อมูลกึ่งโครงสร้าง (Semi-Structured Data) ที่ได้จาก Google Places API ซึ่งไม่สามารถแตกเป็นคอลัมน์ตายตัวได้ทั้งหมด ถูกเก็บสำรองไว้ในคอลัมน์ประเภท jsonb (raw\_data) เพื่อความยืดหยุ่น
+ระบบใช้ฐานข้อมูลเชิงสัมพันธ์ PostgreSQL ผ่านบริการ Supabase เป็นฐานข้อมูลหลักเพียงฐานเดียว โดยติดตั้งส่วนขยาย pgvector เพื่อให้คอลัมน์ embedding ในตาราง places และ knowledge\_base จัดเก็บและค้นคืนเวกเตอร์ฝังตัวเชิงความหมายได้โดยตรง จึงไม่จำเป็นต้องมีฐานข้อมูลเวกเตอร์แยกต่างหาก ส่วนข้อมูลกึ่งโครงสร้างจาก Google Places API ที่ไม่สามารถแตกเป็นคอลัมน์ตายตัวได้ทั้งหมด จัดเก็บไว้ในคอลัมน์ประเภท jsonb (raw\_data)
 
 ความสัมพันธ์ระหว่างตารางแสดงดังภาพที่ \ref{fig:erd} เขียนด้วยสัญกรณ์ Crow's Foot แสดงชื่อฟิลด์และชนิดข้อมูลของทุก Entity โดย knowledge\_base (กรอบเส้นประ) เป็น Entity อิสระที่ไม่มีความสัมพันธ์กับ Entity อื่น รายละเอียดคำอธิบายของแต่ละคอลัมน์แสดงในตารางที่ \ref{tab:db_place}--\ref{tab:db_redemptions} ถัดไป
 
@@ -819,7 +818,7 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 
 \subsubsection{ส่วนของผู้ใช้งานทั่วไป (Client-Side)}
 
-ได้รับการออกแบบในรูปแบบเว็บแอปพลิเคชัน (Web Application) แบบ Responsive ที่รองรับการใช้งานผ่านเบราว์เซอร์บนสมาร์ทโฟนเป็นหลัก เพื่อเน้นความสะดวกในการเข้าถึงข้อมูลระหว่างการเดินทาง โดยไม่ต้องติดตั้งแอปพลิเคชันแยกต่างหาก ประกอบด้วยหน้าจอและฟังก์ชันการทำงานที่สำคัญ ได้แก่
+ได้รับการออกแบบในรูปแบบเว็บแอปพลิเคชัน แบบ Responsive ที่รองรับการใช้งานผ่านเบราว์เซอร์บนสมาร์ทโฟนเป็นหลัก เพื่อเน้นความสะดวกในการเข้าถึงข้อมูลระหว่างการเดินทาง โดยไม่ต้องติดตั้งแอปพลิเคชันแยกต่างหาก ประกอบด้วยหน้าจอและฟังก์ชันการทำงานที่สำคัญ ได้แก่
 
 \begin{enumerate}[label=(1.\arabic*),leftmargin=0pt,itemindent=\dimexpr\parindent+\parenlabelwidth+1em+\subParenLabelWidth+1em\relax,align=right,labelwidth=\subParenLabelWidth,labelsep=1em]
 \item หน้าหลัก (Home) และหน้ารายละเอียดสถานที่/กิจกรรม: แสดงผลข้อมูล รูปภาพ และรายละเอียดของสถานที่ท่องเที่ยว/กิจกรรมต่าง ๆ พร้อมระบบนำทาง (Navigation)
@@ -873,9 +872,54 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 
 ภาพที่ \ref{fig:wireframe_login} แสดงหน้าเข้าสู่ระบบ (Login) และสมัครสมาชิก (Signup) สำหรับนักท่องเที่ยว ซึ่งเป็นเงื่อนไขเบื้องต้นก่อนการใช้งานฟังก์ชันที่ผูกกับบัญชีผู้ใช้ เช่น การสะสมพอยท์
 
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,keepaspectratio]{images/diagram-mockup-browse.png}
+\caption{Wireframe การเรียกดูข้อมูลสถานที่ท่องเที่ยว (หน้าหลัก, รายการสถานที่ และรายละเอียดสถานที่)}
+\label{fig:mockup_browse}
+\end{figure}
+
+ภาพที่ \ref{fig:mockup_browse} แสดง Wireframe การเข้าถึงข้อมูลสถานที่ท่องเที่ยว เริ่มตั้งแต่หน้าหลัก (Home) ที่รวบรวมกิจกรรมแนะนำและสถานที่แนะนำไว้ในหน้าเดียว ต่อเนื่องไปยังหน้ารายการสถานที่ทั้งหมด (Places List) ที่มีช่องค้นหาและตัวกรองตามหมวดหมู่ จนถึงหน้ารายละเอียดสถานที่ (Place Detail) ซึ่งแสดงข้อมูลครบถ้วนตามที่กำหนดไว้ใน UC-04 ทั้งรูปภาพ คะแนนรีวิว สิ่งอำนวยความสะดวก และแผนที่
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth,keepaspectratio]{images/diagram-mockup-events.png}
+\caption{Wireframe การเรียกดูข้อมูลกิจกรรมและเทศกาล (รายการกิจกรรม และรายละเอียดกิจกรรม)}
+\label{fig:mockup_events}
+\end{figure}
+
+ภาพที่ \ref{fig:mockup_events} แสดง Wireframe การเรียกดูข้อมูลกิจกรรมและเทศกาล ซึ่งมีโครงสร้างหน้าจอสอดคล้องกับการเรียกดูข้อมูลสถานที่ ประกอบด้วยหน้ารายการกิจกรรมทั้งหมด (Events List) และหน้ารายละเอียดกิจกรรม (Event Detail) ตามที่กำหนดไว้ใน UC-05
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,keepaspectratio]{images/diagram-mockup-trip.png}
+\caption{Wireframe ขั้นตอนการสร้างแผนการเดินทาง ตั้งแต่แบบฟอร์มระบุเงื่อนไขจนถึงหน้าแสดงผลแผนการเดินทาง}
+\label{fig:mockup_trip}
+\end{figure}
+
+ภาพที่ \ref{fig:mockup_trip} แสดง Wireframe ของฟังก์ชันสร้างแผนการเดินทาง (Trip Planning) ตามลำดับขั้นตอนของแบบฟอร์มแบบหลายขั้นตอน (Multi-step Form) 4 ขั้นตอน ได้แก่ วันเดินทาง ความสนใจ งบประมาณและขอบเขตพื้นที่ และช่วงเวลาในแต่ละวัน ตามที่กำหนดไว้ใน UC-06 ก่อนเข้าสู่หน้าสถานะกำลังประมวลผล (Trip Loading) ระหว่างรอผลลัพธ์จาก AI Service และหน้าแสดงผลแผนการเดินทาง (Trip Result) ที่สรุปแผนรายวันพร้อมตัวเลือกปรับแผนเพิ่มเติมตาม UC-07
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.55\textwidth,keepaspectratio]{images/diagram-mockup-points.png}
+\caption{Wireframe หน้าพอยท์สะสมและการแลกของรางวัล}
+\label{fig:mockup_points}
+\end{figure}
+
+ภาพที่ \ref{fig:mockup_points} แสดงหน้าพอยท์สะสม (Points) ซึ่งแสดงยอดพอยท์คงเหลือ ปุ่มสแกน QR Code เพื่อสะสมพอยท์ และรายการของรางวัลที่สามารถแลกได้ ตามที่กำหนดไว้ใน UC-03 และ UC-08
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.75\textwidth,keepaspectratio]{images/diagram-mockup-auth.png}
+\caption{Wireframe หน้าเข้าสู่ระบบและสมัครสมาชิกสำหรับนักท่องเที่ยว}
+\label{fig:mockup_auth}
+\end{figure}
+
+ภาพที่ \ref{fig:mockup_auth} แสดงหน้าเข้าสู่ระบบ (Login) และสมัครสมาชิก (Signup) สำหรับนักท่องเที่ยว ซึ่งเป็นเงื่อนไขเบื้องต้นก่อนการใช้งานฟังก์ชันที่ผูกกับบัญชีผู้ใช้ เช่น การสะสมพอยท์
+
 \subsubsection{ส่วนของผู้ดูแลระบบ (Admin-Side)}
 
-ได้รับการออกแบบในรูปแบบเว็บแอปพลิเคชัน (Web Application) เดียวกันกับฝั่งผู้ใช้งานทั่วไป (คนละเส้นทาง/Route ในโปรเจกต์เดียวกัน ไม่ใช่แอปพลิเคชันแยก) สำหรับการใช้งานบนคอมพิวเตอร์ เพื่อประสิทธิภาพในการบริหารจัดการฐานข้อมูลขนาดใหญ่ ประกอบด้วยส่วนการทำงานหลัก ได้แก่
+ได้รับการออกแบบในรูปแบบเว็บแอปพลิเคชัน เดียวกันกับฝั่งผู้ใช้งานทั่วไป (คนละเส้นทาง/Route ในโปรเจกต์เดียวกัน ไม่ใช่แอปพลิเคชันแยก) สำหรับการใช้งานบนคอมพิวเตอร์ เพื่อประสิทธิภาพในการบริหารจัดการฐานข้อมูลขนาดใหญ่ ประกอบด้วยส่วนการทำงานหลัก ได้แก่
 
 \begin{enumerate}[label=(2.\arabic*),leftmargin=0pt,itemindent=\dimexpr\parindent+\parenlabelwidth+1em+\subParenLabelWidth+1em\relax,align=right,labelwidth=\subParenLabelWidth,labelsep=1em]
 \item หน้ากระดานสรุปข้อมูล (Dashboard): แสดงผลภาพรวมของระบบ
@@ -890,6 +934,15 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 \end{figure}
 
 ภาพที่ \ref{fig:wireframe_admin} แสดง Wireframe ของ Admin Portal เริ่มตั้งแต่หน้าเข้าสู่ระบบ (Admin Login) ตาม UC-11 หน้าแดชบอร์ด (Admin Dashboard) ที่สรุปภาพรวมสถิติของระบบตาม UC-14 จนถึงแบบฟอร์มจัดการข้อมูลสถานที่ (Place Form) ซึ่งใช้โครงสร้างรูปแบบเดียวกันกับแบบฟอร์มจัดการข้อมูลกิจกรรมและฐานความรู้ตาม UC-06.1/6.2/6.3
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth,keepaspectratio]{images/diagram-mockup-admin.png}
+\caption{Wireframe ส่วนผู้ดูแลระบบ (หน้าเข้าสู่ระบบ, แดชบอร์ด และแบบฟอร์มจัดการข้อมูลสถานที่)}
+\label{fig:mockup_admin}
+\end{figure}
+
+ภาพที่ \ref{fig:mockup_admin} แสดง Wireframe ของ Admin Portal เริ่มตั้งแต่หน้าเข้าสู่ระบบ (Admin Login) ตาม UC-11 หน้าแดชบอร์ด (Admin Dashboard) ที่สรุปภาพรวมสถิติของระบบตาม UC-14 จนถึงแบบฟอร์มจัดการข้อมูลสถานที่ (Place Form) ซึ่งใช้โครงสร้างรูปแบบเดียวกันกับแบบฟอร์มจัดการข้อมูลกิจกรรมและฐานความรู้ตาม UC-06.1/6.2/6.3
 
 % -----------------------------------------------------------
 \section{การพัฒนาโปรแกรม}

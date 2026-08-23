@@ -1,0 +1,1459 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{apa/apasortcite//global/global/global}
+    \entry{goizha2023}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=550fcbbb5638b01735e07808f0da1162}{%
+           family={Ali},
+           familyi={A\bibinitperiod},
+           given={A.\bibnamedelimi A.},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e9ea957f86e546f362692b9078aaff38}{%
+           family={Kaka-khan},
+           familyi={K\bibinithyphendelim k\bibinitperiod},
+           given={K.\bibnamedelimi M.},
+           giveni={K\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3aae64b5ef65d0e2afe1a031a294dd97}{%
+           family={Al-chalabi},
+           familyi={A\bibinithyphendelim c\bibinitperiod},
+           given={I.\bibnamedelimi A.},
+           giveni={I\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{b3c57e9e62a936a667f654f216588951}
+      \strng{fullhash}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{fullhashraw}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{bibnamehash}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{authorbibnamehash}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{authornamehash}{b3c57e9e62a936a667f654f216588951}
+      \strng{authorfullhash}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{authorfullhashraw}{0fb85c24ff3003975c32a59504c010c5}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Journal of Duhok University}
+      \field{number}{2}
+      \field{title}{Chatbot-based Tourist Guide Using Artificial Intelligence Markup Language}
+      \field{volume}{26}
+      \field{year}{2023}
+      \field{pages}{578\bibrangedash 587}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.26682/csjuod.2023.26.2.52
+      \endverb
+    \endentry
+    \entry{banerjee2025}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=049f998199448809de9a1a14e212758d}{%
+           family={Banerjee},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=efa09f68eca9bab77f780954ff963641}{%
+           family={Satish},
+           familyi={S\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bafbb83fb5e6e5bb5336a587352df392}{%
+           family={Wörndl},
+           familyi={W\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{144bb6b969370c80dd619a5184d1be49}
+      \strng{fullhash}{22022a07a49fae460334d795d8001a6f}
+      \strng{fullhashraw}{22022a07a49fae460334d795d8001a6f}
+      \strng{bibnamehash}{22022a07a49fae460334d795d8001a6f}
+      \strng{authorbibnamehash}{22022a07a49fae460334d795d8001a6f}
+      \strng{authornamehash}{144bb6b969370c80dd619a5184d1be49}
+      \strng{authorfullhash}{22022a07a49fae460334d795d8001a6f}
+      \strng{authorfullhashraw}{22022a07a49fae460334d795d8001a6f}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Enhancing Tourism Recommender Systems for Sustainable City Trips Using Retrieval-Augmented Generation}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1007/978-3-031-87654-7_3
+      \endverb
+    \endentry
+    \entry{barua2024}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3a143c301a451f420bf259c638722a07}{%
+           family={Barua},
+           familyi={B\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=33b24da876ae49e293a785479d4c3ed4}{%
+           family={Kaiser},
+           familyi={K\bibinitperiod},
+           given={M.\bibnamedelimi S.},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{fullhash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{fullhashraw}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{bibnamehash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{authorbibnamehash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{authornamehash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{authorfullhash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{authorfullhashraw}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{arXiv}
+      \field{title}{Optimizing Travel Itineraries with AI Algorithms in a Microservices Architecture: Balancing Cost, Time, Preferences, and Sustainability}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2410.17943
+      \endverb
+    \endentry
+    \entry{deshmukh2025}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=5132acc8e8b5cc0ecf0ee3ba322e72ca}{%
+           family={Deshmukh},
+           familyi={D\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5faa0905ce9e85252fbed0529647d36d}{%
+           family={Khan},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=695ab8d4318a7896c01538526513a9f4}{%
+           family={Upadhyay},
+           familyi={U\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5957cbe7ef7ac820e7fabdc44b45c68b}{%
+           family={Savalkar},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{14c79583598e57125eeccb0d5281cf28}
+      \strng{fullhash}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{fullhashraw}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{bibnamehash}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{authorbibnamehash}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{authornamehash}{14c79583598e57125eeccb0d5281cf28}
+      \strng{authorfullhash}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{authorfullhashraw}{f151406b5a6732de4eb18d7b6c89a15f}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IJSAT - International Journal on Science and Technology}
+      \field{number}{2}
+      \field{title}{AI-Powered Personalized Travel Itinerary Planning Using Real-Time Data}
+      \field{volume}{16}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.71097/IJSAT.v16.i2.3867
+      \endverb
+    \endentry
+    \entry{gu2025}{misc}{}{}
+      \name{author}{16}{}{%
+        {{un=0,uniquepart=base,hash=a24b90d8a1def1c1f188d425061f2a35}{%
+           family={Gu},
+           familyi={G\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=908934508904d19aa8b4feb3bcd6e64a}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0f3e0cdea592f7a95f0d93e656878cbe}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=23b68da1de2b77d74da9da2635722a3e}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=18cf6584fb4b744b006a5b1701d640b8}{%
+           family={Zhai},
+           familyi={Z\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9e3f5382bd82f58980e0e9c0368f63fc}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6e5b0e6cca2615e3baa1c9fd08a1f208}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c683dca86043405be8fb1d3009bc1604}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5e538d7c5ab3d9762c299955fb081ce2}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=240f15f7d0b589c89d5552453f46785d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd6c1d35aed39fa11fcfba0d353120d6}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9ac5c6e1891a9d327b6cf9dce9924eaa}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61ad10c626e1d641e0b1d7b5f48d3233}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fd45ec1ffa48e8b38c950f320f981dc3}{%
+           family={Gao},
+           familyi={G\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=57abc1eda4dab93ad3671d172bb5dba2}{%
+           family={Ni},
+           familyi={N\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28f6068ba57e60c5e27fc2490a8e1ffd}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{85dafe0ff05711eb5fd2cd1f34615c7a}
+      \strng{fullhash}{50d489e28f41904904f1295392611383}
+      \strng{fullhashraw}{50d489e28f41904904f1295392611383}
+      \strng{bibnamehash}{50d489e28f41904904f1295392611383}
+      \strng{authorbibnamehash}{50d489e28f41904904f1295392611383}
+      \strng{authornamehash}{85dafe0ff05711eb5fd2cd1f34615c7a}
+      \strng{authorfullhash}{50d489e28f41904904f1295392611383}
+      \strng{authorfullhashraw}{50d489e28f41904904f1295392611383}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{arXiv}
+      \field{title}{A Survey on LLM-as-a-Judge}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arXiv.2411.15594
+      \endverb
+    \endentry
+    \entry{jyothi2025}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=5c9acf9a5141bc5257e3d3738736c775}{%
+           family={Jyothi},
+           familyi={J\bibinitperiod},
+           given={A.\bibnamedelimi N.},
+           giveni={A\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=139aba931f9a9a5c8c0715c0d5265250}{%
+           family={Adimulam},
+           familyi={A\bibinitperiod},
+           given={G.\bibnamedelimi R.},
+           giveni={G\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e3544205420e8a3d27b223cfa4b67c9f}{%
+           family={Neelam},
+           familyi={N\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6c7f279d55c724e7ad137c30c86105b7}{%
+           family={Gowud\bibnamedelima Vnl},
+           familyi={G\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={J.\bibnamedelimi N.},
+           giveni={J\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5701e68ff8fccae22aa5dc580344f43e}{%
+           family={Unnamatla},
+           familyi={U\bibinitperiod},
+           given={R.\bibnamedelimi K.},
+           giveni={R\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e6b510141f71d776ffedb930143b68bc}{%
+           family={Tumpati},
+           familyi={T\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c0102aee0543d555425d5634a79920eb}
+      \strng{fullhash}{157831ae33a7f34176db293cd47b0cad}
+      \strng{fullhashraw}{157831ae33a7f34176db293cd47b0cad}
+      \strng{bibnamehash}{157831ae33a7f34176db293cd47b0cad}
+      \strng{authorbibnamehash}{157831ae33a7f34176db293cd47b0cad}
+      \strng{authornamehash}{c0102aee0543d555425d5634a79920eb}
+      \strng{authorfullhash}{157831ae33a7f34176db293cd47b0cad}
+      \strng{authorfullhashraw}{157831ae33a7f34176db293cd47b0cad}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Innovative Science and Research Technology}
+      \field{title}{Travel Finder -- An AI-powered Travel Planning and Recommendation System}
+      \field{year}{2025}
+      \field{pages}{697\bibrangedash 706}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.38124/ijisrt/25apr515
+      \endverb
+    \endentry
+    \entry{ma2025}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=fb5099420e346e566d6650f9def3512a}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=60aeb23a507616b6ae2488ddaab41f0e}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=548eaf1397ad6485b7f79282d8a68565}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Hangzhou, China}%
+      }
+      \list{organization}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{dcb5e1fbd88e241cc6422ec81290b565}
+      \strng{fullhash}{808a6023636f6670295807e184fc2d03}
+      \strng{fullhashraw}{808a6023636f6670295807e184fc2d03}
+      \strng{bibnamehash}{808a6023636f6670295807e184fc2d03}
+      \strng{authorbibnamehash}{808a6023636f6670295807e184fc2d03}
+      \strng{authornamehash}{dcb5e1fbd88e241cc6422ec81290b565}
+      \strng{authorfullhash}{808a6023636f6670295807e184fc2d03}
+      \strng{authorfullhashraw}{808a6023636f6670295807e184fc2d03}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the 2025 2nd International Conference on Generative Artificial Intelligence and Information Security}
+      \field{title}{Crossroads of AI and Tourism: Enhancing Destination Management and Traveler Engagement}
+      \field{year}{2025}
+      \field{pages}{31\bibrangedash 36}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1145/3728725.3728731
+      \endverb
+    \endentry
+    \entry{milton2023}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=87c2b2dbe96e0f200f8ea8526b1931f4}{%
+           family={Milton},
+           familyi={M\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c983a3f8f17c9c2d85f6db1bbeda5ab2}{%
+           family={Philosophers},
+           familyi={P\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{fullhash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{fullhashraw}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{bibnamehash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{authorbibnamehash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{authornamehash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{authorfullhash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{authorfullhashraw}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Artificial Intelligence in Tourism -- A review of Trends Opportunities and Challenges}
+      \field{volume}{1}
+      \field{year}{2023}
+      \field{pages}{01\bibrangedash 11}
+      \range{pages}{11}
+    \endentry
+    \entry{shao2025}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=8bb65e5257c67c47472b230833f96f7a}{%
+           family={Shao},
+           familyi={S\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c9667b22c99aad50bf67c2b9c7a7e6e3}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2bdd48dc68b3d7c9d63e3844f2459fd6}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bbe869383a7d3458b82c516a21e4482c}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Vienna, Austria}%
+      }
+      \list{organization}{1}{%
+        {Association for Computational Linguistics}%
+      }
+      \strng{namehash}{f8b275b49d9279bb343953846a73c0c4}
+      \strng{fullhash}{c63f4c8beefb58d83724e704678c7059}
+      \strng{fullhashraw}{c63f4c8beefb58d83724e704678c7059}
+      \strng{bibnamehash}{c63f4c8beefb58d83724e704678c7059}
+      \strng{authorbibnamehash}{c63f4c8beefb58d83724e704678c7059}
+      \strng{authornamehash}{f8b275b49d9279bb343953846a73c0c4}
+      \strng{authorfullhash}{c63f4c8beefb58d83724e704678c7059}
+      \strng{authorfullhashraw}{c63f4c8beefb58d83724e704678c7059}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)}
+      \field{title}{Personal Travel Solver: A Preference-Driven LLM-Solver System for Travel Planning}
+      \field{year}{2025}
+      \field{pages}{27622\bibrangedash 27642}
+      \range{pages}{21}
+      \verb{doi}
+      \verb 10.18653/v1/2025.acl-long.1339
+      \endverb
+    \endentry
+    \entry{sousa2024}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=1e897662209499b86e11b1a8281be3b3}{%
+           family={Sousa},
+           familyi={S\bibinitperiod},
+           given={A.\bibnamedelimi E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f05d84e5b7281cf40c58bb6bcb226798}{%
+           family={Cardoso},
+           familyi={C\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f7897c0a73497e0963be606715bf1dae}{%
+           family={Dias},
+           familyi={D\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{dd8d462c8a55232775303192076df706}
+      \strng{fullhash}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{fullhashraw}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{bibnamehash}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{authorbibnamehash}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{authornamehash}{dd8d462c8a55232775303192076df706}
+      \strng{authorfullhash}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{authorfullhashraw}{ff8dd6872d2334ef72b75857cb5125df}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Administrative Sciences}
+      \field{number}{8}
+      \field{title}{The Use of Artificial Intelligence Systems in Tourism and Hospitality: The Tourists' Perspective}
+      \field{volume}{14}
+      \field{year}{2024}
+      \field{pages}{165}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/admsci14080165
+      \endverb
+    \endentry
+    \entry{xie2024}{article}{}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=c07ce798bf4593ee8c16430742968c61}{%
+           family={Xie},
+           familyi={X\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9ac5c6e1891a9d327b6cf9dce9924eaa}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=38241eaee18102cab15a125b0654c7da}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4384032fd4cd9930b51f4647a8b4edb4}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=426b304ecacf06c99a493e5b2e56630f}{%
+           family={Lou},
+           familyi={L\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55014134b0a3c9c678f7044c5c602948}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e0eafbc1c76e39410a36e75fc2abafc6}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1fd38aa73e6bf9efc15dbd3a6f782bc1}{%
+           family={Su},
+           familyi={S\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1bfdf074d9bdad209e5e7efda20794cf}
+      \strng{fullhash}{2e357b88f6df760d95be2d0772a76439}
+      \strng{fullhashraw}{2e357b88f6df760d95be2d0772a76439}
+      \strng{bibnamehash}{2e357b88f6df760d95be2d0772a76439}
+      \strng{authorbibnamehash}{2e357b88f6df760d95be2d0772a76439}
+      \strng{authornamehash}{1bfdf074d9bdad209e5e7efda20794cf}
+      \strng{authorfullhash}{2e357b88f6df760d95be2d0772a76439}
+      \strng{authorfullhashraw}{2e357b88f6df760d95be2d0772a76439}
+      \field{sortinit}{X}
+      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the 41st International Conference on Machine Learning}
+      \field{title}{TravelPlanner: A Benchmark for Real-World Planning with Language Agents}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2402.01622
+      \endverb
+    \endentry
+    \entry{zheng2024}{misc}{}{}
+      \name{author}{11}{}{%
+        {{un=0,uniquepart=base,hash=4b418f9f36fd366d77621aeb9641678e}{%
+           family={Zheng},
+           familyi={Z\bibinitperiod},
+           given={H.\bibnamedelimi S.},
+           giveni={H\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cf6175868a36df58c12a4f225404732a}{%
+           family={Mishra},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32e563370422457790db030ab2c13183}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=60aeb23a507616b6ae2488ddaab41f0e}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=802879972afa5bd206c5988365d10ca8}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=602d34f906f8f2def19e7b88e539459a}{%
+           family={Nova},
+           familyi={N\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b49148177853ad89c516ef2a9ce6b3d1}{%
+           family={Hou},
+           familyi={H\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4dd1cc41a36cd4a423fd8d615a929935}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bc4e66397f700c1cd162b9d995c614e3}{%
+           family={Le},
+           familyi={L\bibinitperiod},
+           given={Q.\bibnamedelimi V.},
+           giveni={Q\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=72374d61959b32265e4b32441c708175}{%
+           family={Chi},
+           familyi={C\bibinitperiod},
+           given={E.\bibnamedelimi H.},
+           giveni={E\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4443ec196d33177034f347dbb5c1a325}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{b3c1b7532eedb1d83d4c36fa2b36f5b8}
+      \strng{fullhash}{6313454c8a104494677777df21d549e5}
+      \strng{fullhashraw}{6313454c8a104494677777df21d549e5}
+      \strng{bibnamehash}{6313454c8a104494677777df21d549e5}
+      \strng{authorbibnamehash}{6313454c8a104494677777df21d549e5}
+      \strng{authornamehash}{b3c1b7532eedb1d83d4c36fa2b36f5b8}
+      \strng{authorfullhash}{6313454c8a104494677777df21d549e5}
+      \strng{authorfullhashraw}{6313454c8a104494677777df21d549e5}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{arXiv}
+      \field{title}{NATURAL PLAN: Benchmarking LLMs on Natural Language Planning}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2406.04520
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{apa/global//global/global/global}
+    \entry{goizha2023}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=550fcbbb5638b01735e07808f0da1162}{%
+           family={Ali},
+           familyi={A\bibinitperiod},
+           given={A.\bibnamedelimi A.},
+           giveni={A\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e9ea957f86e546f362692b9078aaff38}{%
+           family={Kaka-khan},
+           familyi={K\bibinithyphendelim k\bibinitperiod},
+           given={K.\bibnamedelimi M.},
+           giveni={K\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=3aae64b5ef65d0e2afe1a031a294dd97}{%
+           family={Al-chalabi},
+           familyi={A\bibinithyphendelim c\bibinitperiod},
+           given={I.\bibnamedelimi A.},
+           giveni={I\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{b3c57e9e62a936a667f654f216588951}
+      \strng{fullhash}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{fullhashraw}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{bibnamehash}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{authorbibnamehash}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{authornamehash}{b3c57e9e62a936a667f654f216588951}
+      \strng{authorfullhash}{0fb85c24ff3003975c32a59504c010c5}
+      \strng{authorfullhashraw}{0fb85c24ff3003975c32a59504c010c5}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Journal of Duhok University}
+      \field{number}{2}
+      \field{title}{Chatbot-based Tourist Guide Using Artificial Intelligence Markup Language}
+      \field{volume}{26}
+      \field{year}{2023}
+      \field{pages}{578\bibrangedash 587}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.26682/csjuod.2023.26.2.52
+      \endverb
+    \endentry
+    \entry{banerjee2025}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=049f998199448809de9a1a14e212758d}{%
+           family={Banerjee},
+           familyi={B\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=efa09f68eca9bab77f780954ff963641}{%
+           family={Satish},
+           familyi={S\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bafbb83fb5e6e5bb5336a587352df392}{%
+           family={Wörndl},
+           familyi={W\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{144bb6b969370c80dd619a5184d1be49}
+      \strng{fullhash}{22022a07a49fae460334d795d8001a6f}
+      \strng{fullhashraw}{22022a07a49fae460334d795d8001a6f}
+      \strng{bibnamehash}{22022a07a49fae460334d795d8001a6f}
+      \strng{authorbibnamehash}{22022a07a49fae460334d795d8001a6f}
+      \strng{authornamehash}{144bb6b969370c80dd619a5184d1be49}
+      \strng{authorfullhash}{22022a07a49fae460334d795d8001a6f}
+      \strng{authorfullhashraw}{22022a07a49fae460334d795d8001a6f}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Enhancing Tourism Recommender Systems for Sustainable City Trips Using Retrieval-Augmented Generation}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.1007/978-3-031-87654-7_3
+      \endverb
+    \endentry
+    \entry{barua2024}{misc}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=3a143c301a451f420bf259c638722a07}{%
+           family={Barua},
+           familyi={B\bibinitperiod},
+           given={B.},
+           giveni={B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=33b24da876ae49e293a785479d4c3ed4}{%
+           family={Kaiser},
+           familyi={K\bibinitperiod},
+           given={M.\bibnamedelimi S.},
+           giveni={M\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{fullhash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{fullhashraw}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{bibnamehash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{authorbibnamehash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{authornamehash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{authorfullhash}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \strng{authorfullhashraw}{2f3fe8fb7fe64cc7391d4f339835ce67}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{arXiv}
+      \field{title}{Optimizing Travel Itineraries with AI Algorithms in a Microservices Architecture: Balancing Cost, Time, Preferences, and Sustainability}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2410.17943
+      \endverb
+    \endentry
+    \entry{deshmukh2025}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=5132acc8e8b5cc0ecf0ee3ba322e72ca}{%
+           family={Deshmukh},
+           familyi={D\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5faa0905ce9e85252fbed0529647d36d}{%
+           family={Khan},
+           familyi={K\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=695ab8d4318a7896c01538526513a9f4}{%
+           family={Upadhyay},
+           familyi={U\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5957cbe7ef7ac820e7fabdc44b45c68b}{%
+           family={Savalkar},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{14c79583598e57125eeccb0d5281cf28}
+      \strng{fullhash}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{fullhashraw}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{bibnamehash}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{authorbibnamehash}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{authornamehash}{14c79583598e57125eeccb0d5281cf28}
+      \strng{authorfullhash}{f151406b5a6732de4eb18d7b6c89a15f}
+      \strng{authorfullhashraw}{f151406b5a6732de4eb18d7b6c89a15f}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{IJSAT - International Journal on Science and Technology}
+      \field{number}{2}
+      \field{title}{AI-Powered Personalized Travel Itinerary Planning Using Real-Time Data}
+      \field{volume}{16}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.71097/IJSAT.v16.i2.3867
+      \endverb
+    \endentry
+    \entry{gu2025}{misc}{}{}
+      \name{author}{16}{}{%
+        {{un=0,uniquepart=base,hash=a24b90d8a1def1c1f188d425061f2a35}{%
+           family={Gu},
+           familyi={G\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=908934508904d19aa8b4feb3bcd6e64a}{%
+           family={Jiang},
+           familyi={J\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0f3e0cdea592f7a95f0d93e656878cbe}{%
+           family={Shi},
+           familyi={S\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=23b68da1de2b77d74da9da2635722a3e}{%
+           family={Tan},
+           familyi={T\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=18cf6584fb4b744b006a5b1701d640b8}{%
+           family={Zhai},
+           familyi={Z\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9e3f5382bd82f58980e0e9c0368f63fc}{%
+           family={Xu},
+           familyi={X\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6e5b0e6cca2615e3baa1c9fd08a1f208}{%
+           family={Li},
+           familyi={L\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c683dca86043405be8fb1d3009bc1604}{%
+           family={Shen},
+           familyi={S\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5e538d7c5ab3d9762c299955fb081ce2}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=240f15f7d0b589c89d5552453f46785d}{%
+           family={Liu},
+           familyi={L\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cd6c1d35aed39fa11fcfba0d353120d6}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9ac5c6e1891a9d327b6cf9dce9924eaa}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=61ad10c626e1d641e0b1d7b5f48d3233}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fd45ec1ffa48e8b38c950f320f981dc3}{%
+           family={Gao},
+           familyi={G\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=57abc1eda4dab93ad3671d172bb5dba2}{%
+           family={Ni},
+           familyi={N\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=28f6068ba57e60c5e27fc2490a8e1ffd}{%
+           family={Guo},
+           familyi={G\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{85dafe0ff05711eb5fd2cd1f34615c7a}
+      \strng{fullhash}{50d489e28f41904904f1295392611383}
+      \strng{fullhashraw}{50d489e28f41904904f1295392611383}
+      \strng{bibnamehash}{50d489e28f41904904f1295392611383}
+      \strng{authorbibnamehash}{50d489e28f41904904f1295392611383}
+      \strng{authornamehash}{85dafe0ff05711eb5fd2cd1f34615c7a}
+      \strng{authorfullhash}{50d489e28f41904904f1295392611383}
+      \strng{authorfullhashraw}{50d489e28f41904904f1295392611383}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{arXiv}
+      \field{title}{A Survey on LLM-as-a-Judge}
+      \field{year}{2025}
+      \verb{doi}
+      \verb 10.48550/arXiv.2411.15594
+      \endverb
+    \endentry
+    \entry{jyothi2025}{article}{}{}
+      \name{author}{6}{}{%
+        {{un=0,uniquepart=base,hash=5c9acf9a5141bc5257e3d3738736c775}{%
+           family={Jyothi},
+           familyi={J\bibinitperiod},
+           given={A.\bibnamedelimi N.},
+           giveni={A\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=139aba931f9a9a5c8c0715c0d5265250}{%
+           family={Adimulam},
+           familyi={A\bibinitperiod},
+           given={G.\bibnamedelimi R.},
+           giveni={G\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e3544205420e8a3d27b223cfa4b67c9f}{%
+           family={Neelam},
+           familyi={N\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6c7f279d55c724e7ad137c30c86105b7}{%
+           family={Gowud\bibnamedelima Vnl},
+           familyi={G\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={J.\bibnamedelimi N.},
+           giveni={J\bibinitperiod\bibinitdelim N\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5701e68ff8fccae22aa5dc580344f43e}{%
+           family={Unnamatla},
+           familyi={U\bibinitperiod},
+           given={R.\bibnamedelimi K.},
+           giveni={R\bibinitperiod\bibinitdelim K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e6b510141f71d776ffedb930143b68bc}{%
+           family={Tumpati},
+           familyi={T\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{c0102aee0543d555425d5634a79920eb}
+      \strng{fullhash}{157831ae33a7f34176db293cd47b0cad}
+      \strng{fullhashraw}{157831ae33a7f34176db293cd47b0cad}
+      \strng{bibnamehash}{157831ae33a7f34176db293cd47b0cad}
+      \strng{authorbibnamehash}{157831ae33a7f34176db293cd47b0cad}
+      \strng{authornamehash}{c0102aee0543d555425d5634a79920eb}
+      \strng{authorfullhash}{157831ae33a7f34176db293cd47b0cad}
+      \strng{authorfullhashraw}{157831ae33a7f34176db293cd47b0cad}
+      \field{sortinit}{J}
+      \field{sortinithash}{b2f54a9081ace9966a7cb9413811edb4}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{International Journal of Innovative Science and Research Technology}
+      \field{title}{Travel Finder -- An AI-powered Travel Planning and Recommendation System}
+      \field{year}{2025}
+      \field{pages}{697\bibrangedash 706}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.38124/ijisrt/25apr515
+      \endverb
+    \endentry
+    \entry{ma2025}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=fb5099420e346e566d6650f9def3512a}{%
+           family={Ma},
+           familyi={M\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=60aeb23a507616b6ae2488ddaab41f0e}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=548eaf1397ad6485b7f79282d8a68565}{%
+           family={Yuan},
+           familyi={Y\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Hangzhou, China}%
+      }
+      \list{organization}{1}{%
+        {ACM}%
+      }
+      \strng{namehash}{dcb5e1fbd88e241cc6422ec81290b565}
+      \strng{fullhash}{808a6023636f6670295807e184fc2d03}
+      \strng{fullhashraw}{808a6023636f6670295807e184fc2d03}
+      \strng{bibnamehash}{808a6023636f6670295807e184fc2d03}
+      \strng{authorbibnamehash}{808a6023636f6670295807e184fc2d03}
+      \strng{authornamehash}{dcb5e1fbd88e241cc6422ec81290b565}
+      \strng{authorfullhash}{808a6023636f6670295807e184fc2d03}
+      \strng{authorfullhashraw}{808a6023636f6670295807e184fc2d03}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the 2025 2nd International Conference on Generative Artificial Intelligence and Information Security}
+      \field{title}{Crossroads of AI and Tourism: Enhancing Destination Management and Traveler Engagement}
+      \field{year}{2025}
+      \field{pages}{31\bibrangedash 36}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.1145/3728725.3728731
+      \endverb
+    \endentry
+    \entry{milton2023}{article}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=87c2b2dbe96e0f200f8ea8526b1931f4}{%
+           family={Milton},
+           familyi={M\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c983a3f8f17c9c2d85f6db1bbeda5ab2}{%
+           family={Philosophers},
+           familyi={P\bibinitperiod},
+           given={C.},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{fullhash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{fullhashraw}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{bibnamehash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{authorbibnamehash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{authornamehash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{authorfullhash}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \strng{authorfullhashraw}{fd18c6c3815b699cc7c8e5f437e04c13}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Artificial Intelligence in Tourism -- A review of Trends Opportunities and Challenges}
+      \field{volume}{1}
+      \field{year}{2023}
+      \field{pages}{01\bibrangedash 11}
+      \range{pages}{11}
+    \endentry
+    \entry{shao2025}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=8bb65e5257c67c47472b230833f96f7a}{%
+           family={Shao},
+           familyi={S\bibinitperiod},
+           given={Z.},
+           giveni={Z\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c9667b22c99aad50bf67c2b9c7a7e6e3}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2bdd48dc68b3d7c9d63e3844f2459fd6}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={W.},
+           giveni={W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bbe869383a7d3458b82c516a21e4482c}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{location}{1}{%
+        {Vienna, Austria}%
+      }
+      \list{organization}{1}{%
+        {Association for Computational Linguistics}%
+      }
+      \strng{namehash}{f8b275b49d9279bb343953846a73c0c4}
+      \strng{fullhash}{c63f4c8beefb58d83724e704678c7059}
+      \strng{fullhashraw}{c63f4c8beefb58d83724e704678c7059}
+      \strng{bibnamehash}{c63f4c8beefb58d83724e704678c7059}
+      \strng{authorbibnamehash}{c63f4c8beefb58d83724e704678c7059}
+      \strng{authornamehash}{f8b275b49d9279bb343953846a73c0c4}
+      \strng{authorfullhash}{c63f4c8beefb58d83724e704678c7059}
+      \strng{authorfullhashraw}{c63f4c8beefb58d83724e704678c7059}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)}
+      \field{title}{Personal Travel Solver: A Preference-Driven LLM-Solver System for Travel Planning}
+      \field{year}{2025}
+      \field{pages}{27622\bibrangedash 27642}
+      \range{pages}{21}
+      \verb{doi}
+      \verb 10.18653/v1/2025.acl-long.1339
+      \endverb
+    \endentry
+    \entry{sousa2024}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=1e897662209499b86e11b1a8281be3b3}{%
+           family={Sousa},
+           familyi={S\bibinitperiod},
+           given={A.\bibnamedelimi E.},
+           giveni={A\bibinitperiod\bibinitdelim E\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f05d84e5b7281cf40c58bb6bcb226798}{%
+           family={Cardoso},
+           familyi={C\bibinitperiod},
+           given={P.},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=f7897c0a73497e0963be606715bf1dae}{%
+           family={Dias},
+           familyi={D\bibinitperiod},
+           given={F.},
+           giveni={F\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{dd8d462c8a55232775303192076df706}
+      \strng{fullhash}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{fullhashraw}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{bibnamehash}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{authorbibnamehash}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{authornamehash}{dd8d462c8a55232775303192076df706}
+      \strng{authorfullhash}{ff8dd6872d2334ef72b75857cb5125df}
+      \strng{authorfullhashraw}{ff8dd6872d2334ef72b75857cb5125df}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Administrative Sciences}
+      \field{number}{8}
+      \field{title}{The Use of Artificial Intelligence Systems in Tourism and Hospitality: The Tourists' Perspective}
+      \field{volume}{14}
+      \field{year}{2024}
+      \field{pages}{165}
+      \range{pages}{1}
+      \verb{doi}
+      \verb 10.3390/admsci14080165
+      \endverb
+    \endentry
+    \entry{xie2024}{article}{}{}
+      \name{author}{8}{}{%
+        {{un=0,uniquepart=base,hash=c07ce798bf4593ee8c16430742968c61}{%
+           family={Xie},
+           familyi={X\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9ac5c6e1891a9d327b6cf9dce9924eaa}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={K.},
+           giveni={K\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=38241eaee18102cab15a125b0654c7da}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4384032fd4cd9930b51f4647a8b4edb4}{%
+           family={Zhu},
+           familyi={Z\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=426b304ecacf06c99a493e5b2e56630f}{%
+           family={Lou},
+           familyi={L\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=55014134b0a3c9c678f7044c5c602948}{%
+           family={Tian},
+           familyi={T\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=e0eafbc1c76e39410a36e75fc2abafc6}{%
+           family={Xiao},
+           familyi={X\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1fd38aa73e6bf9efc15dbd3a6f782bc1}{%
+           family={Su},
+           familyi={S\bibinitperiod},
+           given={Y.},
+           giveni={Y\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{1bfdf074d9bdad209e5e7efda20794cf}
+      \strng{fullhash}{2e357b88f6df760d95be2d0772a76439}
+      \strng{fullhashraw}{2e357b88f6df760d95be2d0772a76439}
+      \strng{bibnamehash}{2e357b88f6df760d95be2d0772a76439}
+      \strng{authorbibnamehash}{2e357b88f6df760d95be2d0772a76439}
+      \strng{authornamehash}{1bfdf074d9bdad209e5e7efda20794cf}
+      \strng{authorfullhash}{2e357b88f6df760d95be2d0772a76439}
+      \strng{authorfullhashraw}{2e357b88f6df760d95be2d0772a76439}
+      \field{sortinit}{X}
+      \field{sortinithash}{1965c258adceecf23ce3d67b05113442}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Proceedings of the 41st International Conference on Machine Learning}
+      \field{title}{TravelPlanner: A Benchmark for Real-World Planning with Language Agents}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2402.01622
+      \endverb
+    \endentry
+    \entry{zheng2024}{misc}{}{}
+      \name{author}{11}{}{%
+        {{un=0,uniquepart=base,hash=4b418f9f36fd366d77621aeb9641678e}{%
+           family={Zheng},
+           familyi={Z\bibinitperiod},
+           given={H.\bibnamedelimi S.},
+           giveni={H\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=cf6175868a36df58c12a4f225404732a}{%
+           family={Mishra},
+           familyi={M\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=32e563370422457790db030ab2c13183}{%
+           family={Zhang},
+           familyi={Z\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=60aeb23a507616b6ae2488ddaab41f0e}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={X.},
+           giveni={X\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=802879972afa5bd206c5988365d10ca8}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={M.},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=602d34f906f8f2def19e7b88e539459a}{%
+           family={Nova},
+           familyi={N\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=b49148177853ad89c516ef2a9ce6b3d1}{%
+           family={Hou},
+           familyi={H\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4dd1cc41a36cd4a423fd8d615a929935}{%
+           family={Cheng},
+           familyi={C\bibinitperiod},
+           given={H.},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bc4e66397f700c1cd162b9d995c614e3}{%
+           family={Le},
+           familyi={L\bibinitperiod},
+           given={Q.\bibnamedelimi V.},
+           giveni={Q\bibinitperiod\bibinitdelim V\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=72374d61959b32265e4b32441c708175}{%
+           family={Chi},
+           familyi={C\bibinitperiod},
+           given={E.\bibnamedelimi H.},
+           giveni={E\bibinitperiod\bibinitdelim H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4443ec196d33177034f347dbb5c1a325}{%
+           family={Zhou},
+           familyi={Z\bibinitperiod},
+           given={D.},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \strng{namehash}{b3c1b7532eedb1d83d4c36fa2b36f5b8}
+      \strng{fullhash}{6313454c8a104494677777df21d549e5}
+      \strng{fullhashraw}{6313454c8a104494677777df21d549e5}
+      \strng{bibnamehash}{6313454c8a104494677777df21d549e5}
+      \strng{authorbibnamehash}{6313454c8a104494677777df21d549e5}
+      \strng{authornamehash}{b3c1b7532eedb1d83d4c36fa2b36f5b8}
+      \strng{authorfullhash}{6313454c8a104494677777df21d549e5}
+      \strng{authorfullhashraw}{6313454c8a104494677777df21d549e5}
+      \field{sortinit}{Z}
+      \field{sortinithash}{96892c0b0a36bb8557c40c49813d48b3}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{howpublished}{arXiv}
+      \field{title}{NATURAL PLAN: Benchmarking LLMs on Natural Language Planning}
+      \field{year}{2024}
+      \verb{doi}
+      \verb 10.48550/arXiv.2406.04520
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
