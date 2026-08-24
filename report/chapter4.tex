@@ -630,10 +630,12 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 ระบบใช้ฐานข้อมูลเชิงสัมพันธ์ PostgreSQL ผ่านบริการ Supabase เป็นฐานข้อมูลหลักเพียงฐานเดียว โดยติดตั้งส่วนขยาย pgvector เพื่อให้คอลัมน์ embedding ในตาราง places และ knowledge\_base จัดเก็บและค้นคืนเวกเตอร์ฝังตัวเชิงความหมายได้โดยตรง จึงไม่จำเป็นต้องมีฐานข้อมูลเวกเตอร์แยกต่างหาก ส่วนข้อมูลกึ่งโครงสร้างจาก Google Places API ที่ไม่สามารถแตกเป็นคอลัมน์ตายตัวได้ทั้งหมด จัดเก็บไว้ในคอลัมน์ประเภท jsonb (raw\_data)
 
-ความสัมพันธ์ระหว่างตารางแสดงดังภาพที่ \ref{fig:erd} เขียนด้วยสัญกรณ์ Crow's Foot แสดงชื่อฟิลด์และชนิดข้อมูลของทุก Entity โดย knowledge\_base (กรอบเส้นประ) เป็น Entity อิสระที่ไม่มีความสัมพันธ์กับ Entity อื่น รายละเอียดคำอธิบายของแต่ละคอลัมน์แสดงในตารางที่ \ref{tab:db_place}--\ref{tab:db_redemptions} ถัดไป
+ความสัมพันธ์ระหว่างตารางแสดงดังภาพที่ \ref{fig:erd} เขียนด้วยสัญกรณ์ Crow's Foot แสดงชื่อฟิลด์และชนิดข้อมูลของทุก Entity โดย knowledge\_base (กรอบ standalone) เป็น Entity อิสระที่ไม่มีความสัมพันธ์กับ Entity อื่น รายละเอียดคำอธิบายของแต่ละคอลัมน์แสดงในตารางที่ \ref{tab:db_place}--\ref{tab:db_tripplanitems} ถัดไป
 
 \needspace{7\baselineskip}
 ความสัมพันธ์ ``สแกน'' (users--qrs) และ ``แลก'' (users--rewards) เป็นความสัมพันธ์แบบกลุ่มต่อกลุ่มที่มี Attribute ของตัวเอง (points\_earned/scanned\_at และ points\_spent/redeemed\_by/redeemed\_at ตามลำดับ) สอดคล้องกับตาราง qr\_scans และ redemptions ในฐานข้อมูลจริงตามลำดับ (ดูตารางที่ \ref{tab:db_qrscans}, \ref{tab:db_redemptions}) โดย redeemed\_by เป็น Foreign Key อ้างอิงกลับไปยังตาราง users เช่นกัน แต่จำกัดเฉพาะบัญชีที่มี role เป็น admin เพื่อบันทึกว่าเจ้าหน้าที่คนใดเป็นผู้ดำเนินการแลกให้ ส่วนความสัมพันธ์ ``จัดขึ้นที่'' ระหว่าง places กับ events เป็นความสัมพันธ์แบบ Optional โดยฝั่ง events มี Cardinality (0,1) เนื่องจากกิจกรรมบางรายการอาจไม่ได้ผูกกับสถานที่ในตาราง places โดยตรง (ระบุเพียง venue\_name/venue\_lat/venue\_lng)
+
+ความสัมพันธ์ ``plans'' (users--trip\_plans) สะท้อนว่าผู้ใช้หนึ่งบัญชีสามารถบันทึกแผนการเดินทางไว้ได้หลายแผน ขณะที่ความสัมพันธ์ ``contains'' (trip\_plans--trip\_plan\_items) เป็นความสัมพันธ์เชิงองค์ประกอบ (Composition) ที่แผนการเดินทางหนึ่งแผนประกอบด้วยจุดแวะได้หลายจุด และถูกลบตามกันโดยอัตโนมัติเมื่อแผนต้นทางถูกลบ (on delete cascade) โดยตาราง trip\_plan\_items มีคอลัมน์ user\_id เก็บซ้ำ (Denormalize) ไว้โดยตรงตามรูปแบบเดียวกับตาราง qr\_scans และ redemptions (ความสัมพันธ์ ``owns'') เพื่อให้ตรวจสอบความเป็นเจ้าของและค้นคืนประวัติ Feedback รายจุดของผู้ใช้แต่ละคนได้โดยไม่ต้อง Join ผ่านตาราง trip\_plans ส่วนความสัมพันธ์ ``referenced\_in (optional)'' ระหว่าง places กับ trip\_plan\_items เป็นความสัมพันธ์แบบ Optional เช่นเดียวกับ ``จัดขึ้นที่'' เนื่องจากคอลัมน์ place\_id กำหนดพฤติกรรมเป็น on delete set null หากสถานที่ต้นทางในตาราง places ถูกลบออกในภายหลัง แถวประวัติแผนการเดินทางจะยังคงอยู่ได้โดยอาศัยข้อมูลสำเนา (Snapshot) ของสถานที่ ณ เวลาที่บันทึกแผน ได้แก่ place\_name, place\_category, place\_address และ place\_img ที่จัดเก็บไว้ในตัวแถวเอง
 
 \begin{figure}[H]
 \centering
@@ -642,7 +644,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \label{fig:erd}
 \end{figure}
 
-ระบบมีทั้งหมด 8 ตาราง ได้แก่ places, events, knowledge\_base, rewards, qrs, users, qr\_scans และ redemptions โครงสร้างของแต่ละตารางแสดงดังตารางที่ \ref{tab:db_place}--\ref{tab:db_redemptions}
+ระบบมีทั้งหมด 10 ตาราง ได้แก่ places, events, knowledge\_base, rewards, qrs, users, qr\_scans, redemptions, trip\_plans และ trip\_plan\_items โครงสร้างของแต่ละตารางแสดงดังตารางที่ \ref{tab:db_place}--\ref{tab:db_tripplanitems}
 
 \begin{table}[H]
 \centering
@@ -811,7 +813,54 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 \end{tabular}
 \end{table}
 
-\clearpage
+\begin{table}[H]
+\centering
+\caption{ตารางฐานข้อมูล trip\_plans (แผนการเดินทางที่ผู้ใช้บันทึกไว้)}
+\label{tab:db_tripplans}
+\begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+id & uuid & Primary Key \\ \hline
+user\_id & uuid (foreign key $\to$ users.id) & ผู้ใช้เจ้าของแผนการเดินทาง \\ \hline
+start\_date / end\_date & date & ช่วงวันที่เดินทางตามที่ผู้ใช้ระบุ \\ \hline
+area\_scope & text & ขอบเขตพื้นที่ที่ใช้พิจารณาสถานที่ในแผน (UC-06.4) \\ \hline
+budget\_level & text & ระดับงบประมาณที่ผู้ใช้กำหนด \\ \hline
+pace & text & ความเร็วของทริป (Pace) ที่ผู้ใช้เลือก \\ \hline
+accommodation\_name & text & ชื่อที่พักที่ผู้ใช้ระบุ (ถ้ามี) \\ \hline
+note & text & ข้อความเพิ่มเติมที่ผู้ใช้ระบุประกอบการสร้างแผน \\ \hline
+planning\_rationale & text & คำอธิบายเหตุผลของแผนที่ AI สร้างขึ้น ได้จากกลไก LLM-as-a-Judge (ดูหัวข้อการทดสอบระบบ) \\ \hline
+total\_distance\_km / total\_cost\_estimate & numeric & ระยะทางรวมและค่าใช้จ่ายโดยประมาณของทั้งแผน \\ \hline
+rating & smallint (1--5) & คะแนนความพึงพอใจของผู้ใช้ต่อแผนทั้งชุด กำหนดค่าได้ภายหลังจากบันทึกแผนแล้วเท่านั้น มีค่าเป็น null จนกว่าผู้ใช้จะให้คะแนน \\ \hline
+feedback\_text & text & ข้อเสนอแนะแบบข้อความอิสระของผู้ใช้ต่อแผนทั้งชุด \\ \hline
+created\_at & timestamptz & วันที่บันทึกแผน \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}[H]
+\centering
+\caption{ตารางฐานข้อมูล trip\_plan\_items (จุดแวะแต่ละจุดในแผนการเดินทางที่บันทึกไว้)}
+\label{tab:db_tripplanitems}
+\begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
+\hline
+\textbf{Field} & \textbf{Type} & \textbf{Description} \\
+\hline
+id & uuid & Primary Key \\ \hline
+trip\_plan\_id & uuid (foreign key $\to$ trip\_plans.id) & แผนการเดินทางที่จุดแวะนี้เป็นส่วนหนึ่ง \\ \hline
+user\_id & uuid (foreign key $\to$ users.id) & เจ้าของแผน เก็บซ้ำไว้ตรงจากตาราง trip\_plans เพื่อให้ตรวจสอบสิทธิ์และค้นคืน Feedback ได้โดยไม่ต้อง Join \\ \hline
+place\_id & uuid (foreign key $\to$ places.id, nullable) & สถานที่ต้นทางในตาราง places (ถ้ายังมีอยู่) กำหนดพฤติกรรมเป็น on delete set null เพื่อให้ประวัติแผนยังอ่านได้แม้สถานที่ต้นทางถูกลบ \\ \hline
+day\_num / position & integer & ลำดับวันและลำดับตำแหน่งของจุดแวะภายในวันนั้น \\ \hline
+place\_name / place\_category / place\_address / place\_img & text & ข้อมูลสำเนา (Snapshot) ของสถานที่ ณ เวลาที่บันทึกแผน เพื่อให้ประวัติยังอ่านได้แม้ข้อมูลต้นทางในตาราง places จะถูกแก้ไขหรือปิดใช้งานในภายหลัง \\ \hline
+arrival\_time / departure\_time & text & ช่วงเวลาที่ระบบกำหนดให้เข้าชม/ออกจากสถานที่นี้ \\ \hline
+status & text & สถานะของจุดแวะในแผน \\ \hline
+distance\_km & numeric & ระยะทางจากจุดแวะก่อนหน้า \\ \hline
+feedback & text (`like` / `dislike` / null) & ความคิดเห็นถูกใจ/ไม่ถูกใจของผู้ใช้ต่อจุดแวะนี้โดยเฉพาะ \\ \hline
+created\_at & timestamptz & วันที่บันทึก \\
+\hline
+\end{tabular}
+\end{table}
+
 \subsection{Mockup User Interface}
 
 ในขั้นตอนการออกแบบส่วนติดต่อผู้ใช้งาน (User Interface) คณะผู้จัดทำได้จัดทำแบบร่างหน้าจอ (Wireframe) เพื่อกำหนดโครงสร้างของหน้าจอ ตำแหน่งองค์ประกอบ และลำดับขั้นตอนการใช้งานของแต่ละฟังก์ชันหลักไว้ล่วงหน้าก่อนดำเนินการพัฒนาจริง โดยแบ่งการนำเสนอออกเป็นส่วนของผู้ใช้งานทั่วไป (Client-Side) และส่วนของผู้ดูแลระบบ (Admin-Side) ตามรายละเอียดดังนี้

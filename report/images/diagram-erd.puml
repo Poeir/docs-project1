@@ -1,0 +1,188 @@
+@startuml diagram-erd
+' =============================================================
+' E-R Diagram ของฐานข้อมูล PostgreSQL (Supabase) ของระบบ
+' หมายเหตุ: ไฟล์นี้ reverse-engineer กลับจาก report/images/diagram-erd.png
+' (ต้นฉบับ .puml เดิมไม่ได้ถูกเก็บไว้ใน repo) ร่วมกับ migration SQL ล่าสุด
+' ที่เพิ่มตาราง trip_plans / trip_plan_items -- โครงสร้าง/ชื่อฟิลด์ของ
+' entity เดิม 8 ตัว ตรงกับภาพ diagram-erd.png ที่มีอยู่ ส่วน layout
+' (ตำแหน่งกล่อง) ปล่อยให้ PlantUML จัดอัตโนมัติ อาจไม่ตรงตำแหน่งเป๊ะกับ
+' ภาพเดิม -- ปรับ layout ได้อิสระ, สิ่งที่ต้องตรงคือ field/ชนิดข้อมูล/
+' ความสัมพันธ์
+' =============================================================
+
+hide circle
+skinparam linetype ortho
+
+entity "places" as places {
+  * id : uuid <<PK>>
+  --
+  source : text
+  google_place_id : text
+  name : text
+  category : text
+  rating : numeric
+  review_count : integer
+  price : text
+  price_level : smallint
+  address : text
+  district : text
+  hours : text
+  hours_periods : jsonb
+  business_status : text
+  phone : text
+  website : text
+  maps_url : text
+  lat : double precision
+  lng : double precision
+  description : text
+  amenities : text[]
+  tags : text[]
+  img : text
+  images : text[]
+  reviews : jsonb
+  raw_data : jsonb
+  embedding : vector(384)
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+entity "knowledge_base" as knowledge_base <<standalone>> {
+  * id : uuid <<PK>>
+  --
+  title : text
+  content : text
+  category : text
+  is_active : boolean
+  is_pinned : boolean
+  embedding : vector(384)
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+entity "events" as events {
+  * id : uuid <<PK>>
+  --
+  name : text
+  category : text
+  date_range : text
+  venue_name : text
+  venue_lat : double precision
+  venue_lng : double precision
+  place_id : uuid <<FK, nullable>>
+  admission : text
+  organizer : text
+  suitable_for : text[]
+  description : text
+  status : text
+  img : text
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+entity "qrs" as qrs {
+  * id : uuid <<PK>>
+  --
+  place_id : uuid <<FK>>
+  points : integer
+}
+
+entity "users" as users {
+  * id : uuid <<PK>>
+  --
+  role : text
+  display_name : text
+  points_balance : integer
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+note right of users
+  id references the same row as
+  auth.users.id (Supabase Auth)
+  Credentials are stored in Supabase Auth,
+  not duplicated in this table
+end note
+
+entity "qr_scans" as qr_scans {
+  * id : uuid <<PK>>
+  --
+  user_id : uuid <<FK>>
+  qr_id : uuid <<FK>>
+  points_earned : integer
+  scanned_at : timestamptz
+}
+
+entity "redemptions" as redemptions {
+  * id : uuid <<PK>>
+  --
+  user_id : uuid <<FK>>
+  reward_id : uuid <<FK>>
+  points_spent : integer
+  redeemed_by : uuid <<FK, admin only>>
+  redeemed_at : timestamptz
+}
+
+entity "rewards" as rewards {
+  * id : uuid <<PK>>
+  --
+  name : text
+  cost : integer
+  created_at : timestamptz
+  updated_at : timestamptz
+}
+
+entity "trip_plans" as trip_plans {
+  * id : uuid <<PK>>
+  --
+  user_id : uuid <<FK>>
+  start_date : date
+  end_date : date
+  area_scope : text
+  budget_level : text
+  pace : text
+  accommodation_name : text
+  note : text
+  planning_rationale : text
+  total_distance_km : numeric
+  total_cost_estimate : numeric
+  rating : smallint
+  feedback_text : text
+  created_at : timestamptz
+}
+
+entity "trip_plan_items" as trip_plan_items {
+  * id : uuid <<PK>>
+  --
+  trip_plan_id : uuid <<FK>>
+  user_id : uuid <<FK>>
+  place_id : uuid <<FK, nullable>>
+  day_num : integer
+  position : integer
+  place_name : text
+  place_category : text
+  place_address : text
+  place_img : text
+  arrival_time : text
+  departure_time : text
+  status : text
+  distance_km : numeric
+  feedback : text
+  created_at : timestamptz
+}
+
+' -------------------- ความสัมพันธ์เดิม (8 ตารางเดิม) --------------------
+places ||--o{ qrs : has_qr
+places |o..o{ events : "held_at (optional)"
+qrs ||--o{ qr_scans : scanned_via
+users ||--o{ qr_scans : scans
+users ||--o{ redemptions : redeems
+users ||--o{ redemptions : processed_by_admin
+redemptions }o--|| rewards : redeemed_as
+
+' -------------------- ความสัมพันธ์ใหม่ (trip_plans / trip_plan_items) --------------------
+users ||--o{ trip_plans : plans
+trip_plans ||--o{ trip_plan_items : contains
+users ||--o{ trip_plan_items : owns
+places |o..o{ trip_plan_items : "referenced_in (optional)"
+
+@enduml
