@@ -1,0 +1,37 @@
+@startuml Dino_Khon_Kaen_Data_Collection_Flow
+!theme plain
+left to right direction
+skinparam wrapWidth 200
+
+[*] --> NearbySearch
+
+state "1. Fetch from Google Places" as Fetch {
+  state "Nearby Search + Text Search\n(collect candidate places)" as NearbySearch
+  state "Place Details lookup\n-> write places.json" as PlaceDetails
+  NearbySearch --> PlaceDetails
+}
+
+state "2. Import" as Import {
+  state "Map fields\n(category, price level)" as MapFields
+  state "Insert into places table" as InsertPlaces
+  MapFields --> InsertPlaces
+}
+
+state "3. Enrich description (per place)" as Describe {
+  state "Gather reviews + serper.dev\nsearch results" as Gather
+  state "LLM writes description\n(falls back to a template if\nno source, or the LLM fails)" as WriteDesc
+  Gather --> WriteDesc
+}
+
+state "4. Embed for search (RAG)" as Embed {
+  state "Compose text from\nname/category/description/tags" as Compose
+  state "Encode + save embedding" as SaveEmbedding
+  Compose --> SaveEmbedding
+}
+
+PlaceDetails --> MapFields
+InsertPlaces --> Gather
+WriteDesc --> Compose
+SaveEmbedding --> [*]
+
+@enduml

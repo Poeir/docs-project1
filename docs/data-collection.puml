@@ -1,0 +1,57 @@
+@startuml Dino_Khon_Kaen_Data_Collection
+!theme plain
+skinparam componentStyle rectangle
+skinparam wrapWidth 200
+skinparam defaultTextAlignment center
+
+actor Admin
+
+cloud "Google Places API" as GooglePlaces
+cloud "Google Search\n(serper.dev proxy)" as Serper
+cloud "Web research" as WebResearch
+
+package "Backend scripts (Node, offline)" {
+  component "Places Fetcher" as Fetcher
+  component "Places Importer" as Importer
+  component "Events / KB Seeder" as Seeder
+}
+
+package "AI Service scripts (Python, offline)" {
+  component "Description Generator" as DescGen
+  component "Embedding Generator" as EmbedGen
+}
+
+component "Local embedding model" as EmbedModel
+cloud "LLM Service\n(Gemini API)" as LLM
+
+package "Frontend (React + Vite, one app)" {
+  component "Web Application" as WebApp
+}
+
+package "Backend API (Express)" {
+  component "Route handlers" as Routes
+}
+
+database "Supabase Postgres\n(places, events,\nknowledge_base)" as DB
+
+GooglePlaces --> Fetcher : place listings + details
+Fetcher --> Importer : place records
+Importer --> DB : insert places
+
+WebResearch --> Seeder : curated content
+Seeder --> DB : insert events,\nknowledge_base
+
+DB --> DescGen : existing place rows\n(reviews)
+Serper --> DescGen : search snippets
+DescGen --> LLM : synthesize description
+DescGen --> DB : update places.description
+
+DB --> EmbedGen : places, knowledge_base rows
+EmbedGen --> EmbedModel : encode text
+EmbedGen --> DB : update embedding column
+
+Admin --> WebApp : HTTP
+WebApp --> Routes : HTTP request
+Routes --> DB : insert/update place,\nevent, knowledge base
+
+@enduml
