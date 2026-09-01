@@ -547,7 +547,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.9\textwidth,keepaspectratio]{images/diagram-activity.png}
+\includegraphics[width=0.9\textwidth,keepaspectratio]{images/diagram-activity.jpg}
 \caption{Activity Diagram ตรรกะการประมวลผลเพื่อสร้างแผนการเดินทาง}
 \label{fig:activity_diagram}
 \end{figure}
@@ -565,7 +565,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-architecture.png}
+\includegraphics[width=\textwidth,keepaspectratio]{images/diagram-architecture.png}
 \caption{สถาปัตยกรรมของระบบ}
 \label{fig:architecture}
 \end{figure}
@@ -629,6 +629,15 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 \subsection{การออกแบบฐานข้อมูล}
 
 ระบบใช้ฐานข้อมูลเชิงสัมพันธ์ PostgreSQL ผ่านบริการ Supabase เป็นฐานข้อมูลหลักเพียงฐานเดียว โดยติดตั้งส่วนขยาย pgvector เพื่อให้คอลัมน์ embedding ในตาราง places และ knowledge\_base จัดเก็บและค้นคืนเวกเตอร์ฝังตัวเชิงความหมายได้โดยตรง จึงไม่จำเป็นต้องมีฐานข้อมูลเวกเตอร์แยกต่างหาก ส่วนข้อมูลกึ่งโครงสร้างจาก Google Places API ที่ไม่สามารถแตกเป็นคอลัมน์ตายตัวได้ทั้งหมด จัดเก็บไว้ในคอลัมน์ประเภท jsonb (raw\_data)
+
+ก่อนออกแบบโครงสร้างตารางในฐานข้อมูลจริง ผู้วิจัยได้จำลอง Domain Model เพื่อแสดงแนวคิดเชิงวัตถุ (Class) หลักของระบบ คุณลักษณะ (Attribute) โดยสังเขป และความสัมพันธ์ระหว่างวัตถุในระดับแนวคิด (Conceptual Level) โดยยังไม่ลงรายละเอียดชนิดข้อมูลจริงหรือ Primary/Foreign Key ดังภาพที่ \ref{fig:domainmodel} จากนั้นจึงนำแนวคิดดังกล่าวไปออกแบบเป็น E-R Diagram ที่ระบุโครงสร้างตารางและชนิดข้อมูลจริงในระดับฐานข้อมูลต่อไป
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth,keepaspectratio]{images/diagram-domain-model.png}
+\caption{Domain Model แสดงแนวคิดเชิงวัตถุและความสัมพันธ์ระหว่างวัตถุหลักของระบบ}
+\label{fig:domainmodel}
+\end{figure}
 
 ความสัมพันธ์ระหว่างตารางแสดงดังภาพที่ \ref{fig:erd} เขียนด้วยสัญกรณ์ Crow's Foot แสดงชื่อฟิลด์และชนิดข้อมูลของทุก Entity โดย knowledge\_base (กรอบ standalone) เป็น Entity อิสระที่ไม่มีความสัมพันธ์กับ Entity อื่น รายละเอียดคำอธิบายของแต่ละคอลัมน์แสดงในตารางที่ \ref{tab:db_place}--\ref{tab:db_tripplanitems} ถัดไป
 
