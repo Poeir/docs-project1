@@ -583,7 +583,7 @@ NFR-04 & ความปลอดภัยของข้อมูล (Security)
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-sequence-trip.png}
+\includegraphics[width=0.85\textwidth,keepaspectratio]{images/diagram-sequence-trip.jpg}
 \caption{Detailed Sequence Diagram: การสร้างแผนการเดินทางด้วย RAG และ LLM}
 \label{fig:sequence_user}
 \end{figure}
@@ -1022,28 +1022,6 @@ created\_at & timestamptz & วันที่บันทึก \\
 \subsubsection{วิธีการประเมินผลของการวิจัย (LLM as a Judge)}
 
 เพื่อให้มั่นใจว่าแผนการเดินทางที่ระบบสร้างขึ้นด้วย AI มีความถูกต้องและใช้งานได้จริง งานวิจัยนี้ได้พัฒนากลไกการตรวจสอบผลลัพธ์โดยใช้ LLM อีกตัวหนึ่ง (gemini-2.5-pro) ทำหน้าที่เป็น ``ผู้ประเมิน'' (Judge) แทนการเขียนฟังก์ชันตรวจสอบแบบตายตัว โดยเป็นขั้นตอนที่ทำงานอัตโนมัติอยู่เบื้องหลังทุกครั้งที่มีการสร้างแผนการเดินทาง (UC-06) ไม่ใช่กระบวนการที่ผู้ใช้เห็นหรือสั่งงานเอง
-
-ในการออกแบบกลไกดังกล่าว ได้กำหนดเกณฑ์การให้คะแนน (Rubric) ที่ใช้เป็นแนวทางให้ LLM Judge พิจารณาให้คะแนนคุณภาพของแผนการเดินทางในเชิงคุณภาพ แบ่งออกเป็น 3 มิติ รวม 100 คะแนน ดังตารางที่ \ref{tab:llm_judge_rubric}
-
-\begin{table}[H]
-\centering
-\caption{เกณฑ์การให้คะแนน (Rubric) สำหรับประเมินคุณภาพแผนการเดินทางด้วยเทคนิค LLM-as-a-Judge}
-\label{tab:llm_judge_rubric}
-{\small
-\begin{tabular}{|p{2.7cm}|p{1.2cm}|p{3.3cm}|p{5.3cm}|}
-\hline
-\textbf{มิติการประเมิน} & \textbf{คะแนนเต็ม} & \textbf{ปัจจัยที่ใช้พิจารณา} & \textbf{รายละเอียดเกณฑ์การให้คะแนน} \\
-\hline
-1. ความสอดคล้องกับข้อจำกัดและเงื่อนไข (Constraint Compliance) & 40 & สถานที่บังคับ (Must-go Places) \newline จังหวะการเดินทาง (Trip Pace) \newline กรอบงบประมาณ (Budget Level) \newline กรอบเวลา (Time Bounds) & หักคะแนนเมื่อ: \newline -- ไม่บรรจุสถานที่ที่ผู้ใช้งานระบุว่า ``ต้องไป'' ลงในแผน \newline -- จัดสรรเวลาไม่สอดคล้องกับรูปแบบความเร็วของทริปที่กำหนด \newline -- เลือกสถานที่หรือร้านอาหารที่ขัดกับระดับงบประมาณ \newline -- จัดตารางกิจกรรมล่วงเลยเวลาเริ่มต้นหรือสิ้นสุดของวัน \\ \hline
-2. ความสมเหตุสมผลด้านพื้นที่และเวลา (Spatial-Temporal Logic) & 30 & การเดินทางและเส้นทาง (Travel Feasibility) \newline การจัดตารางมื้ออาหาร (Meal Scheduling) \newline ความเหมาะสมของเวลา (Time Appropriateness) & หักคะแนนเมื่อ: \newline -- กำหนดเวลาเดินทางน้อยกว่าความเป็นจริง หรือจัดเส้นทางวกวน \newline -- จัดมื้ออาหารหลักติดต่อกันโดยไม่มีกิจกรรมอื่นคั่น \newline -- จัดตารางกิจกรรมขัดกับบริบทของสถานที่ (เช่น ตลาดกลางคืนในเวลากลางวัน) \\ \hline
-3. การตอบสนองความชอบส่วนบุคคลและประสบการณ์ (Personalization \& Experience) & 30 & ความตรงใจ (Interest Alignment) \newline ความลื่นไหลของทริป (Natural Flow) \newline ความหลากหลาย (Diversity of POIs) & บวกคะแนนเพิ่มเมื่อ: \newline -- สถานที่ถูกคัดเลือกมาอย่างแม่นยำและตรงกับความสนใจของผู้ใช้ \newline -- ลำดับกิจกรรมมีความต่อเนื่องและสลับอารมณ์การท่องเที่ยวได้ดี \newline หักคะแนนเมื่อ: \newline -- แผนการเดินทางมีความจำเจ ซ้ำซ้อน หรือมีรูปแบบทั่วไปที่ขาดจุดเด่น \\ \hline
-\multicolumn{2}{|r|}{\textbf{รวมคะแนนทั้งหมด}} & \multicolumn{2}{l|}{\textbf{100}} \\
-\hline
-\end{tabular}
-\par}
-\end{table}
-
-ในการนำไปใช้งานจริง ระบบแปลงผลการประเมินตามเกณฑ์ข้างต้นให้อยู่ในรูปแบบตัวแปรที่ Backend ตรวจสอบได้ ดังตารางที่ \ref{tab:llm_judge}
 
 \begin{table}[H]
 \centering
