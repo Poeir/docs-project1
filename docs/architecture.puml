@@ -1,0 +1,50 @@
+@startuml Dino_Khon_Kaen_Architecture
+!theme plain
+skinparam componentStyle rectangle
+skinparam wrapWidth 200
+skinparam defaultTextAlignment center
+
+actor User
+actor Admin
+
+package "Frontend (React + Vite, one app)" {
+  component "Web Application" as WebApp
+}
+
+package "Backend API (Express)" {
+  component "Route handlers" as Routes
+  component "requireAuth\n(session cookie)" as Auth
+  component "Supabase client\n(service role)" as DbClient
+}
+
+package "AI Service (FastAPI)" {
+  component "Chatbot Service" as Chatbot
+  component "Trip Planner Service" as TripPlanner
+  component "RAG Retriever" as RAG
+  component "Supabase client\n(service role)" as AiDbClient
+}
+
+cloud "LLM Service\n(Gemini API)" as LLM
+
+database "Supabase Postgres\n(single DB: places, users, qrs,\nembeddings via pgvector, ...)" as DB
+
+User --> WebApp : HTTP
+Admin --> WebApp : HTTP
+
+WebApp --> Routes : HTTP request
+WebApp --> Chatbot : HTTP request (direct)
+WebApp --> TripPlanner : HTTP request (direct)
+
+Routes --> Auth : validates session
+Routes --> DbClient : reads/writes
+DbClient --> DB
+
+Chatbot --> RAG : retrieve context
+TripPlanner --> RAG : retrieve candidates
+RAG --> AiDbClient : hybrid search query
+AiDbClient --> DB : direct connection\n(own service-role key,\nnot via Backend API)
+
+Chatbot --> LLM : generate reply
+TripPlanner --> LLM : generate + judge itinerary
+
+@enduml
