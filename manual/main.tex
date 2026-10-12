@@ -23,6 +23,14 @@
 \setlist[numlist]{label=\arabic*.,leftmargin=*,labelindent=\dimexpr\parindent+1em\relax,
   labelwidth=2em,labelsep=0.5em,itemsep=0pt,topsep=0.3\baselineskip}
 
+% บล็อกคำสั่ง: ห่อ lstlisting ด้วย minipage เพื่อไม่ให้กรอบถูกตัดข้ามหน้า
+\newenvironment{codeblock}%
+  {\par\addvspace{0.5em}\noindent\minipage{\linewidth}}%
+  {\endminipage\par\addvspace{0.5em}}
+
+% คอลัมน์ข้อความชิดซ้ายในตาราง (ใช้กับ p{} เพื่อไม่ให้ตัดคำเพี้ยน)
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
 % -------------------------------------------------------------
 % ข้อความที่ยังต้องยืนยัน/กรอกเพิ่ม แสดงเป็นตัวหนาสีแดงในวงเล็บเหลี่ยม
 % ค้นหาในไฟล์ด้วยคำว่า \fillin เพื่อไล่ตรวจก่อนส่งเล่มจริง
