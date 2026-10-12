@@ -1,0 +1,231 @@
+% =============================================================
+% บทที่ 3 การติดตั้งระบบสำหรับพัฒนา
+% ข้อมูลตรวจจาก main repo: README.md, CLAUDE.md, .env.example ของทั้ง 3 ส่วน, backend/scripts
+% =============================================================
+
+\section{ความต้องการของระบบ}
+
+\subsection{ระบบปฏิบัติการ}
+
+คู่มือนี้อธิบายการติดตั้งบนระบบปฏิบัติการ Windows 11
+
+\subsection{ซอฟต์แวร์และบริการที่ต้องเตรียม}
+
+\begin{parenlist}
+\item Node.js เวอร์ชัน 20 ขึ้นไป (ระบบ CI ใช้เวอร์ชัน 20) สำหรับส่วนติดต่อผู้ใช้งานและบริการข้อมูลหลัก
+\item Python เวอร์ชัน 3.11 สำหรับ AI Service
+\item Git สำหรับดาวน์โหลดซอร์สโค้ดจาก GitHub
+\item Visual Studio Code สำหรับเปิดและแก้ไขโครงงาน
+\item บัญชี Supabase สำหรับฐานข้อมูล PostgreSQL
+\item บัญชี Cloudinary สำหรับเก็บรูปภาพ
+\item บัญชี Gmail ที่เปิดการยืนยันตัวตน 2 ขั้นตอนและสร้าง App Password สำหรับส่งอีเมล
+\item โปรเจกต์ Google Cloud ที่เปิดใช้ Places API (New) และ Maps JavaScript API
+\item คีย์ KKU AI Gateway สำหรับเรียกโมเดลภาษาขนาดใหญ่
+\item คีย์ Serper API (ไม่บังคับ) สำหรับสคริปต์สร้างคำอธิบายสถานที่
+\end{parenlist}
+
+\section{ขั้นตอนการติดตั้งระบบสำหรับนักพัฒนา}
+
+\subsection{การติดตั้ง Node.js}
+
+\begin{numlist}
+\item เข้าเว็บไซต์ https://nodejs.org/ แล้วเลือกดาวน์โหลดเวอร์ชัน LTS ดังภาพที่ \ref{fig:install-nodejs}
+\item เปิดไฟล์ติดตั้งที่ดาวน์โหลดมา แล้วกด Next จนติดตั้งเสร็จสิ้น
+\item เปิด PowerShell แล้วตรวจสอบการติดตั้งด้วยคำสั่งต่อไปนี้ ซึ่งควรแสดงหมายเลขเวอร์ชัน
+\end{numlist}
+
+\screenshot{install-nodejs}{หน้าดาวน์โหลด Node.js}
+
+\begin{lstlisting}[numbers=none]
+node -v
+npm -v
+\end{lstlisting}
+
+\subsection{การติดตั้ง Python}
+
+\begin{numlist}
+\item เข้าเว็บไซต์ https://www.python.org/downloads/windows/ แล้วดาวน์โหลดตัวติดตั้ง Windows installer (64-bit) ของรุ่น 3.11 ขึ้นไป ดังภาพที่ \ref{fig:install-python}
+\item ขณะติดตั้งให้เลือกตัวเลือก ``Add python.exe to PATH'' แล้วกด Install Now
+\item ตรวจสอบการติดตั้งด้วยคำสั่ง \texttt{python --version}
+\end{numlist}
+
+\screenshot{install-python}{หน้าดาวน์โหลด Python}
+
+\subsection{การติดตั้ง Git และ Visual Studio Code}
+
+\begin{numlist}
+\item ดาวน์โหลดและติดตั้ง Git จาก https://git-scm.com/downloads
+\item ดาวน์โหลดและติดตั้ง Visual Studio Code จาก https://code.visualstudio.com/
+\end{numlist}
+
+\subsection{การดาวน์โหลดซอร์สโค้ดจาก GitHub}
+
+เปิด PowerShell ไปยังโฟลเดอร์ที่ต้องการเก็บโครงงาน แล้วโคลน repository
+
+\begin{lstlisting}[numbers=none]
+git clone https://github.com/Poeir/dino-trip.git
+cd dino-trip
+\end{lstlisting}
+
+โครงสร้างโฟลเดอร์ที่ได้ประกอบด้วย 3 ส่วนที่รันแยกจากกัน ดังตารางที่ \ref{tab:folders}
+
+\begin{table}[H]
+\caption{โครงสร้างโฟลเดอร์ของโครงงาน}
+\label{tab:folders}
+\centering
+\begin{tabular}{|l|l|p{5cm}|}
+\hline
+\textbf{โฟลเดอร์} & \textbf{เทคโนโลยี} & \textbf{หน้าที่} \\
+\hline
+\texttt{frontend} & React 18 + Vite & หน้าเว็บที่ผู้ใช้และผู้ดูแลระบบใช้งาน \\
+\hline
+\texttt{backend} & Node.js + Express & REST API ฐานข้อมูล และสคริปต์นำเข้าข้อมูล \\
+\hline
+\texttt{chatbot-service} & Python + FastAPI & แชตบอต ระบบวางแผนทริป และการสร้าง Embedding \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{การสร้างฐานข้อมูลบน Supabase}
+
+\begin{numlist}
+\item เข้าเว็บไซต์ https://supabase.com/ ลงชื่อเข้าใช้ แล้วสร้างโปรเจกต์ใหม่ พร้อมบันทึกรหัสผ่านฐานข้อมูลที่กำหนดไว้
+\item เปิดหน้า Project Settings > Database > Connection string แล้วคัดลอก Session pooler (พอร์ต 5432) ไว้ใช้เป็นค่า \texttt{DATABASE\_URL} ไม่ควรใช้ Transaction mode (พอร์ต 6543) เพราะ backend เป็นเซิร์ฟเวอร์ที่รันต่อเนื่อง
+\item เปิดหน้า Project Settings > API แล้วคัดลอก Project URL และ service\_role key ไว้ใช้กับ AI Service
+\item สร้างโครงสร้างตารางด้วยการนำไฟล์ migration ไปใช้กับฐานข้อมูลใหม่ ดังคำสั่งในหัวข้อการนำเข้าข้อมูลตั้งต้น
+\end{numlist}
+
+\subsection{การติดตั้งไลบรารีของแต่ละส่วน}
+
+เปิดโฟลเดอร์โครงงานด้วย Visual Studio Code (\texttt{code .}) แล้วใช้ Terminal ติดตั้งไลบรารีของแต่ละส่วนตามคำสั่งต่อไปนี้
+
+\begin{lstlisting}[numbers=none]
+cd backend
+npm install
+
+cd ../frontend
+npm install
+
+cd ../chatbot-service
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+\end{lstlisting}
+
+\subsection{การตั้งค่าไฟล์ .env}
+
+แต่ละส่วนมีไฟล์ \texttt{.env.example} เป็นต้นแบบ ให้คัดลอกเป็นไฟล์ \texttt{.env} ในโฟลเดอร์เดียวกัน แล้วกรอกค่าตามตารางที่ \ref{tab:env-vars} ไฟล์ \texttt{.env} มีข้อมูลลับ จึงห้ามนำขึ้น Git
+
+\begin{lstlisting}[numbers=none]
+cd backend
+copy .env.example .env
+cd ../frontend
+copy .env.example .env
+cd ../chatbot-service
+copy .env.example .env
+\end{lstlisting}
+
+\begin{table}[H]
+\caption{ตัวแปรสภาพแวดล้อมที่ต้องกำหนดในไฟล์ .env}
+\label{tab:env-vars}
+\centering
+\begin{tabular}{|l|l|p{5.2cm}|}
+\hline
+\textbf{ส่วนของระบบ} & \textbf{ตัวแปร} & \textbf{คำอธิบาย} \\
+\hline
+backend & \texttt{DATABASE\_URL} & connection string ของ Postgres (Session pooler พอร์ต 5432) \\
+\hline
+backend & \texttt{FRONTEND\_ORIGIN} & origin ของ frontend ต้องตรงกันทุกตัวอักษรและไม่มี / ท้าย เช่น \texttt{http://localhost:5173} \\
+\hline
+backend & \texttt{CHATBOT\_SERVICE\_URL} & ที่อยู่ของ AI Service เช่น \texttt{http://localhost:8000} \\
+\hline
+backend & \texttt{CLOUDINARY\_CLOUD\_NAME}, \texttt{CLOUDINARY\_API\_KEY}, \texttt{CLOUDINARY\_API\_SECRET} & ค่าจาก Cloudinary Dashboard > Settings > API Keys \\
+\hline
+backend & \texttt{GMAIL\_USER}, \texttt{GMAIL\_APP\_PASSWORD} & บัญชี Gmail และ App Password สำหรับส่งอีเมลยืนยัน \\
+\hline
+backend & \texttt{GOOGLE\_PLACES\_API\_KEY} & คีย์สำหรับนำเข้าและซิงก์สถานที่ (ต้องเปิด Places API (New) และผูก billing) \\
+\hline
+backend & \texttt{PORT} & พอร์ตของ backend ค่าเริ่มต้น 4000 \\
+\hline
+frontend & \texttt{VITE\_API\_URL} & ที่อยู่ของ backend เช่น \texttt{http://localhost:4000} \\
+\hline
+frontend & \texttt{VITE\_CHATBOT\_SERVICE\_URL} & ที่อยู่ของ AI Service เช่น \texttt{http://localhost:8000} \\
+\hline
+frontend & \texttt{VITE\_GOOGLE\_MAPS\_API\_KEY} & คีย์ Maps JavaScript API ควรจำกัดด้วย HTTP referrer \\
+\hline
+chatbot-service & \texttt{KKU\_API\_KEY} & คีย์ของ KKU AI Gateway \\
+\hline
+chatbot-service & \texttt{SUPABASE\_URL}, \texttt{SUPABASE\_SERVICE\_ROLE\_KEY} & ใช้ค้นข้อมูลสถานที่และค้นหาเชิงเวกเตอร์ \\
+\hline
+chatbot-service & \texttt{MODEL\_NAME}, \texttt{TRIP\_PLANNER\_MODEL\_NAME} & โมเดลของแชตบอตและระบบวางแผนทริป (ต้องตั้งบน production) \\
+\hline
+chatbot-service & \texttt{CORS\_ORIGINS} & origin ที่เรียก AI Service ได้ คั่นด้วย , และไม่มี / ท้าย \\
+\hline
+\end{tabular}
+\end{table}
+
+\subsection{การนำเข้าข้อมูลตั้งต้น}
+
+ขั้นตอนนี้ทำเพียงครั้งเดียวตอนติดตั้งฐานข้อมูลใหม่ โดยใช้ Terminal ที่โฟลเดอร์ \texttt{backend}
+
+\begin{lstlisting}[numbers=none]
+cd backend
+npx supabase db push --yes
+npm run fetch:places
+npm run import:places
+npm run seed:events-knowledge
+\end{lstlisting}
+
+ความหมายของแต่ละคำสั่งมีดังนี้
+
+\begin{numlist}
+\item \texttt{npx supabase db push --yes} สร้างตารางและฟังก์ชันตามไฟล์ migration ใช้กับฐานข้อมูลใหม่เท่านั้น เพราะฐานข้อมูลที่ใช้งานจริงอยู่แล้วไม่มีประวัติ migration ทำให้คำสั่งนี้รัน migration เก่าซ้ำทั้งหมด
+\item \texttt{npm run fetch:places} ดึงข้อมูลสถานที่จาก Google Places API ลงไฟล์ \texttt{backend/data/places.json} ซึ่งมีค่าใช้จ่ายตามจำนวนสถานที่
+\item \texttt{npm run import:places} นำเข้าข้อมูลจากไฟล์ดังกล่าวเข้าฐานข้อมูล
+\item \texttt{npm run seed:events-knowledge} เพิ่มข้อมูลกิจกรรมและฐานความรู้ตั้งต้น
+\end{numlist}
+
+หลังนำเข้าข้อมูลใหม่ทุกครั้ง ต้องสร้าง Embedding ใหม่ เพื่อให้แชตบอตและระบบวางแผนทริปค้นพบข้อมูล
+
+\begin{lstlisting}[numbers=none]
+cd chatbot-service
+venv\Scripts\activate
+python scripts/embed_content.py
+\end{lstlisting}
+
+\subsection{การสร้างบัญชีผู้ดูแลระบบ}
+\label{sec:create-admin}
+
+บัญชีผู้ดูแลระบบสร้างด้วยสคริปต์ที่โฟลเดอร์ \texttt{backend} โดยระบุอีเมลและรหัสผ่านที่ต้องการ
+
+\begin{lstlisting}[numbers=none]
+cd backend
+node scripts/create-admin.js <email> <password>
+\end{lstlisting}
+
+เมื่อสำเร็จจะแสดงข้อความ ``Admin account ready'' และสามารถเข้าสู่ระบบที่หน้า \texttt{/admin/login} ได้
+
+\subsection{การรันระบบ}
+
+เปิด Terminal ใน Visual Studio Code แยก 3 หน้าต่าง แล้วรันแต่ละส่วนตามคำสั่งต่อไปนี้
+
+\begin{lstlisting}[numbers=none]
+# Terminal 1: Backend (http://localhost:4000)
+cd backend
+npm run dev
+
+# Terminal 2: AI Service (http://localhost:8000)
+cd chatbot-service
+venv\Scripts\activate
+uvicorn src.main:app --reload --port 8000
+
+# Terminal 3: Frontend (http://localhost:5173)
+cd frontend
+npm run dev
+\end{lstlisting}
+
+เมื่อทุกส่วนทำงานแล้ว ให้เปิดเบราว์เซอร์ไปที่ \texttt{http://localhost:5173} จะปรากฏหน้าแรกของไดโน และสามารถดูเอกสาร API ของ AI Service ได้ที่ \texttt{http://localhost:8000/docs}
+
+\subsection{การนำระบบขึ้นใช้งานจริง}
+
+ระบบที่ใช้งานจริงที่ https://dinokhonkaen.app รันบนเซิร์ฟเวอร์เดียวด้วย Docker Compose ในโฟลเดอร์ \texttt{deploy} โดยมี Caddy ให้บริการ HTTPS เสิร์ฟหน้าเว็บ และส่งต่อเส้นทาง \texttt{/api} ไปยัง backend และ \texttt{/chat}, \texttt{/trip/llm} ไปยัง AI Service ทั้งนี้ การรวมโค้ดเข้ากิ่ง \texttt{main} บน GitHub จะทำให้ GitHub Actions เชื่อมต่อเซิร์ฟเวอร์และอัปเดตระบบอัตโนมัติ

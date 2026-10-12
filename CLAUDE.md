@@ -67,3 +67,11 @@ Word document's look) and is easy to break by editing naively:
   need to (and shouldn't) hardcode numbers in the section titles.
 - The budget section (`10-budget.tex`) intentionally has no dollar/baht amounts filled in — the source document
   didn't have them either.
+
+## Dino user manual (`manual/`)
+
+A separate XeLaTeX document — the user manual (เอกสารคู่มือการใช้งาน) for the Dino project, structured after the
+"ไปนำแหน่" manual PDF at the repo root. It reuses `cskkuproject.cls`, `mermaid.sty` and `theme/` copied from `report/`
+and is built with `cd manual && xelatex main.tex` (twice). Content lives in `preface.tex` and `chapter1-3.tex`.
+Screenshots go in `manual/images/screens/<name>.png`; `\screenshot{<name>}{caption}` shows a red placeholder box until the
+file exists. `\fillin{...}` marks text still needing confirmation against the real app/repo — grep for it before submitting.

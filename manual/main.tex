@@ -1,0 +1,166 @@
+% =============================================================
+% เอกสารคู่มือการใช้งาน "ไดโน" (Dino)
+% โครงสร้างอ้างอิงจากคู่มือการใช้งานของโครงงาน "ไปนำแหน่"
+% (ปก > คำนำ > สารบัญ > สารบัญภาพ > บทที่ 1 บทนำ > บทที่ 2 คู่มือการใช้งาน > บทที่ 3 การติดตั้งระบบสำหรับพัฒนา)
+% คอมไพล์ด้วย XeLaTeX:  cd manual && xelatex main.tex  (รัน 2 รอบ)
+% =============================================================
+\documentclass{cskkuproject}
+\usepackage{needspace}
+\usepackage{xcolor}
+
+% ความกว้างป้าย "(1)" สำหรับรายการแบบ (1)(2)(3) — ใช้ค่าเดียวกับ report/main.tex
+\newlength{\parenlabelwidth}
+\settowidth{\parenlabelwidth}{(1)}
+
+% รายการแบบ (1)(2)(3) ให้บรรทัดแรกเริ่มตรงกับย่อหน้าปัจจุบัน
+\newlist{parenlist}{enumerate}{1}
+\setlist[parenlist]{label=(\arabic*),leftmargin=0pt,
+  itemindent=\dimexpr\parindent+\parenlabelwidth+1em\relax,
+  align=right,labelwidth=\parenlabelwidth,labelsep=1em}
+
+% รายการเลขลำดับธรรมดา 1. 2. 3. (ไม่ใช้รูปแบบ 2.1.1. ของคลาส)
+\newlist{numlist}{enumerate}{1}
+\setlist[numlist]{label=\arabic*.,leftmargin=*,labelindent=\dimexpr\parindent+1em\relax,
+  labelwidth=2em,labelsep=0.5em,itemsep=0pt,topsep=0.3\baselineskip}
+
+% -------------------------------------------------------------
+% ข้อความที่ยังต้องยืนยัน/กรอกเพิ่ม แสดงเป็นตัวหนาสีแดงในวงเล็บเหลี่ยม
+% ค้นหาในไฟล์ด้วยคำว่า \fillin เพื่อไล่ตรวจก่อนส่งเล่มจริง
+% -------------------------------------------------------------
+\newcommand{\fillin}[1]{{\bfseries\color{red}[#1]}}
+
+% -------------------------------------------------------------
+% ภาพหน้าจอ: \screenshot[ความกว้าง]{ชื่อไฟล์ไม่รวมนามสกุล}{คำอธิบายภาพ}
+% วางไฟล์ภาพจริงที่ images/screens/<ชื่อไฟล์>.png ระบบจะแทนกรอบว่างให้อัตโนมัติ
+% -------------------------------------------------------------
+\newcommand{\screenshot}[3][0.85]{%
+  \begin{figure}[H]
+    \centering
+    \setlength{\fboxsep}{0pt}%
+    \IfFileExists{images/screens/#2.png}{%
+      \fbox{\includegraphics[width=#1\textwidth]{images/screens/#2.png}}%
+    }{\IfFileExists{images/screens/#2.jpg}{%
+      \fbox{\includegraphics[width=#1\textwidth]{images/screens/#2.jpg}}%
+    }{%
+      \fbox{\parbox[c][5.5cm][c]{#1\textwidth}{\centering\fillin{ภาพหน้าจอ: images/screens/#2.png}}}%
+    }}
+    \caption{#3}
+    \label{fig:#2}
+  \end{figure}
+}
+
+% -------------------------------------------------------------
+% ข้อมูลโครงงาน — ใช้ชื่อตัวแปรเดียวกับ report/main.tex
+% -------------------------------------------------------------
+\titleTH{ไดโน : เว็บแอพลิเคชันศูนย์กลางของการท่องเที่ยวจังหวัดขอนแก่น}
+\titleEN{Dino: The central web application for tourism in Khon Kaen}
+
+\firstStudentID{663380203-9}
+\firstStudentPrefixTH{นาย}
+\firstStudentPrefixEN{Mr.}
+\firstStudentNameTH{คเณศ บัวสด}
+\firstStudentNameEN{Khanet Buasod}
+
+\secondStudentID{663380228-3}
+\secondStudentPrefixTH{นาย}
+\secondStudentPrefixEN{Mr.}
+\secondStudentNameTH{ภูริ ชาริชา}
+\secondStudentNameEN{Phuri Charicha}
+
+\degreeTH{วิทยาศาสตรบัณฑิต}
+\degreeEN{Bachelor of Science}
+\majorTH{วิทยาการคอมพิวเตอร์}
+\majorEN{Computer Science}
+
+\advisorTH{อ.ธนพล ตั้งชูพงศ์}
+\advisorEN{Thanapon Tangchupong}
+
+\academicYearTH{2569}
+\academicYearEN{2026}
+
+\courseCode{CP354 771}
+\courseName{โครงงานทางวิทยาการคอมพิวเตอร์ 1}
+\semester{1}
+
+\begin{document}
+
+% ==========================================
+% หน้าปก (ตามรูปแบบปกคู่มือการใช้งาน)
+% ==========================================
+\makeatletter
+\begin{titlepage}
+\thispagestyle{empty}
+\centering
+\vspace*{1cm}
+
+\includegraphics[scale=0.5]{./theme/kku-logo.png}
+
+\vspace{1.2cm}
+{\Large\bfseries \@courseCode{} \@courseName\par}
+\vspace{0.6cm}
+{\Large\bfseries เอกสารคู่มือการใช้งาน\par}
+\vspace{0.6cm}
+{\large \@titleTH\par}
+\vspace{0.3cm}
+{\large \@titleEN\par}
+
+\vspace{1.5cm}
+{\large โดย\par}
+\vspace{0.3cm}
+{\large \@firstStudentID~\@firstStudentPrefixTH\@firstStudentNameTH\par}
+{\large \@secondStudentID~\@secondStudentPrefixTH\@secondStudentNameTH\par}
+
+\vspace{1cm}
+{\large อาจารย์ที่ปรึกษา: \@advisorTH\par}
+
+\vfill
+{\normalsize รายงานนี้เป็นส่วนหนึ่งของการศึกษาวิชา \@courseCode{} \@courseName\par}
+{\normalsize ภาคเรียนที่ \@semester{} ปีการศึกษา \@academicYearTH\par}
+{\normalsize สาขาวิชา\@majorTH{} วิทยาลัยการคอมพิวเตอร์\par}
+{\normalsize มหาวิทยาลัยขอนแก่น\par}
+{\normalsize (เดือน ตุลาคม พ.ศ. \@academicYearTH)\par}
+\end{titlepage}
+\makeatother
+
+% เลขหน้าส่วนต้นเป็นอักษรไทย (ก, ข, ค, ...)
+\pagenumbering{arabic}
+\setcounter{page}{0}
+\renewcommand{\thepage}{\ThaiAlph{\value{page}}}
+
+% ==========================================
+% คำนำ
+% ==========================================
+\input{preface}
+
+% ==========================================
+% สารบัญ / สารบัญภาพ / สารบัญตาราง
+% ==========================================
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\clearpage
+
+% ==========================================
+% เนื้อหา 3 บท
+% ==========================================
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\renewcommand{\thepage}{\arabic{page}}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\setlength{\headheight}{15pt}
+
+\chapter{บทนำ}
+\input{chapter1}
+
+\chapter{คู่มือการใช้งาน}
+\input{chapter2}
+
+\chapter{การติดตั้งระบบสำหรับพัฒนา}
+\input{chapter3}
+
+\end{document}
