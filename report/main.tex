@@ -6,6 +6,10 @@
 \usepackage[style=apa,backend=biber]{biblatex} % รูปแบบการอ้างอิง APA 7th edition
 \addbibresource{references.bib}
 
+% ตัวเลขและแถวตารางของผลแบบสอบถามความพึงพอใจ (คำสั่ง \survey...) ใช้ในบทคัดย่อ บทที่ 4 และบทที่ 5
+% ไฟล์นี้สร้างจาก CSV ด้วย python survey/build_survey.py -- ดูวิธีใช้ที่หัวไฟล์สคริปต์
+\input{survey/survey-data}
+
 % ความกว้างจริงของป้าย "(1)" ใช้จัดตำแหน่งรายการแบบ (1)(2)(3) ให้บรรทัดแรกเริ่มพอดีกับ
 % \parindent ปัจจุบัน (เท่ากับตำแหน่งข้อความหัวข้อ เช่น "ขอบเขต") โดยไม่มีช่องว่างเกิน
 \newlength{\parenlabelwidth}

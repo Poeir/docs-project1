@@ -20,6 +20,9 @@
 # Page previews generated via pdftoppm (see CLAUDE.md build notes)
 latex/preview*.png
 
+# Raw survey export (free-text answers); only the generated survey-data.tex is committed
+report/survey/*.csv
+
 # Word temporary/lock files
 ~$*.doc*
 .~lock.*#
