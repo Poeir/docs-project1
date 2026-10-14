@@ -302,7 +302,7 @@ def main():
         print('  %-32s n=%2d  %s  %s  %s' % (label, dim[key]['n'], fmt(dim[key]['mean']), fmt(dim[key]['sd']), dim[key]['level']))
     if n < TARGET_N:
         print('คำเตือน: ผู้ตอบยังไม่ถึงเป้าหมาย %d คน รายงานจะแสดงหมายเหตุสีแดงในบทที่ 4' % TARGET_N)
-    print('อย่าลืมอ่านทวนย่อหน้าที่มี TODO(survey) ใน chapter4.tex เพราะเขียนจากคำตอบปลายเปิดด้วยมือ')
+    print('อย่าลืมอ่านทวนย่อหน้าสรุปคำตอบปลายเปิดและย่อหน้าตีความผลใน chapter4.tex เพราะเขียนด้วยมือ')
 
 
 if __name__ == '__main__':
