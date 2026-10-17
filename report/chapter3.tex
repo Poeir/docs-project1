@@ -47,7 +47,42 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth,height=9.5cm,keepaspectratio]{images/image12.png}
+\adjustbox{max width=0.95\textwidth, max height=10cm}{%
+\begin{tikzpicture}[
+  box/.style={draw, thick, fill=white, align=center, font=\small, inner sep=5pt, minimum height=1.1cm},
+  ext/.style={draw, thick, dashed, fill=white, align=center, font=\small, inner sep=4pt, minimum width=3.1cm, minimum height=0.9cm},
+  flow/.style={thick, -{Stealth[length=2.4mm]}},
+  lab/.style={font=\scriptsize, fill=white, inner sep=1.5pt, align=center}
+]
+\node[box, minimum width=3.4cm] (u1) at (-2.4,0) {นักท่องเที่ยว};
+\node[box, minimum width=3.4cm] (u2) at (2.4,0) {ผู้ดูแลระบบ};
+\node[box, minimum width=7.6cm] (front) at (0,-2.2) {Frontend\\เว็บแอปพลิเคชัน (React)};
+\node[box, minimum width=3.8cm] (back) at (-3.2,-4.9) {Backend API\\(Node.js / Express)};
+\node[box, minimum width=3.8cm] (ai) at (3.2,-4.9) {AI Service\\(Python / FastAPI)\\แชตบอตและระบบวางแผนทริป};
+\node[cylinder, shape border rotate=90, aspect=0.25, draw, thick, fill=white, align=center, font=\small, minimum height=1.9cm, minimum width=3.6cm] (db) at (0,-7.9) {ฐานข้อมูล\\PostgreSQL + pgvector};
+
+\node[ext] (gp) at (-7.7,-3.7) {Google Places API};
+\node[ext] (cl) at (-7.7,-4.9) {Cloudinary\\(รูปภาพ)};
+\node[ext] (em) at (-7.7,-6.1) {บริการอีเมล};
+\node[ext] (llm) at (7.7,-4.9) {โมเดลภาษาขนาดใหญ่\\(LLM)};
+
+\draw[flow] (u1.south) -- (u1 |- front.north);
+\draw[flow] (u2.south) -- (u2 |- front.north);
+\draw[flow] (front.south -| back) -- (back.north);
+\draw[flow] (front.south -| ai) -- (ai.north);
+\draw[flow] (back.east) -- node[lab, above] {ส่งต่อคำสั่ง\\ผู้ดูแลระบบ} (ai.west);
+\draw[flow] (back.south) |- (db.west);
+\draw[flow] (ai.south) |- (db.east);
+\draw[flow] (back.west) -- (gp.east);
+\draw[flow] (back.west) -- (cl.east);
+\draw[flow] (back.west) -- (em.east);
+\draw[flow] (ai.east) -- (llm.west);
+
+\begin{scope}[on background layer]
+  \node[draw, thick, dotted, rounded corners, inner sep=0.45cm, fit=(front)(back)(ai)(db), label={[font=\scriptsize]below:เครื่องแม่ข่ายเดียว (Docker Compose) ให้บริการภายใต้โดเมนเดียวผ่าน HTTPS}] {};
+\end{scope}
+\end{tikzpicture}%
+}
 \caption{แผนภาพสถาปัตยกรรมระบบของงานวิจัย}
 \end{figure}
 
@@ -92,7 +127,38 @@
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.75\textwidth,height=9.5cm,keepaspectratio]{images/image14.png}
+\adjustbox{max width=0.9\textwidth, max height=12cm}{%
+\begin{tikzpicture}[
+  stp/.style={draw, thick, rounded corners=3pt, fill=white, align=center, inner sep=5pt, text width=7.4cm},
+  side/.style={draw, thick, rounded corners=3pt, fill=white, align=center, inner sep=5pt, text width=3.6cm, font=\small},
+  term/.style={draw, thick, rounded corners=8pt, fill=white, align=center, inner sep=5pt, minimum width=2.4cm},
+  flow/.style={thick, -{Stealth[length=2.4mm]}},
+  lab/.style={font=\small, fill=white, inner sep=1.5pt}
+]
+\node[term] (s0) at (0,0) {ผู้ใช้ส่งคำถาม};
+\node[stp] (s1) at (0,-1.7) {รับคำถามพร้อมประวัติการสนทนา\\(เก็บไว้ 4 ข้อความล่าสุด)};
+\node[stp] (s2) at (0,-3.6) {LLM เขียนคำถามใหม่ให้สมบูรณ์ในตัวเอง\\(Query Rewriting)};
+\node[stp] (s3) at (0,-5.7) {ค้นคืนข้อมูลแบบผสม (Hybrid Search)\\จากตาราง places, knowledge\_base และ events\\ตารางละ 3 รายการ};
+\node[stp] (s4) at (0,-8.0) {LLM สร้างคำตอบจากข้อมูลที่ค้นคืนได้\\ส่งกลับแบบ Streaming};
+\node[draw, thick, diamond, aspect=2.6, fill=white, align=center, inner sep=1pt] (d1) at (0,-10.6) {มีข้อมูล\\รองรับคำตอบหรือไม่};
+\node[stp, text width=3.8cm, font=\small] (no) at (-4.3,-13.1) {ตอบด้วยข้อความมาตรฐาน\\ว่าไม่พบข้อมูล};
+\node[stp, text width=4.4cm, font=\small] (yes) at (4.3,-13.1) {แสดงคำตอบพร้อมการ์ด\\สถานที่หรือกิจกรรมที่อ้างถึง};
+\node[term] (end) at (0,-15.1) {จบ};
+\node[side] (fail) at (8.2,-8.0) {แสดงข้อความขออภัย\\(LLM หรือฐานข้อมูลล้มเหลว)};
+
+\draw[flow] (s0) -- (s1);
+\draw[flow] (s1) -- (s2);
+\draw[flow] (s2) -- (s3);
+\draw[flow] (s3) -- (s4);
+\draw[flow] (s4) -- (d1);
+\draw[flow] (d1.west) -| node[lab, pos=0.25, above] {ไม่มี} (no.north);
+\draw[flow] (d1.east) -| node[lab, pos=0.25, above] {มี} (yes.north);
+\draw[flow] (no.south) |- (end.west);
+\draw[flow] (yes.south) |- (end.east);
+\draw[flow] (s4.east) -- node[lab, above] {ล้มเหลว} (fail.west);
+\draw[flow] (fail.south) -- (8.2,-16.5) -- (0,-16.5) -- (end.south);
+\end{tikzpicture}%
+}
 \caption{แผนภาพขั้นตอนการทำงานของระบบ แชตบอต และระบบแนะนำ}
 \end{figure}
 
