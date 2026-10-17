@@ -1,0 +1,2 @@
+.relationshipLabel, .relationshipLabelBox text, .edgeLabel, .edgeLabel span, .labelBkg { font-size: 22px !important; }
+.relationshipLabelBox { fill: white !important; opacity: 1 !important; }

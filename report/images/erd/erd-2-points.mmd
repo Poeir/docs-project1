@@ -1,0 +1,61 @@
+erDiagram
+    direction LR
+    users ||--o{ qr_scans : "สแกน"
+    users ||--o{ redemptions : "แลก"
+    users |o--o{ redemptions : "เจ้าหน้าที่ดำเนินการ"
+    users ||--o{ points_adjustments : "ถูกปรับพอยท์"
+    users |o--o{ points_adjustments : "ผู้ปรับ"
+    places ||--o| qrs : "ติดตั้งที่"
+    qrs ||--o{ qr_scans : "ถูกสแกน"
+    rewards |o--o{ redemptions : "ถูกแลก"
+
+    users {
+        uuid id PK
+        text email UK
+        int points_balance
+    }
+    places {
+        uuid id PK
+        text name
+        double lat
+        double lng
+    }
+    qrs {
+        uuid id PK
+        uuid place_id FK
+        int points
+        int radius_m
+        timestamptz expires_at
+        bool is_active
+    }
+    qr_scans {
+        uuid id PK
+        uuid qr_id FK
+        uuid user_id FK
+        int points_awarded
+        timestamptz scanned_at
+    }
+    rewards {
+        uuid id PK
+        text name
+        int cost
+        int stock
+        text image_url
+    }
+    redemptions {
+        uuid id PK
+        uuid user_id FK
+        uuid reward_id FK
+        uuid admin_id FK
+        int cost
+        text status
+        timestamptz redeemed_at
+    }
+    points_adjustments {
+        uuid id PK
+        uuid user_id FK
+        uuid admin_id FK
+        int delta
+        int balance_after
+        text reason
+    }

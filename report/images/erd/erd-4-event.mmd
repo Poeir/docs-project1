@@ -1,0 +1,59 @@
+erDiagram
+    direction LR
+    places |o--o{ events : "จัดขึ้นที่"
+    events ||--o{ event_photos : "มีรูปภาพ"
+    events ||--o{ event_reports : "ถูกรายงาน"
+    events |o--o| event_requests : "อนุมัติจาก"
+    places |o--o{ event_requests : "ระบุสถานที่"
+    event_requests ||--o{ event_request_photos : "แนบรูปภาพ"
+    users |o--o{ event_reports : "เป็นผู้แจ้ง"
+    users ||--o{ event_requests : "เป็นผู้ส่งคำขอ"
+
+    users {
+        uuid id PK
+        text display_name
+    }
+    places {
+        uuid id PK
+        text name
+    }
+    events {
+        uuid id PK
+        uuid place_id FK
+        text name
+        text category
+        date event_start_date
+        date event_end_date
+        text status
+    }
+    event_photos {
+        uuid id PK
+        uuid event_id FK
+        text url
+        text public_id
+        int position
+    }
+    event_reports {
+        uuid id PK
+        uuid event_id FK
+        uuid user_id FK
+        text field
+        text status
+        text resolution
+    }
+    event_requests {
+        uuid id PK
+        uuid user_id FK
+        uuid event_id FK
+        uuid place_id FK
+        text name
+        text status
+        text reject_reason
+    }
+    event_request_photos {
+        uuid id PK
+        uuid request_id FK
+        text url
+        text public_id
+        int position
+    }
