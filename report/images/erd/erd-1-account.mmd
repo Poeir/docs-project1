@@ -1,0 +1,52 @@
+erDiagram
+    direction LR
+    users ||--o{ sessions : "มีเซสชัน"
+    users ||--o{ email_verification_tokens : "มีโทเคนยืนยันอีเมล"
+    users ||--o{ password_reset_tokens : "มีโทเคนตั้งรหัสผ่าน"
+    users ||--o{ email_change_tokens : "มีโทเคนเปลี่ยนอีเมล"
+    users |o--o{ admin_audit_log : "เป็นผู้ดำเนินการ"
+    users |o--o{ admin_audit_log : "เป็นผู้ถูกกระทำ"
+
+    users {
+        uuid id PK
+        text email UK
+        text password_hash
+        text role
+        text status
+        text display_name
+        int points_balance
+        bool email_verified
+        timestamptz deleted_at
+    }
+    sessions {
+        uuid id PK
+        uuid user_id FK
+        text token_hash
+        timestamptz expires_at
+    }
+    email_verification_tokens {
+        uuid id PK
+        uuid user_id FK
+        text token_hash
+        timestamptz expires_at
+    }
+    password_reset_tokens {
+        uuid id PK
+        uuid user_id FK
+        text token_hash
+        timestamptz expires_at
+    }
+    email_change_tokens {
+        uuid id PK
+        uuid user_id FK
+        text new_email
+        text token_hash
+        timestamptz expires_at
+    }
+    admin_audit_log {
+        uuid id PK
+        uuid admin_id FK
+        uuid target_user_id FK
+        text action
+        jsonb details
+    }

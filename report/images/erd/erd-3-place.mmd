@@ -1,0 +1,57 @@
+erDiagram
+    direction LR
+    places ||--o{ place_photos : "มีรูปภาพ"
+    places ||--o{ place_reports : "ถูกรายงาน"
+    places ||--o{ place_sync_results : "มีผลซิงก์"
+    place_sync_jobs ||--o{ place_sync_results : "ประกอบด้วย"
+    users |o--o{ place_reports : "เป็นผู้แจ้ง"
+    users |o--o{ place_sync_jobs : "เป็นผู้สร้างงาน"
+
+    users {
+        uuid id PK
+        text display_name
+    }
+    places {
+        uuid id PK
+        text google_place_id UK
+        text name
+        text category
+        double lat
+        double lng
+        text district
+        jsonb hours_periods
+        bool is_active
+        text[] locked_fields
+        jsonb google_diff
+    }
+    place_photos {
+        uuid id PK
+        uuid place_id FK
+        text url
+        text public_id
+        int position
+    }
+    place_reports {
+        uuid id PK
+        uuid place_id FK
+        uuid user_id FK
+        text field
+        text note
+        text status
+        text resolution
+    }
+    place_sync_jobs {
+        uuid id PK
+        uuid created_by FK
+        text scope
+        text[] fields
+        text status
+        int total
+    }
+    place_sync_results {
+        uuid id PK
+        uuid job_id FK
+        uuid place_id FK
+        text status
+        jsonb diff
+    }

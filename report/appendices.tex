@@ -5,46 +5,99 @@
 % ใช้คำสั่ง \appendiceschapter{ชื่อภาคผนวก} สำหรับแต่ละภาคผนวก
 % ระบบจะกำหนดตัวอักษร ก, ข, ค ... ให้โดยอัตโนมัติ
 %
-% *** ลบข้อความตัวอย่างด้านล่าง แล้วใส่ภาพ UI / Prototype ของตนเอง ***
+% ภาพหน้าจอทั้งหมดคัดจากคู่มือการใช้งาน (manual/images/screens) เฉพาะหน้าจอของส่วนเว็บ
+% หน้าจอของแชตบอตและระบบวางแผนการเดินทางไม่ได้นำมาใส่ในภาคผนวกนี้
+
+% ภาพหน้าจอ: \appscreen[ความกว้าง]{ชื่อไฟล์ไม่รวมนามสกุล}{คำอธิบายภาพ}
+\newcommand{\appscreen}[3][0.85]{%
+\begin{figure}[H]
+\centering
+\includegraphics[width=#1\textwidth,keepaspectratio]{images/screens/#2.jpg}
+\caption{#3}
+\label{fig:app_#2}
+\end{figure}}
 
 % =============================
 % ภาคผนวก ก
 % =============================
 \setcounter{chapter}{-1}
-\appendiceschapter{ตัวอย่าง UI หรือ Prototype}
+\appendiceschapter{ภาพหน้าจอระบบที่พัฒนา}
 
-\section*{ภาพหน้าจอระบบ}
+ภาคผนวกนี้แสดงหน้าจอของระบบที่พัฒนาเสร็จแล้วในส่วนเว็บ เพื่อให้เทียบกับแบบร่างหน้าจอ (Wireframe) ในบทที่ 4 ได้ แบ่งเป็นหน้าจอของผู้ใช้งานทั่วไปและสมาชิก และหน้าจอของผู้ดูแลระบบ ข้อมูลที่ปรากฏในภาพ เช่น ชื่อ อีเมล และเบอร์โทรศัพท์ของผู้ใช้ เป็นข้อมูลตัวอย่างที่สร้างขึ้นสำหรับการจัดทำเอกสาร มิใช่ข้อมูลของผู้ใช้จริง
 
-ภาคผนวกนี้แสดงตัวอย่างหน้าจอของระบบที่พัฒนาขึ้น เพื่อให้เห็นภาพรวมของการออกแบบส่วนติดต่อกับผู้ใช้
+\section*{ก.1 หน้าจอของผู้ใช้งานทั่วไปและสมาชิก}
 
-หน้าจอเข้าสู่ระบบ (Login) แสดงดังภาพที่ \ref{fig:ui_login}
+\subsection*{ก.1.1 หน้าแรก การสมัครสมาชิก และการเข้าสู่ระบบ}
 
-% *** เปลี่ยนชื่อไฟล์จาก ui-login.png เป็นชื่อไฟล์ของคุณ ***
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.8\textwidth]{images/ui-login.png}
-\fbox{\parbox{0.75\textwidth}{\centering\vspace{4cm}\textit{แทรกภาพหน้าจอ Login ที่นี่}\\ใช้คำสั่ง \texttt{\textbackslash includegraphics}\vspace{4cm}}}
-\caption{หน้าจอเข้าสู่ระบบ (Login)}
-\label{fig:ui_login}
-\end{figure}
+ภาพที่ \ref{fig:app_guest-home} แสดงหน้าแรกที่รวมกิจกรรมแนะนำและสถานที่แนะนำไว้ในหน้าเดียว พร้อมแถบเมนูสำหรับผู้ใช้ที่ยังไม่เข้าสู่ระบบ ภาพที่ \ref{fig:app_guest-signup-form} ถึง \ref{fig:app_forgot-password} แสดงขั้นตอนสมัครสมาชิก เข้าสู่ระบบ และตั้งรหัสผ่านใหม่ (UC-15 และ UC-16)
 
-หน้าจอหลัก (Dashboard) แสดงดังภาพที่ \ref{fig:ui_dashboard}
+\appscreen{guest-home}{หน้าแรกและแถบเมนูผู้ใช้งานทั่วไป}
+\appscreen{guest-signup-form}{หน้าฟอร์มสมัครสมาชิก}
+\appscreen{guest-login-form}{หน้าฟอร์มเข้าสู่ระบบ}
+\appscreen{forgot-password}{หน้าลืมรหัสผ่าน}
 
-\begin{figure}[H]
-\centering
-% \includegraphics[width=0.8\textwidth]{images/ui-dashboard.png}
-\fbox{\parbox{0.75\textwidth}{\centering\vspace{4cm}\textit{แทรกภาพหน้าจอหลักที่นี่}\vspace{4cm}}}
-\caption{หน้าจอหลัก (Dashboard)}
-\label{fig:ui_dashboard}
-\end{figure}
+\subsection*{ก.1.2 สถานที่ท่องเที่ยวและกิจกรรม}
 
-\section*{คู่มือการใช้งาน}
+ภาพที่ \ref{fig:app_places-list} และ \ref{fig:app_place-detail} แสดงรายการสถานที่ที่มีช่องค้นหาและตัวกรองหมวดหมู่ และหน้ารายละเอียดสถานที่ (UC-02 และ UC-04) ส่วนภาพที่ \ref{fig:app_events-list} และ \ref{fig:app_event-detail} แสดงรายการและรายละเอียดกิจกรรมที่มีโครงสร้างสอดคล้องกัน (UC-05)
 
-อธิบายขั้นตอนการใช้งานระบบโดยสังเขป\ldots{}
+\appscreen{places-list}{หน้ารายการสถานที่ท่องเที่ยว}
+\appscreen{place-detail}{หน้ารายละเอียดสถานที่ท่องเที่ยว}
+\appscreen{events-list}{หน้ารายการกิจกรรมและเทศกาล}
+\appscreen{event-detail}{หน้ารายละเอียดกิจกรรม}
 
-% =============================
-% ภาคผนวก ข (ตัวอย่าง — uncomment ถ้าต้องการ)
-% =============================
-% \appendiceschapter{รายละเอียดเพิ่มเติม}
-% \section*{หัวข้อ}
-% เนื้อหาภาคผนวก ข
+\subsection*{ก.1.3 พอยท์สะสมและการสแกน QR}
+
+ภาพที่ \ref{fig:app_points-guest} แสดงหน้าพอยท์สะสมสำหรับผู้ที่ยังไม่เข้าสู่ระบบ ซึ่งบอกวิธีสะสมและแสดงสถานที่ที่มี QR ให้สะสมพอยท์ได้ ส่วนภาพที่ \ref{fig:app_points-member} และ \ref{fig:app_qr-scan} แสดงหน้าพอยท์ของสมาชิกและกล่องสแกน QR ที่ขอใช้กล้องและตำแหน่งของผู้ใช้ (UC-03 และ UC-08)
+
+\appscreen{points-guest}{หน้าพอยท์สะสม กรณีผู้ใช้งานทั่วไป}
+\appscreen{points-member}{หน้าพอยท์สะสมของสมาชิก}
+\appscreen{qr-scan}{กล่องสแกน QR Code เพื่อสะสมพอยท์}
+
+\subsection*{ก.1.4 บัญชีของสมาชิก}
+
+หน้าบัญชีของสมาชิกแบ่งเป็น 5 แท็บ ได้แก่ ภาพรวม ข้อมูล ประวัติการสแกนและการแลก กิจกรรมของฉัน (คำขอเพิ่มกิจกรรม) และความปลอดภัย แสดงดังภาพที่ \ref{fig:app_profile-overview} ถึง \ref{fig:app_profile-security} (UC-17 และ UC-19)
+
+\appscreen{profile-overview}{หน้าโปรไฟล์ แท็บภาพรวม}
+\appscreen{profile-info}{หน้าโปรไฟล์ แท็บข้อมูล}
+\appscreen{profile-history}{หน้าโปรไฟล์ แท็บประวัติ}
+\appscreen{profile-events}{หน้าโปรไฟล์ แท็บกิจกรรมของฉัน}
+\appscreen{profile-security}{หน้าโปรไฟล์ แท็บความปลอดภัย}
+
+\section*{ก.2 หน้าจอของผู้ดูแลระบบ}
+
+\subsection*{ก.2.1 การเข้าสู่ระบบและแดชบอร์ด}
+
+ภาพที่ \ref{fig:app_admin-login} แสดงหน้าเข้าสู่ระบบของผู้ดูแลระบบ (UC-11) และภาพที่ \ref{fig:app_admin-dashboard} แสดงแดชบอร์ดที่สรุปสถิติของระบบ พร้อมเมนูด้านข้างที่แสดงจำนวนรายการรอตรวจสอบ (UC-14)
+
+\appscreen[0.7]{admin-login}{หน้าเข้าสู่ระบบของผู้ดูแลระบบ}
+\appscreen{admin-dashboard}{หน้าแดชบอร์ดผู้ดูแลระบบ}
+
+\subsection*{ก.2.2 การจัดการสถานที่และกิจกรรม}
+
+ภาพที่ \ref{fig:app_admin-places} ถึง \ref{fig:app_admin-events} แสดงรายการและแบบฟอร์มเพิ่มหรือแก้ไขข้อมูลสถานที่ และรายการกิจกรรม ซึ่งผู้ดูแลระบบเพิ่ม แก้ไข ลบ และเปิดหรือปิดการแสดงผลได้ (UC-06.1 ถึง UC-06.3 และ UC-09)
+
+\appscreen{admin-places}{หน้าจัดการสถานที่}
+\appscreen{admin-place-form}{หน้าฟอร์มเพิ่มและแก้ไขข้อมูลสถานที่}
+\appscreen{admin-events}{หน้าจัดการกิจกรรม}
+
+\subsection*{ก.2.3 คิวตรวจสอบ}
+
+ภาพที่ \ref{fig:app_admin-reports} และ \ref{fig:app_admin-event-requests} แสดงคิวรายงานข้อมูลคลาดเคลื่อนและคิวคำขอเพิ่มกิจกรรมจากผู้ใช้ที่ผู้ดูแลระบบตรวจสอบก่อนข้อมูลปรากฏในระบบ (UC-21)
+
+\appscreen{admin-reports}{หน้ารายงานข้อมูล}
+\appscreen{admin-event-requests}{หน้าคำขอกิจกรรม}
+
+\subsection*{ก.2.4 QR ของรางวัล และการแลกที่เคาน์เตอร์}
+
+ภาพที่ \ref{fig:app_admin-qr} และ \ref{fig:app_admin-rewards} แสดงการจัดการ QR Code และของรางวัล ส่วนภาพที่ \ref{fig:app_admin-redeem} แสดงหน้าที่เจ้าหน้าที่ใช้แลกของรางวัลให้ผู้ใช้ที่เคาน์เตอร์และยกเลิกรายการแลก (UC-06.5 และ UC-08)
+
+\appscreen{admin-qr}{หน้าจัดการ QR Code}
+\appscreen{admin-rewards}{หน้าจัดการของรางวัล}
+\appscreen{admin-redeem}{หน้าแลกของรางวัลที่เคาน์เตอร์}
+
+\subsection*{ก.2.5 ผู้ใช้และแบบสอบถาม}
+
+ภาพที่ \ref{fig:app_admin-users} แสดงหน้าจัดการบัญชีผู้ใช้ (UC-23) และภาพที่ \ref{fig:app_admin-survey} แสดงหน้าสรุปผลแบบสอบถามความพึงพอใจ (UC-24)
+
+\appscreen{admin-users}{หน้าจัดการผู้ใช้}
+\appscreen{admin-survey}{หน้าผลความพึงพอใจ}
