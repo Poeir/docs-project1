@@ -1,104 +1,104 @@
 % สร้างอัตโนมัติโดย survey/build_survey.py -- อย่าแก้ไฟล์นี้ด้วยมือ
-% แหล่งข้อมูล: survey-responses.csv (ผู้ตอบ 30 คน, 12--14 ตุลาคม 2569)
+% แหล่งข้อมูล: survey-responses.csv (ผู้ตอบ 32 คน, 12--17 ตุลาคม 2569)
 % เมื่อได้ข้อมูลชุดใหม่ ให้รัน python survey/build_survey.py จากโฟลเดอร์ report/ แล้ว build รายงานใหม่
-\newcommand{\surveyN}{30}
+\newcommand{\surveyN}{32}
 \newcommand{\surveyTargetN}{30}
-\newcommand{\surveyDateRange}{12--14 ตุลาคม 2569}
-\newcommand{\surveyOverallMean}{4.31}
-\newcommand{\surveyOverallSD}{0.61}
+\newcommand{\surveyDateRange}{12--17 ตุลาคม 2569}
+\newcommand{\surveyOverallMean}{4.27}
+\newcommand{\surveyOverallSD}{0.66}
 \newcommand{\surveyOverallLevel}{มากที่สุด}
 \newcommand{\surveyOverallLevelEN}{highest}
 \newcommand{\surveyTopDim}{ด้านความง่ายในการใช้งาน}
-\newcommand{\surveyTopDimMean}{4.60}
+\newcommand{\surveyTopDimMean}{4.56}
 \newcommand{\surveyTopDimLevel}{มากที่สุด}
 \newcommand{\surveyLowDim}{ด้านแชตบอต AI}
-\newcommand{\surveyLowDimMean}{4.05}
+\newcommand{\surveyLowDimMean}{4.02}
 \newcommand{\surveyLowDimLevel}{มาก}
 \newcommand{\surveyTopItem}{ข้อ 11 ความง่ายในการใช้งานระบบ}
-\newcommand{\surveyTopItemMean}{4.67}
+\newcommand{\surveyTopItemMean}{4.63}
 \newcommand{\surveyLowItem}{ข้อ 6 ความรวดเร็วในการตอบของแชตบอต}
-\newcommand{\surveyLowItemMean}{3.93}
-\newcommand{\surveySatisfiedCount}{27}
-\newcommand{\surveySatisfiedPercent}{90.00}
+\newcommand{\surveyLowItemMean}{3.87}
+\newcommand{\surveySatisfiedCount}{28}
+\newcommand{\surveySatisfiedPercent}{87.50}
 \newcommand{\surveyStraightCount}{6}
-\newcommand{\surveySkipRange}{27--29}
+\newcommand{\surveySkipRange}{29--31}
 \newcommand{\surveyStrengthCount}{7}
 \newcommand{\surveyImproveCount}{4}
 \newcommand{\surveyTopOccupation}{นักศึกษา}
-\newcommand{\surveyTopOccupationCount}{20}
-\newcommand{\surveyTopOccupationPercent}{66.67}
+\newcommand{\surveyTopOccupationCount}{22}
+\newcommand{\surveyTopOccupationPercent}{68.75}
 \newcommand{\surveyTopAge}{20--29 ปี}
-\newcommand{\surveyTopAgeCount}{22}
-\newcommand{\surveyTopAgePercent}{73.33}
+\newcommand{\surveyTopAgeCount}{24}
+\newcommand{\surveyTopAgePercent}{75.00}
 \newcommand{\surveyTopPlanMethod}{โซเชียลมีเดีย/รีวิว (Facebook, TikTok, Instagram)}
-\newcommand{\surveyTopPlanMethodCount}{14}
+\newcommand{\surveyTopPlanMethodCount}{15}
 \newcommand{\surveyTopPlanTime}{มากกว่า 3 ชั่วโมง}
 \newcommand{\surveyTopPlanTimeCount}{18}
 \newcommand{\surveyProvisionalNote}{}
 \newcommand{\surveyDemographicRows}{%
 \textbf{เพศ} & & \\ \hline
-ชาย & 10 & 33.33 \\ \hline
-หญิง & 19 & 63.33 \\ \hline
-ไม่ระบุ & 1 & 3.33 \\ \hline
-รวม & 30 & 100.00 \\ \hline
+ชาย & 12 & 37.50 \\ \hline
+หญิง & 19 & 59.38 \\ \hline
+ไม่ระบุ & 1 & 3.13 \\ \hline
+รวม & 32 & 100.00 \\ \hline
 \textbf{อายุ} & & \\ \hline
-ต่ำกว่า 20 ปี & 5 & 16.67 \\ \hline
-20--29 ปี & 22 & 73.33 \\ \hline
-30--39 ปี & 1 & 3.33 \\ \hline
-40 ปีขึ้นไป & 2 & 6.67 \\ \hline
-รวม & 30 & 100.00 \\ \hline
+ต่ำกว่า 20 ปี & 5 & 15.63 \\ \hline
+20--29 ปี & 24 & 75.00 \\ \hline
+30--39 ปี & 1 & 3.13 \\ \hline
+40 ปีขึ้นไป & 2 & 6.25 \\ \hline
+รวม & 32 & 100.00 \\ \hline
 \textbf{อาชีพ} & & \\ \hline
-นักศึกษา & 20 & 66.67 \\ \hline
-บุคลากร & 2 & 6.67 \\ \hline
-นักท่องเที่ยวทั่วไป & 3 & 10.00 \\ \hline
-อื่น ๆ & 5 & 16.67 \\ \hline
-รวม & 30 & 100.00 \\ \hline
+นักศึกษา & 22 & 68.75 \\ \hline
+บุคลากร & 2 & 6.25 \\ \hline
+นักท่องเที่ยวทั่วไป & 3 & 9.38 \\ \hline
+อื่น ๆ & 5 & 15.63 \\ \hline
+รวม & 32 & 100.00 \\ \hline
 }
 \newcommand{\surveyExperienceRows}{%
 \textbf{วิธีวางแผนเที่ยวหลักก่อนใช้ Dino} & & \\ \hline
-ค้นหาจากเว็บไซต์/Google & 8 & 26.67 \\ \hline
-โซเชียลมีเดีย/รีวิว (Facebook, TikTok, Instagram) & 14 & 46.67 \\ \hline
-Google Maps & 1 & 3.33 \\ \hline
-สอบถามเพื่อนหรือคนรู้จัก & 2 & 6.67 \\ \hline
+ค้นหาจากเว็บไซต์/Google & 8 & 25.00 \\ \hline
+โซเชียลมีเดีย/รีวิว (Facebook, TikTok, Instagram) & 15 & 46.88 \\ \hline
+Google Maps & 1 & 3.13 \\ \hline
+สอบถามเพื่อนหรือคนรู้จัก & 3 & 9.38 \\ \hline
 แอป/เว็บวางแผนเที่ยวโดยเฉพาะ & 0 & 0.00 \\ \hline
-ใช้ AI เช่น ChatGPT, Gemini & 2 & 6.67 \\ \hline
-ไม่ได้วางแผน ไปตามสถานการณ์ & 3 & 10.00 \\ \hline
+ใช้ AI เช่น ChatGPT, Gemini & 2 & 6.25 \\ \hline
+ไม่ได้วางแผน ไปตามสถานการณ์ & 3 & 9.38 \\ \hline
 \textbf{เวลาที่ใช้วางแผนเที่ยวหนึ่งครั้งโดยปกติ} & & \\ \hline
-น้อยกว่า 30 นาที & 4 & 13.33 \\ \hline
-30 นาที -- 1 ชั่วโมง & 3 & 10.00 \\ \hline
-มากกว่า 1 -- 3 ชั่วโมง & 5 & 16.67 \\ \hline
-มากกว่า 3 ชั่วโมง & 18 & 60.00 \\ \hline
+น้อยกว่า 30 นาที & 5 & 15.63 \\ \hline
+30 นาที -- 1 ชั่วโมง & 4 & 12.50 \\ \hline
+มากกว่า 1 -- 3 ชั่วโมง & 5 & 15.63 \\ \hline
+มากกว่า 3 ชั่วโมง & 18 & 56.25 \\ \hline
 \textbf{การใช้แชตบอต AI (เช่น ChatGPT, Gemini) ก่อนใช้ Dino} & & \\ \hline
-ใช้เป็นประจำ & 19 & 63.33 \\ \hline
-เคยใช้บ้าง & 9 & 30.00 \\ \hline
-ไม่เคยใช้ & 2 & 6.67 \\ \hline
+ใช้เป็นประจำ & 20 & 62.50 \\ \hline
+เคยใช้บ้าง & 10 & 31.25 \\ \hline
+ไม่เคยใช้ & 2 & 6.25 \\ \hline
 \textbf{การรู้จักหรือเคยเที่ยวขอนแก่นมาก่อน} & & \\ \hline
-อาศัยอยู่ในขอนแก่น/พื้นที่ใกล้เคียง & 10 & 33.33 \\ \hline
-เคยมาเที่ยวแล้ว & 16 & 53.33 \\ \hline
-ยังไม่เคยมา & 4 & 13.33 \\ \hline
+อาศัยอยู่ในขอนแก่น/พื้นที่ใกล้เคียง & 12 & 37.50 \\ \hline
+เคยมาเที่ยวแล้ว & 16 & 50.00 \\ \hline
+ยังไม่เคยมา & 4 & 12.50 \\ \hline
 }
 \newcommand{\surveyItemRows}{%
-\textbf{ด้านการทำงานของระบบ} & \textbf{30} & \textbf{4.24} & \textbf{0.76} & \textbf{มากที่สุด} \\ \hline
-1. ความครอบคลุมของฟีเจอร์สำหรับการวางแผนท่องเที่ยว & 30 & 4.20 & 0.92 & มาก \\ \hline
-2. ความถูกต้องของข้อมูลสถานที่ท่องเที่ยว & 30 & 4.37 & 0.67 & มากที่สุด \\ \hline
-3. ความตรงกับความต้องการของผลการค้นหาสถานที่ & 30 & 4.17 & 0.91 & มาก \\ \hline
-\textbf{ด้านแชตบอต AI} & \textbf{28} & \textbf{4.05} & \textbf{0.71} & \textbf{มาก} \\ \hline
-4. ความตรงกับคำถามของคำตอบจากแชตบอต & 27 & 4.15 & 0.72 & มาก \\ \hline
-5. ความน่าเชื่อถือของข้อมูลจากแชตบอต & 28 & 4.07 & 0.81 & มาก \\ \hline
-6. ความรวดเร็วในการตอบของแชตบอต & 28 & 3.93 & 0.98 & มาก \\ \hline
-\textbf{ด้านการวางแผนเที่ยวด้วย AI} & \textbf{29} & \textbf{4.12} & \textbf{0.81} & \textbf{มาก} \\ \hline
-7. ความเหมาะสมของแผนเที่ยวกับความสนใจของท่าน & 28 & 4.32 & 0.67 & มากที่สุด \\ \hline
-8. ความเป็นไปได้ในการทำตามตารางเวลาของแผนเที่ยว & 28 & 3.96 & 1.04 & มาก \\ \hline
-9. การช่วยประหยัดเวลาในการวางแผนเที่ยว & 29 & 4.34 & 0.90 & มากที่สุด \\ \hline
-10. ความรวดเร็วในการสร้างแผนเที่ยว & 29 & 3.97 & 1.24 & มาก \\ \hline
-\textbf{ด้านความง่ายในการใช้งาน} & \textbf{30} & \textbf{4.60} & \textbf{0.62} & \textbf{มากที่สุด} \\ \hline
-11. ความง่ายในการใช้งานระบบ & 30 & 4.67 & 0.55 & มากที่สุด \\ \hline
-12. ความง่ายในการค้นหาข้อมูลที่ต้องการ & 30 & 4.53 & 0.78 & มากที่สุด \\ \hline
-\textbf{ด้านการออกแบบและประสิทธิภาพ} & \textbf{30} & \textbf{4.53} & \textbf{0.85} & \textbf{มากที่สุด} \\ \hline
-13. ความสวยงามของการออกแบบหน้าจอ & 30 & 4.63 & 0.89 & มากที่สุด \\ \hline
-14. ความเร็วในการโหลดหน้าเว็บ & 30 & 4.43 & 0.94 & มากที่สุด \\ \hline
-\textbf{ด้านความพึงพอใจโดยรวม} & \textbf{30} & \textbf{4.50} & \textbf{0.62} & \textbf{มากที่สุด} \\ \hline
-15. ความพึงพอใจโดยรวมต่อระบบ & 30 & 4.50 & 0.68 & มากที่สุด \\ \hline
-16. ความตั้งใจที่จะแนะนำระบบให้ผู้อื่น & 30 & 4.50 & 0.63 & มากที่สุด \\ \hline
-\textbf{รวมทุกด้าน} & \textbf{30} & \textbf{4.31} & \textbf{0.61} & \textbf{มากที่สุด} \\ \hline
+\textbf{ด้านการทำงานของระบบ} & \textbf{32} & \textbf{4.22} & \textbf{0.80} & \textbf{มากที่สุด} \\ \hline
+1. ความครอบคลุมของฟีเจอร์สำหรับการวางแผนท่องเที่ยว & 32 & 4.19 & 0.93 & มาก \\ \hline
+2. ความถูกต้องของข้อมูลสถานที่ท่องเที่ยว & 32 & 4.34 & 0.70 & มากที่สุด \\ \hline
+3. ความตรงกับความต้องการของผลการค้นหาสถานที่ & 32 & 4.13 & 0.98 & มาก \\ \hline
+\textbf{ด้านแชตบอต AI} & \textbf{30} & \textbf{4.02} & \textbf{0.74} & \textbf{มาก} \\ \hline
+4. ความตรงกับคำถามของคำตอบจากแชตบอต & 29 & 4.14 & 0.74 & มาก \\ \hline
+5. ความน่าเชื่อถือของข้อมูลจากแชตบอต & 30 & 4.07 & 0.83 & มาก \\ \hline
+6. ความรวดเร็วในการตอบของแชตบอต & 30 & 3.87 & 1.01 & มาก \\ \hline
+\textbf{ด้านการวางแผนเที่ยวด้วย AI} & \textbf{31} & \textbf{4.08} & \textbf{0.82} & \textbf{มาก} \\ \hline
+7. ความเหมาะสมของแผนเที่ยวกับความสนใจของท่าน & 30 & 4.27 & 0.69 & มากที่สุด \\ \hline
+8. ความเป็นไปได้ในการทำตามตารางเวลาของแผนเที่ยว & 30 & 3.93 & 1.01 & มาก \\ \hline
+9. การช่วยประหยัดเวลาในการวางแผนเที่ยว & 31 & 4.32 & 0.91 & มากที่สุด \\ \hline
+10. ความรวดเร็วในการสร้างแผนเที่ยว & 31 & 3.90 & 1.25 & มาก \\ \hline
+\textbf{ด้านความง่ายในการใช้งาน} & \textbf{32} & \textbf{4.56} & \textbf{0.67} & \textbf{มากที่สุด} \\ \hline
+11. ความง่ายในการใช้งานระบบ & 32 & 4.63 & 0.61 & มากที่สุด \\ \hline
+12. ความง่ายในการค้นหาข้อมูลที่ต้องการ & 32 & 4.50 & 0.80 & มากที่สุด \\ \hline
+\textbf{ด้านการออกแบบและประสิทธิภาพ} & \textbf{32} & \textbf{4.48} & \textbf{0.90} & \textbf{มากที่สุด} \\ \hline
+13. ความสวยงามของการออกแบบหน้าจอ & 32 & 4.59 & 0.91 & มากที่สุด \\ \hline
+14. ความเร็วในการโหลดหน้าเว็บ & 32 & 4.38 & 1.01 & มากที่สุด \\ \hline
+\textbf{ด้านความพึงพอใจโดยรวม} & \textbf{32} & \textbf{4.45} & \textbf{0.65} & \textbf{มากที่สุด} \\ \hline
+15. ความพึงพอใจโดยรวมต่อระบบ & 32 & 4.47 & 0.72 & มากที่สุด \\ \hline
+16. ความตั้งใจที่จะแนะนำระบบให้ผู้อื่น & 32 & 4.44 & 0.67 & มากที่สุด \\ \hline
+\textbf{รวมทุกด้าน} & \textbf{32} & \textbf{4.27} & \textbf{0.66} & \textbf{มากที่สุด} \\ \hline
 }
