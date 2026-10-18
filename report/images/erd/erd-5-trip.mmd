@@ -1,0 +1,46 @@
+erDiagram
+    direction LR
+    users |o--o{ trips : "สร้างแผน"
+    trips ||--o{ trip_days : "ประกอบด้วยวัน"
+    trip_days ||--o{ trip_items : "ประกอบด้วยจุดแวะ"
+    places |o--o{ trip_items : "อ้างอิงสถานที่"
+
+    users {
+        uuid id PK
+        text display_name
+    }
+    places {
+        uuid id PK
+        text name
+    }
+    trips {
+        uuid id PK
+        uuid user_id FK
+        text title
+        jsonb input
+        date start_date
+        int days
+        numeric total_distance_km
+        numeric total_cost_estimate
+        bool is_favorite
+    }
+    trip_days {
+        uuid id PK
+        uuid trip_id FK
+        int day_no
+        date date
+        numeric day_cost_estimate
+        int day_travel_time_total
+    }
+    trip_items {
+        uuid id PK
+        uuid day_id FK
+        uuid place_id FK
+        int position
+        text place_name
+        text kind
+        text arrival_time
+        text departure_time
+        int travel_time_min
+        numeric distance_km
+    }

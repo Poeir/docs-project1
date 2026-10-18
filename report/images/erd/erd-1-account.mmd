@@ -3,9 +3,11 @@ erDiagram
     users ||--o{ sessions : "มีเซสชัน"
     users ||--o{ email_verification_tokens : "มีโทเคนยืนยันอีเมล"
     users ||--o{ password_reset_tokens : "มีโทเคนตั้งรหัสผ่าน"
-    users ||--o{ email_change_tokens : "มีโทเคนเปลี่ยนอีเมล"
+    users ||--o| email_change_tokens : "มีโทเคนเปลี่ยนอีเมล"
     users |o--o{ admin_audit_log : "เป็นผู้ดำเนินการ"
     users |o--o{ admin_audit_log : "เป็นผู้ถูกกระทำ"
+    users |o--o{ users : "ระงับบัญชีโดย"
+    users |o--o{ users : "ลบบัญชีโดย"
 
     users {
         uuid id PK
@@ -17,6 +19,8 @@ erDiagram
         int points_balance
         bool email_verified
         timestamptz deleted_at
+        uuid deleted_by FK
+        uuid status_changed_by FK
     }
     sessions {
         uuid id PK

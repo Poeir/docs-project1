@@ -5,6 +5,7 @@ erDiagram
     places ||--o{ place_sync_results : "มีผลซิงก์"
     place_sync_jobs ||--o{ place_sync_results : "ประกอบด้วย"
     users |o--o{ place_reports : "เป็นผู้แจ้ง"
+    users |o--o{ place_reports : "เป็นผู้ตอบรับรายงาน"
     users |o--o{ place_sync_jobs : "เป็นผู้สร้างงาน"
 
     users {
@@ -35,6 +36,7 @@ erDiagram
         uuid id PK
         uuid place_id FK
         uuid user_id FK
+        uuid resolved_by FK
         text field
         text note
         text status

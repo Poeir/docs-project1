@@ -3,6 +3,7 @@ erDiagram
     users ||--o{ qr_scans : "สแกน"
     users ||--o{ redemptions : "แลก"
     users |o--o{ redemptions : "เจ้าหน้าที่ดำเนินการ"
+    users |o--o{ redemptions : "เจ้าหน้าที่ยกเลิก"
     users ||--o{ points_adjustments : "ถูกปรับพอยท์"
     users |o--o{ points_adjustments : "ผู้ปรับ"
     places ||--o| qrs : "ติดตั้งที่"
@@ -47,6 +48,7 @@ erDiagram
         uuid user_id FK
         uuid reward_id FK
         uuid admin_id FK
+        uuid cancelled_by FK
         int cost
         text status
         timestamptz redeemed_at

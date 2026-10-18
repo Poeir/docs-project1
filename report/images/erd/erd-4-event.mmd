@@ -7,6 +7,8 @@ erDiagram
     places |o--o{ event_requests : "ระบุสถานที่"
     event_requests ||--o{ event_request_photos : "แนบรูปภาพ"
     users |o--o{ event_reports : "เป็นผู้แจ้ง"
+    users |o--o{ event_reports : "เป็นผู้ตอบรับรายงาน"
+    users |o--o{ event_requests : "เป็นผู้ตรวจสอบคำขอ"
     users ||--o{ event_requests : "เป็นผู้ส่งคำขอ"
 
     users {
@@ -37,6 +39,7 @@ erDiagram
         uuid id PK
         uuid event_id FK
         uuid user_id FK
+        uuid resolved_by FK
         text field
         text status
         text resolution
@@ -46,6 +49,7 @@ erDiagram
         uuid user_id FK
         uuid event_id FK
         uuid place_id FK
+        uuid reviewed_by FK
         text name
         text status
         text reject_reason
