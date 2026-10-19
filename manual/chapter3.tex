@@ -54,12 +54,33 @@ npm -v
 
 \screenshot{install-python}{หน้าดาวน์โหลด Python}
 
-\subsection{การติดตั้ง Git และ Visual Studio Code}
+\clearpage
+\subsection{การติดตั้ง Visual Studio Code และโครงสร้างโปรเจกต์}
 
-\begin{numlist}
-\item ดาวน์โหลดและติดตั้ง Git จาก https://git-scm.com/downloads
-\item ดาวน์โหลดและติดตั้ง Visual Studio Code จาก https://code.visualstudio.com/
-\end{numlist}
+ดาวน์โหลดและติดตั้ง Visual Studio Code จาก https://code.visualstudio.com/ แล้วใช้เปิดโฟลเดอร์โปรเจกต์เพื่อเขียนและแก้ไขซอร์สโค้ด
+
+โครงสร้างโปรเจกต์ประกอบด้วย 3 ส่วนหลักที่แยกโฟลเดอร์และทำงานแยกจากกัน ได้แก่ \texttt{frontend} \texttt{backend} และ \texttt{chatbot-service} รวมถึงโฟลเดอร์ \texttt{deploy} สำหรับนำระบบขึ้นใช้งานจริง ดังตารางที่ \ref{tab:folders}
+
+\begin{table}[H]
+\caption{โครงสร้างโฟลเดอร์ของโครงงาน}
+\label{tab:folders}
+\centering
+\begin{tabular}{|L{3.4cm}|L{9.2cm}|}
+\hline
+\textbf{โฟลเดอร์} & \textbf{หน้าที่} \\
+\hline
+\texttt{frontend} & หน้าเว็บ (React 18 + Vite) ที่ผู้ใช้งานและผู้ดูแลระบบใช้งาน มีโฟลเดอร์ \texttt{src} เก็บหน้าเพจ คอมโพเนนต์ และส่วนของผู้ดูแลระบบ \\
+\hline
+\texttt{backend} & REST API (Node.js + Express) โดย \texttt{src} เก็บโค้ดของเซิร์ฟเวอร์ \texttt{scripts} เก็บสคริปต์นำเข้าข้อมูลและสร้างบัญชีผู้ดูแลระบบ \texttt{data} เก็บข้อมูลสถานที่ตั้งต้น \texttt{supabase} เก็บ migration ของฐานข้อมูล และ \texttt{test} เก็บชุดทดสอบ \\
+\hline
+\texttt{chatbot-service} & AI Service (Python + FastAPI) ได้แก่ แชตบอต ระบบวางแผนทริป และการสร้าง Embedding โดย \texttt{src} เก็บโค้ดของบริการ \texttt{scripts} เก็บสคริปต์ช่วยงาน และ \texttt{tests} เก็บชุดทดสอบ \\
+\hline
+\texttt{deploy} & ไฟล์สำหรับนำระบบขึ้นใช้งานจริง ได้แก่ \texttt{docker-compose.yml} \texttt{Dockerfile.web} \texttt{deploy.sh} ไฟล์ตัวอย่างตั้งค่า \texttt{.env} และ \texttt{Caddyfile} \\
+\hline
+\texttt{.github/workflows} & ไฟล์กำหนดขั้นตอนตรวจสอบและนำระบบขึ้นอัตโนมัติด้วย GitHub Actions \\
+\hline
+\end{tabular}
+\end{table}
 
 \subsection{การดาวน์โหลดซอร์สโค้ดจาก GitHub}
 
@@ -71,25 +92,6 @@ git clone https://github.com/Poeir/dino-trip.git
 cd dino-trip
 \end{lstlisting}
 \end{codeblock}
-
-โครงสร้างโฟลเดอร์ที่ได้ประกอบด้วย 3 ส่วนที่ทำงานแยกจากกัน ดังตารางที่ \ref{tab:folders}
-
-\begin{table}[H]
-\caption{โครงสร้างโฟลเดอร์ของโครงงาน}
-\label{tab:folders}
-\centering
-\begin{tabular}{|L{3.2cm}|L{3.8cm}|L{5.6cm}|}
-\hline
-\textbf{โฟลเดอร์} & \textbf{เทคโนโลยี} & \textbf{หน้าที่} \\
-\hline
-\texttt{frontend} & React 18 + Vite & หน้าเว็บที่ผู้ใช้งานและผู้ดูแลระบบใช้งาน \\
-\hline
-\texttt{backend} & Node.js + Express & REST API ฐานข้อมูล และสคริปต์นำเข้าข้อมูล \\
-\hline
-\texttt{chatbot-service} & Python + FastAPI & แชตบอต ระบบวางแผนทริป และการสร้าง Embedding \\
-\hline
-\end{tabular}
-\end{table}
 
 \subsection{การสร้างฐานข้อมูลบน Supabase}
 
