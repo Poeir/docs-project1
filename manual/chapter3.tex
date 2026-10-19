@@ -303,11 +303,11 @@ npm run dev
 
 Caddy ส่งต่อคำขอตามเส้นทางที่กำหนดในไฟล์ \texttt{deploy/caddy/Caddyfile} ดังนี้ เส้นทาง \texttt{/api/*} ส่งไปยัง backend เส้นทาง \texttt{/chat/*}, \texttt{/trip/llm} และ \texttt{/health} ส่งไปยัง AI Service ส่วนเส้นทางอื่นทั้งหมดให้บริการเป็นหน้าเว็บของ React นอกจากนี้ Caddy ส่งคำขอจากโปรแกรมค้นหา (crawler) ไปยัง backend เพื่อให้ได้หน้าที่มีข้อมูลสำหรับ SEO และตั้งค่าส่วนหัวด้านความปลอดภัยของทุกการตอบกลับ
 
-ในการสร้างภาพ Docker (Docker image) ของแต่ละบริการ ส่วน \texttt{backend} และ \texttt{chatbot-service} สร้างจาก Dockerfile ในโฟลเดอร์ของตนเอง ส่วน \texttt{caddy} สร้างจากไฟล์ \texttt{deploy/Dockerfile.web} ซึ่งแบ่งเป็น 2 ขั้นตอน คือ สร้างไฟล์หน้าเว็บด้วย \texttt{npm run build} บน Node.js 20 แล้วคัดลอกผลลัพธ์ไปไว้ในภาพของ Caddy
+ในการสร้าง Docker image ของแต่ละบริการ ส่วน \texttt{backend} และ \texttt{chatbot-service} สร้างจาก Dockerfile ในโฟลเดอร์ของตนเอง ส่วน \texttt{caddy} สร้างจากไฟล์ \texttt{deploy/Dockerfile.web} ซึ่งแบ่งเป็น 2 ขั้นตอน คือ สร้างไฟล์หน้าเว็บด้วย \texttt{npm run build} บน Node.js 20 แล้วคัดลอกผลลัพธ์ไปไว้ใน image ของ Caddy
 
 \subsection{การเตรียมเซิร์ฟเวอร์และไฟล์ตั้งค่า}
 
-เซิร์ฟเวอร์ที่ใช้งานต้องติดตั้ง Docker Engine พร้อม Docker Compose และ Git มีชื่อโดเมนหรือชื่อโฮสต์ที่ชี้มายังเซิร์ฟเวอร์ และเปิดพอร์ต 80 และ 443 ไว้ เนื่องจากการสร้างภาพของ AI Service ใช้หน่วยความจำมาก จึงควรมีหน่วยความจำอย่างน้อย 4 GB แล้วดำเนินการดังนี้
+เซิร์ฟเวอร์ที่ใช้งานต้องติดตั้ง Docker Engine พร้อม Docker Compose และ Git มีชื่อโดเมนหรือชื่อโฮสต์ที่ชี้มายังเซิร์ฟเวอร์ และเปิดพอร์ต 80 และ 443 ไว้ เนื่องจากการสร้าง image ของ AI Service ใช้หน่วยความจำมาก จึงควรมีหน่วยความจำอย่างน้อย 4 GB แล้วดำเนินการดังนี้
 
 \begin{numlist}
 \item ดาวน์โหลดซอร์สโค้ดลงเซิร์ฟเวอร์ด้วยคำสั่ง \texttt{git clone} แล้วเปิดโฟลเดอร์ \texttt{deploy}
@@ -381,7 +381,7 @@ docker compose logs --tail 50 backend
 \begin{numlist}
 \item ดึงโค้ดล่าสุดของสาขา \texttt{main} จาก GitHub โดยอนุญาตเฉพาะการรวมแบบ fast-forward
 \item อ่านเลขเวอร์ชันจากไฟล์ \texttt{VERSION} และรหัส commit เพื่อแสดงในหน้าผู้ดูแลระบบ
-\item สร้างภาพของบริการ \texttt{chatbot}, \texttt{backend} และ \texttt{caddy} ทีละบริการ เพื่อไม่ให้หน่วยความจำของเซิร์ฟเวอร์ไม่พอ
+\item สร้าง image ของบริการ \texttt{chatbot}, \texttt{backend} และ \texttt{caddy} ทีละบริการ เพื่อป้องกันไม่ให้หน่วยความจำของเซิร์ฟเวอร์ไม่เพียงพอ
 \item เริ่มบริการด้วย \texttt{docker compose up -d} แล้วสั่งให้ Caddy อ่านไฟล์ตั้งค่าใหม่
 \item ตรวจสอบที่ \texttt{/health} ซ้ำไม่เกิน 3 นาที หากสำเร็จจะแสดงข้อความ ``deploy ok'' แต่หากไม่สำเร็จจะแสดงบันทึกการทำงานของ \texttt{chatbot} ล่าสุดและจบด้วยสถานะผิดพลาด
 \end{numlist}

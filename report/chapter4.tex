@@ -306,7 +306,7 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \end{tabular}
 \end{table}
 
-ฟังก์ชันที่เกี่ยวข้องกับบัญชีผู้ใช้และการมีส่วนร่วมของนักท่องเที่ยวแยกแสดงเป็นแผนภาพที่ \ref{fig:usecase_account} เพื่อไม่ให้แผนภาพหลักซับซ้อนเกินไป โดยทุกฟังก์ชันในแผนภาพ ยกเว้นการตอบแบบสอบถาม ต้องเข้าสู่ระบบตาม UC-15 ก่อนใช้งาน
+ฟังก์ชันที่เกี่ยวข้องกับบัญชีผู้ใช้และการมีส่วนร่วมของผู้ใช้แยกแสดงเป็นแผนภาพที่ \ref{fig:usecase_account} เพื่อไม่ให้แผนภาพหลักซับซ้อนเกินไป โดย UC-17 ถึง UC-19 ต้องเข้าสู่ระบบตาม UC-15 ก่อนใช้งาน ส่วน UC-20 ไม่ต้องเข้าสู่ระบบ
 
 \begin{figure}[H]
 \centering
@@ -314,29 +314,32 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \begin{tikzpicture}[
   usecase/.style={ellipse, draw, thick, align=center, text width=3.3cm, minimum height=1.3cm, font=\small, inner sep=3pt}
 ]
-\node[usecase] (uc15) at (0,0)     {สมัครสมาชิกและเข้าสู่ระบบ\\(UC-15)};
-\node[usecase] (uc17) at (0,-3.2)  {จัดการโปรไฟล์และบัญชีของตนเอง\\(UC-17)};
-\node[usecase] (uc18) at (0,-6.4)  {แจ้งข้อมูลที่คลาดเคลื่อน\\(UC-18)};
-\node[usecase] (uc19) at (0,-9.6)  {ส่งคำขอเพิ่มกิจกรรม\\(UC-19)};
-\node[usecase] (uc20) at (0,-12.8) {ตอบแบบสอบถามความพึงพอใจ\\(UC-20)};
-\node[usecase] (uc16) at (7.0,0)   {ตั้งรหัสผ่านใหม่\\(UC-16)};
+\node[usecase] (uc17) at (0,0)     {จัดการโปรไฟล์และบัญชีของตนเอง\\(UC-17)};
+\node[usecase] (uc18) at (0,-3.2)  {แจ้งข้อมูลที่คลาดเคลื่อน\\(UC-18)};
+\node[usecase] (uc19) at (0,-6.4)  {ส่งคำขอเพิ่มกิจกรรม\\(UC-19)};
+\node[usecase] (uc20) at (0,-9.6)  {ตอบแบบสอบถามความพึงพอใจ\\(UC-20)};
+\node[usecase] (uc15) at (7.5,-4.8) {สมัครสมาชิกและเข้าสู่ระบบ\\(UC-15)};
+\node[usecase] (uc16) at (7.5,-8.0) {ตั้งรหัสผ่านใหม่\\(UC-16)};
 
-\draw[-{Stealth[length=2.5mm]}, dashed] (uc16) -- node[above,font=\scriptsize,fill=white,inner sep=1pt]{\guillemotleft extend\guillemotright} (uc15);
+\draw[-{Stealth[length=2.5mm]}, dashed] (uc16) -- node[right,font=\scriptsize,fill=white,inner sep=1pt]{\guillemotleft extend\guillemotright} (uc15);
+\draw[-{Stealth[length=2.5mm]}, dashed] (uc17) -- node[above,font=\scriptsize,fill=white,inner sep=1pt,sloped]{\guillemotleft include\guillemotright} (uc15);
+\draw[-{Stealth[length=2.5mm]}, dashed] (uc18) -- node[above,font=\scriptsize,fill=white,inner sep=1pt,sloped]{\guillemotleft include\guillemotright} (uc15);
+\draw[-{Stealth[length=2.5mm]}, dashed] (uc19) -- node[above,font=\scriptsize,fill=white,inner sep=1pt,sloped]{\guillemotleft include\guillemotright} (uc15);
 
 \node[draw, thick, inner sep=0.8cm, fit=(uc15)(uc17)(uc18)(uc19)(uc20)(uc16)] (boundary) {};
-\node[font=\bfseries\small, anchor=north] at (boundary.north) {\vphantom{Ay}Tourist Account and Contribution};
+\node[font=\bfseries\small, anchor=north] at (boundary.north) {\vphantom{Ay}User Account and Contribution};
 
-\umlactor{$(boundary.west)+(-2.0,0)$}{นักท่องเที่ยว\\(Tourist)}
-\coordinate (tourist) at ($(boundary.west)+(-1.4,0.55)$);
+\umlactor{$(boundary.west)+(-2.0,0)$}{ผู้ใช้\\(User)}
+\coordinate (user) at ($(boundary.west)+(-1.4,0.55)$);
 
-\draw[thick] (tourist) -- (uc15);
-\draw[thick] (tourist) -- (uc17);
-\draw[thick] (tourist) -- (uc18);
-\draw[thick] (tourist) -- (uc19);
-\draw[thick] (tourist) -- (uc20);
+\draw[thick] (user) -- (uc15);
+\draw[thick] (user) -- (uc17);
+\draw[thick] (user) -- (uc18);
+\draw[thick] (user) -- (uc19);
+\draw[thick] (user) -- (uc20);
 \end{tikzpicture}%
 }
-\caption{Use Case Diagram ของบัญชีผู้ใช้และการมีส่วนร่วมของนักท่องเที่ยว}
+\caption{Use Case Diagram ของบัญชีผู้ใช้และการมีส่วนร่วมของผู้ใช้}
 \label{fig:usecase_account}
 \end{figure}
 
@@ -2152,7 +2155,7 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \label{fig:erd_trip}
 \end{figure}
 
-ภาพที่ \ref{fig:erd_trip} แสดงตารางประวัติแผนการเดินทาง ซึ่งแบ่งเป็นสามระดับ คือ trips, trip\_days และ trip\_items เพื่อให้สถิติของผู้ดูแลระบบ (เช่น สถานที่ที่ถูกจัดลงแผนบ่อยที่สุด หรือจำนวนแผนต่อวัน) คำนวณได้ด้วยคำสั่ง SQL โดยตรง ความสัมพันธ์ระหว่าง users และ trips เป็นแบบหนึ่งต่อกลุ่ม ผู้ใช้หนึ่งบัญชีมีแผนได้หลายแผน และแผนถูกลบตามบัญชี (on delete cascade) โดยฝั่ง trips กำหนดให้ user\_id เป็นค่าว่างได้ เพราะแผนที่สร้างโดยผู้ที่ไม่ได้เข้าสู่ระบบถูกบันทึกโดยไม่มีเจ้าของเพื่อใช้เป็นสถิติเท่านั้น ความสัมพันธ์ระหว่าง trips กับ trip\_days และระหว่าง trip\_days กับ trip\_items เป็นความสัมพันธ์เชิงองค์ประกอบ (Composition) แบบหนึ่งต่อกลุ่มทั้งสองระดับ และถูกลบตามกันโดยอัตโนมัติเมื่อแผนต้นทางถูกลบ ตาราง trip\_items ไม่เก็บ user\_id ซ้ำ การตรวจสอบความเป็นเจ้าของจึงทำผ่านตาราง trips ที่ Backend ทุกครั้ง ส่วนความสัมพันธ์ระหว่าง places กับ trip\_items เป็นแบบ Optional เช่นเดียวกับ ``จัดขึ้นที่'' ด้วยเหตุผลสองประการ ประการแรก คอลัมน์ place\_id กำหนดพฤติกรรมเป็น on delete set null หากสถานที่ต้นทางถูกลบในภายหลัง แถวของจุดแวะยังคงอยู่โดยอาศัยชื่อสถานที่ที่คัดลอกไว้ในคอลัมน์ place\_name ประการที่สอง จุดแวะบางชนิดไม่มีแถวในตาราง places ตั้งแต่ต้น ได้แก่ การกลับที่พักและช่วงพักผ่อนตามอัธยาศัย ซึ่งระบุด้วยคอลัมน์ kind และเก็บชื่อกับพิกัดไว้ในแถวเอง ตารางทั้งสามเปิดใช้ Row Level Security และเพิกถอนสิทธิ์ของบทบาท anon และ authenticated เช่นเดียวกับตารางบัญชีผู้ใช้
+ภาพที่ \ref{fig:erd_trip} แสดงตารางประวัติแผนการเดินทาง ซึ่งแบ่งเป็นสามระดับ คือ trips, trip\_days และ trip\_items เพื่อให้สถิติของผู้ดูแลระบบ (เช่น สถานที่ที่ถูกจัดลงแผนบ่อยที่สุด หรือจำนวนแผนต่อวัน) คำนวณได้ด้วยคำสั่ง SQL โดยตรง ความสัมพันธ์ระหว่าง users และ trips เป็นแบบหนึ่งต่อกลุ่ม ผู้ใช้หนึ่งบัญชีมีแผนได้หลายแผน และแผนถูกลบตามบัญชี (on delete cascade) โดยฝั่ง trips กำหนดให้ user\_id เป็นค่าว่างได้ เพราะแผนที่สร้างโดยผู้ที่ไม่ได้เข้าสู่ระบบถูกบันทึกโดยไม่มีเจ้าของเพื่อใช้เป็นสถิติเท่านั้น ความสัมพันธ์ระหว่าง trips กับ trip\_days และระหว่าง trip\_days กับ trip\_items เป็นความสัมพันธ์เชิงองค์ประกอบ (Composition) แบบหนึ่งต่อกลุ่มทั้งสองระดับ และถูกลบตามกันโดยอัตโนมัติเมื่อแผนต้นทางถูกลบ ตาราง trip\_items ไม่เก็บ user\_id ซ้ำ การตรวจสอบความเป็นเจ้าของจึงทำผ่านตาราง trips ที่ Backend ทุกครั้ง ส่วนความสัมพันธ์ระหว่าง places กับ trip\_items เป็นแบบ Optional เช่นเดียวกับ ``จัดขึ้นที่'' 
 
 ระบบมีทั้งหมด 26 ตาราง ได้แก่ places, events, knowledge\_base, rewards, qrs, users, qr\_scans, redemptions, sessions, email\_verification\_tokens, password\_reset\_tokens, email\_change\_tokens, place\_photos, event\_photos, event\_request\_photos, points\_adjustments, admin\_audit\_log, place\_reports, event\_reports, event\_requests, place\_sync\_jobs, place\_sync\_results, survey\_responses, trips, trip\_days และ trip\_items โครงสร้างของแต่ละตารางแสดงดังตารางที่ \ref{tab:db_place}--\ref{tab:db_support}
 
