@@ -97,6 +97,7 @@ cd dino-trip
 
 \begin{numlist}
 \item เข้าเว็บไซต์ https://supabase.com/ ลงชื่อเข้าใช้ แล้วสร้างโปรเจกต์ใหม่ พร้อมบันทึกรหัสผ่านฐานข้อมูลที่กำหนดไว้
+\needspace{4\baselineskip}
 \item เปิดหน้า Project Settings > Database > Connection string แล้วคัดลอก Session pooler (พอร์ต 5432) เพื่อนำไปกำหนดเป็นค่า \texttt{DATABASE\_URL} ไม่ควรใช้ Transaction mode (พอร์ต 6543) เนื่องจาก backend เป็นเซิร์ฟเวอร์ที่ทำงานต่อเนื่อง
 \item เปิดหน้า Project Settings > API แล้วคัดลอก Project URL และ service\_role key เพื่อนำไปกำหนดเป็นค่า \texttt{SUPABASE\_URL} และ \texttt{SUPABASE\_SERVICE\_ROLE\_KEY} ซึ่งทั้ง AI Service และสคริปต์นำเข้าข้อมูลของ backend ใช้งาน
 \item สร้างโครงสร้างตารางด้วยการนำไฟล์ migration ไปใช้กับฐานข้อมูลใหม่ ตามขั้นตอนในหัวข้อการนำเข้าข้อมูลตั้งต้น
@@ -372,6 +373,7 @@ docker compose logs --tail 50 backend
 \end{lstlisting}
 \end{codeblock}
 
+\needspace{4\baselineskip}
 จากนั้นเปิดเบราว์เซอร์ไปที่ \texttt{https://<CHAT\_DOMAIN>/health} หากบริการ AI Service พร้อมใช้งานจะตอบกลับสถานะปกติ ทั้งนี้ หลังเริ่มบริการใหม่ AI Service ต้องใช้เวลาโหลดโมเดลก่อน จึงอาจยังไม่ตอบกลับทันที
 
 ระบบจำกัดขนาดบันทึกการทำงานของแต่ละบริการไว้ที่ 3 ไฟล์ ไฟล์ละไม่เกิน 10 MB เพื่อป้องกันพื้นที่จัดเก็บเต็ม และตั้งให้บริการทุกตัวเริ่มทำงานใหม่เองเมื่อหยุดโดยไม่ได้ตั้งใจ (\texttt{restart: unless-stopped})
