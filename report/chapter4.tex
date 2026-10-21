@@ -686,8 +686,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{ส่งคำถามหรือข้อความ}{s}{ผลการประมวลผล}
   \end{call}
   \begin{sdblock}{alt}{ประมวลผลสำเร็จ}
@@ -708,8 +708,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{ค้นหาด้วยคำค้นและหมวดหมู่}{s}{ผลการค้นหา}
   \end{call}
   \begin{sdblock}{alt}{พบข้อมูลตามเงื่อนไข}
@@ -738,8 +738,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[7]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[7]{s}{:ระบบ}
   \begin{call}{u}{ส่งเงื่อนไขทริป}{s}{}
     \begin{callself}{s}{ตรวจข้อมูลนำเข้า}{}
     \end{callself}
@@ -773,8 +773,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{เปิดหน้า ``ทริปของฉัน''}{s}{รายการแผนที่บันทึกไว้}
   \end{call}
   \begin{sdblock}{alt}{เข้าสู่ระบบแล้ว}
@@ -803,8 +803,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{เปลี่ยนชื่อ ทำเครื่องหมายโปรด ทำสำเนา หรือลบแผน}{s}{ผลการดำเนินการ}
     \begin{callself}{s}{ตรวจความเป็นเจ้าของ ข้อมูล และจำนวนแผน}{}
     \end{callself}
@@ -828,8 +828,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{ส่งข้อมูลส่วนตัว อีเมล และรหัสผ่าน}{s}{ผลการสมัคร}
     \begin{callself}{s}{ตรวจข้อมูล รหัสผ่าน และอีเมลซ้ำ}{}
     \end{callself}
@@ -860,8 +860,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{ส่งอีเมลและรหัสผ่านเพื่อเข้าสู่ระบบ}{s}{ผลการเข้าสู่ระบบ}
     \begin{callself}{s}{ตรวจรหัสผ่านและสถานะบัญชี}{}
     \end{callself}
@@ -884,8 +884,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{ส่งอีเมลเพื่อขอตั้งรหัสผ่านใหม่}{s}{ผลการขอลิงก์}
   \end{call}
   \mess[0]{s}{ตอบข้อความเดียวกันไม่ว่ามีบัญชีหรือไม่}{u}
@@ -911,8 +911,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{แก้ไขข้อมูลส่วนตัวหรือรูปประจำตัว}{s}{ผลการบันทึก}
     \begin{callself}{s}{ตรวจข้อมูลและขนาดไฟล์รูป}{}
     \end{callself}
@@ -945,8 +945,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{เลือกหัวข้อที่คลาดเคลื่อนและพิมพ์หมายเหตุ}{s}{ผลการรับรายงาน}
     \begin{callself}{s}{ตรวจหัวข้อ หมายเหตุ และรายงานซ้ำ}{}
     \end{callself}
@@ -969,8 +969,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{ส่งรายละเอียดกิจกรรมพร้อมรูปภาพ}{s}{ผลการรับคำขอ}
     \begin{callself}{s}{ตรวจข้อมูลและจำนวนคำขอที่รอตรวจสอบ}{}
     \end{callself}
@@ -1001,8 +1001,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{ผู้ตอบแบบสอบถาม}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:ผู้ตอบแบบสอบถาม}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{ส่งข้อมูลทั่วไป คะแนนรายข้อ และข้อเสนอแนะ}{s}{ผลการบันทึก}
     \begin{callself}{s}{ตรวจความครบถ้วนและการตอบซ้ำ}{}
     \end{callself}
@@ -1029,8 +1029,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{ส่งอีเมลและรหัสผ่าน}{s}{ผลการเข้าสู่ระบบ}
     \begin{callself}{s}{ตรวจรหัสผ่าน สถานะ และบทบาท}{}
     \end{callself}
@@ -1063,8 +1063,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{เลือกคำสั่ง สร้าง แก้ไข หรือลบ}{s}{ฟอร์มหรือกล่องยืนยัน}
   \end{call}
   \begin{call}{a}{ส่งหัวข้อ เนื้อหา สถานะ และการปักหมุด}{s}{ผลการดำเนินการ}
@@ -1089,8 +1089,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{เปิดหน้าคิวตรวจสอบ}{s}{รายการที่รอตรวจสอบ}
   \end{call}
   \begin{call}{a}{ปิดรายงาน หรืออนุมัติ/ปฏิเสธคำขอ}{s}{ผลการดำเนินการ}
@@ -1115,8 +1115,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{ค้นหาบัญชีและเปิดรายละเอียด}{s}{ข้อมูลบัญชีและประวัติ}
   \end{call}
   \begin{call}{a}{เลือกการดำเนินการพร้อมเหตุผล}{s}{ผลการดำเนินการ}
@@ -1141,8 +1141,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{เปิดหน้า Dashboard}{s}{สถิติภาพรวมของระบบ}
     \begin{callself}{s}{รวบรวมสถิติจากฐานข้อมูล}{}
     \end{callself}
@@ -1167,8 +1167,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{เลือกสร้าง แก้ไข หรือลบ QR และของรางวัล}{s}{ฟอร์มหรือกล่องยืนยัน}
   \end{call}
   \begin{call}{a}{ส่งพอยท์ รัศมี วันหมดอายุ หรือข้อมูลของรางวัล}{s}{ผลการบันทึก}
@@ -1193,8 +1193,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{วางข้อความจากโพสต์แล้วสั่งดึงข้อมูลอัตโนมัติ}{s}{ผลการดึงข้อมูล}
     \begin{callself}{s}{ให้ LLM แยกข้อความเป็นฟิลด์}{}
     \end{callself}
@@ -1217,8 +1217,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{ค้นหาสถานที่จากชื่อหรือคำค้น}{s}{ผลการค้นหาจาก Google}
   \end{call}
   \begin{call}{a}{เลือกผลลัพธ์ที่ต้องการนำเข้า}{s}{ผลการนำเข้า}
@@ -1243,8 +1243,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{ผู้ดูแลระบบ}
-  \newinst[5]{s}{ระบบ}
+  \newthread{a}{:ผู้ดูแลระบบ}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{a}{เลือกสถานที่ ขอบเขต และฟิลด์ที่จะซิงก์}{s}{จำนวนสถานที่และจำนวนการเรียก API}
   \end{call}
   \begin{sdblock}{alt}{ผู้ดูแลระบบยืนยัน}
@@ -1275,8 +1275,8 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[5]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[5]{s}{:ระบบ}
   \begin{call}{u}{สแกน QR พร้อมตำแหน่ง}{s}{ผลการสแกน}
     \begin{callself}{s}{ตรวจเงื่อนไขการสแกน}{}
     \end{callself}
@@ -1299,9 +1299,9 @@ NFR-05 & ความพร้อมใช้งานและการปร�
 \centering
 \adjustbox{max width=0.9\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{นักท่องเที่ยว}
-  \newinst[4]{a}{เจ้าหน้าที่ ททท.}
-  \newinst[4]{s}{ระบบ}
+  \newthread{u}{:นักท่องเที่ยว}
+  \newinst[4]{a}{:เจ้าหน้าที่ ททท.}
+  \newinst[4]{s}{:ระบบ}
   \mess[0]{u}{แจ้งขอแลกของรางวัล}{a}
   \begin{call}{a}{เลือกบัญชีและของรางวัล}{s}{ยอดพอยท์ สต็อก}
   \end{call}
@@ -1539,10 +1539,10 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{f}{Frontend}
-  \newinst[3]{t}{Trip Planner Service}
-  \newinst[3]{d}{ฐานข้อมูล (pgvector)}
-  \newinst[3]{l}{LLM}
+  \newthread{f}{:Frontend}
+  \newinst[3]{t}{:Trip Planner Service}
+  \newstereoinst[3]{d}{database}{:PostgreSQL}
+  \newinst[3]{l}{:LLM}
   \begin{call}{f}{POST /trip/llm}{t}{แผนการเดินทาง}
     \begin{callself}{t}{ตรวจข้อมูลนำเข้า}{}
     \end{callself}
@@ -1552,13 +1552,15 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
     \begin{sdblock}{loop}{ไม่เกิน 2 รอบ}
       \postlevel
       \begin{call}{t}{Prompt และสถานที่ผู้สมัคร}{l}{รหัสสถานที่รายวัน}
-        \postlevel
+        \begin{callself}{l}{gemini-3.8-flash คัดเลือกสถานที่รายวัน}{}
+        \end{callself}
       \end{call}
       \postlevel
       \begin{callself}{t}{Scheduler จัดตารางเวลา}{}
       \end{callself}
       \begin{call}{t}{ตรวจคุณภาพแผน (Judge)}{l}{ผลประเมิน}
-        \postlevel
+        \begin{callself}{l}{gemini-3.8-flash ประเมินแผน}{}
+        \end{callself}
       \end{call}
     \end{sdblock}
   \end{call}
@@ -1574,10 +1576,10 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{f}{Frontend}
-  \newinst[3]{c}{Chatbot Service}
-  \newinst[3]{d}{ฐานข้อมูล (pgvector)}
-  \newinst[3]{l}{LLM}
+  \newthread{f}{:Frontend}
+  \newinst[3]{c}{:Chatbot Service}
+  \newstereoinst[3]{d}{database}{:PostgreSQL}
+  \newinst[3]{l}{:LLM}
   \begin{call}{f}{POST /chat/}{c}{คำตอบ Streaming และการ์ด}
     \begin{sdblock}{opt}{มีประวัติการสนทนา}
       \postlevel
@@ -1611,10 +1613,10 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{Admin Portal}
-  \newinst[4]{b}{Backend}
-  \newinst[4]{d}{ฐานข้อมูล}
-  \newinst[4]{i}{AI Service}
+  \newthread{a}{:Admin Portal}
+  \newinst[4]{b}{:Backend}
+  \newstereoinst[4]{d}{database}{:PostgreSQL}
+  \newstereoinst[4]{i}{service}{:AI Service}
   \begin{call}{a}{POST PUT DELETE พร้อมเซสชัน}{b}{ผลการดำเนินการ}
     \begin{callself}{b}{ตรวจเซสชัน สิทธิ์ และข้อมูล}{}
     \end{callself}
@@ -1623,14 +1625,22 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
     \begin{callself}{b}{ล้างแคชรายการ}{}
     \end{callself}
   \end{call}
+  \postlevel
   \begin{call}{a}{POST /api/reindex}{b}{รับคำสั่งแล้ว}
     \begin{callself}{b}{ตรวจสิทธิ์ผู้ดูแลระบบ}{}
     \end{callself}
     \begin{call}{b}{ส่งต่อคำสั่งสร้างดัชนีใหม่}{i}{}
     \end{call}
   \end{call}
-  \begin{call}{i}{คำนวณ Embedding ของรายการที่ค้างอยู่}{d}{}
-  \end{call}
+  \begin{callself}{i}{งานเบื้องหลัง: สร้างดัชนีใหม่}{}
+    \begin{call}{i}{ดึงรายการที่ยังไม่มี Embedding}{d}{รายการที่ค้างอยู่}
+      \postlevel
+    \end{call}
+    \begin{callself}{i}{สร้าง Embedding ด้วย MiniLM-L12-v2}{}
+    \end{callself}
+    \begin{call}{i}{บันทึก Embedding}{d}{}
+    \end{call}
+  \end{callself}
 \end{sequencediagram}%
 }
 \caption{Sequence Diagram สำหรับผู้ดูแลระบบ}
@@ -1643,9 +1653,9 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{f}{Frontend}
-  \newinst[6]{b}{Backend}
-  \newinst[6]{d}{ฐานข้อมูล}
+  \newthread{f}{:Frontend}
+  \newinst[6]{b}{:Backend}
+  \newstereoinst[6]{d}{database}{:PostgreSQL}
   \begin{callself}{f}{ถอดรหัส QR และอ่านพิกัด}{}
   \end{callself}
   \begin{call}{f}{POST /api/qrs/:id/scan}{b}{ผลการสแกน}
@@ -1670,9 +1680,9 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{Admin Portal}
-  \newinst[6]{b}{Backend}
-  \newinst[6]{d}{ฐานข้อมูล}
+  \newthread{a}{:Admin Portal}
+  \newinst[6]{b}{:Backend}
+  \newstereoinst[6]{d}{database}{:PostgreSQL}
   \begin{call}{a}{GET /api/admin/users}{b}{รายชื่อผู้ใช้}
   \end{call}
   \begin{call}{a}{POST /api/admin/redemptions}{b}{ผลการแลก}
@@ -1695,9 +1705,9 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{f}{Frontend}
-  \newinst[6]{b}{Backend}
-  \newinst[6]{d}{ฐานข้อมูล}
+  \newthread{f}{:Frontend}
+  \newinst[6]{b}{:Backend}
+  \newstereoinst[6]{d}{database}{:PostgreSQL}
   \begin{call}{f}{POST /api/auth/login}{b}{ผู้ใช้ และ cookie}
     \begin{callself}{b}{จำกัดอัตราการลองซ้ำ}{}
     \end{callself}
@@ -1724,10 +1734,10 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{Frontend}
-  \newinst[5]{b}{Backend}
-  \newinst[5]{d}{ฐานข้อมูล}
-  \newinst[5]{a}{Admin Portal}
+  \newthread{u}{:Frontend}
+  \newinst[5]{b}{:Backend}
+  \newstereoinst[5]{d}{database}{:PostgreSQL}
+  \newinst[5]{a}{:Admin Portal}
   \begin{call}{u}{POST /api/event-requests}{b}{คำขอ pending}
     \begin{callself}{b}{ตรวจเพดานคำขอ}{}
     \end{callself}
@@ -1754,10 +1764,10 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{Frontend}
-  \newinst[4]{b}{Backend}
-  \newinst[4]{d}{ฐานข้อมูล}
-  \newinst[4]{m}{บริการอีเมล}
+  \newthread{u}{:Frontend}
+  \newinst[4]{b}{:Backend}
+  \newstereoinst[4]{d}{database}{:PostgreSQL}
+  \newinst[4]{m}{:บริการอีเมล}
   \begin{call}{u}{POST /api/auth/signup}{b}{รอยืนยันอีเมล}
     \begin{callself}{b}{ตรวจข้อมูลและรหัสผ่าน}{}
     \end{callself}
@@ -1786,10 +1796,10 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{Admin Portal}
-  \newinst[4]{b}{Backend}
-  \newinst[4]{d}{ฐานข้อมูล}
-  \newinst[4]{g}{Google Places}
+  \newthread{a}{:Admin Portal}
+  \newinst[4]{b}{:Backend}
+  \newstereoinst[4]{d}{database}{:PostgreSQL}
+  \newinst[4]{g}{:Google Places}
   \begin{call}{a}{POST /place-sync/jobs}{b}{งานสถานะ queued}
     \begin{callself}{b}{ตรวจการยืนยันและงานที่กำลังทำ}{}
     \end{callself}
@@ -1818,10 +1828,10 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{Frontend}
-  \newinst[4]{b}{Backend}
-  \newinst[4]{d}{ฐานข้อมูล}
-  \newinst[4]{m}{บริการอีเมล}
+  \newthread{u}{:Frontend}
+  \newinst[4]{b}{:Backend}
+  \newstereoinst[4]{d}{database}{:PostgreSQL}
+  \newinst[4]{m}{:บริการอีเมล}
   \begin{call}{u}{POST /api/auth/forgot-password}{b}{ข้อความเดียวกันเสมอ}
     \begin{callself}{b}{จำกัดอัตราและค้นอีเมล}{}
     \end{callself}
@@ -1850,9 +1860,9 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{Frontend}
-  \newinst[4]{b}{Backend}
-  \newinst[5]{d}{ฐานข้อมูล}
+  \newthread{u}{:Frontend}
+  \newinst[4]{b}{:Backend}
+  \newstereoinst[5]{d}{database}{:PostgreSQL}
   \begin{call}{u}{POST /api/places/:id/reports}{b}{สร้างรายงานแล้ว}
     \begin{callself}{b}{ตรวจเซสชัน หัวข้อ และหมายเหตุ}{}
     \end{callself}
@@ -1873,9 +1883,9 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{Admin Portal}
-  \newinst[5]{b}{Backend}
-  \newinst[5]{d}{ฐานข้อมูล}
+  \newthread{a}{:Admin Portal}
+  \newinst[5]{b}{:Backend}
+  \newstereoinst[5]{d}{database}{:PostgreSQL}
   \begin{call}{a}{POST /api/admin/place-reports/resolve}{b}{จำนวนรายงานที่ปิด}
     \begin{callself}{b}{ตรวจสิทธิ์ผู้ดูแลระบบและวิธีจัดการ}{}
     \end{callself}
@@ -1894,9 +1904,9 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{u}{Frontend}
-  \newinst[5]{b}{Backend}
-  \newinst[5]{d}{ฐานข้อมูล}
+  \newthread{u}{:Frontend}
+  \newinst[5]{b}{:Backend}
+  \newstereoinst[5]{d}{database}{:PostgreSQL}
   \begin{call}{u}{POST /api/survey}{b}{ผลการส่ง}
     \begin{callself}{b}{ตรวจช่องซ่อนและคุกกี้ตอบแล้ว}{}
     \end{callself}
@@ -1919,9 +1929,9 @@ Caddy ตั้งส่วนหัวความปลอดภัยพื�
 \centering
 \adjustbox{max width=0.95\linewidth}{%
 \begin{sequencediagram}
-  \newthread{a}{Admin Portal}
-  \newinst[5]{b}{Backend}
-  \newinst[5]{d}{ฐานข้อมูล}
+  \newthread{a}{:Admin Portal}
+  \newinst[5]{b}{:Backend}
+  \newstereoinst[5]{d}{database}{:PostgreSQL}
   \begin{call}{a}{POST /api/admin/users/:id/suspend}{b}{ข้อมูลบัญชีล่าสุด}
     \begin{callself}{b}{ตรวจสิทธิ์ผู้ดูแลระบบและเหตุผล}{}
     \end{callself}

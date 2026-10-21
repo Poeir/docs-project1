@@ -372,9 +372,19 @@
   \fancyhead[R]{\thepage}
   \setlength{\headheight}{15pt}
 }
-\renewcommand*\l@table[2]{%
-  \@dottedtocline{1}{0em}{1.5em}{ตารางที่~#1}{#2}%
+% LoF/LoT entries: "ตารางที่ N" / "ภาพที่ N" sit in a fixed-width box (sized for a
+% 3-digit number plus a gap), and that same width is the hanging indent, so wrapped
+% lines start exactly under the first word of the caption.
+\newlength{\cskku@lolnumwidth}
+\newcommand*\cskku@lolentry[3]{% #1 = label word, #2 = entry, #3 = page
+  \begingroup
+    \settowidth{\cskku@lolnumwidth}{#1~000}%
+    \addtolength{\cskku@lolnumwidth}{1em}%
+    \def\numberline##1{\hb@xt@\@tempdima{#1~##1\hfil}}%
+    \@dottedtocline{1}{0em}{\cskku@lolnumwidth}{#2}{#3}%
+  \endgroup
 }
+\renewcommand*\l@table[2]{\cskku@lolentry{ตารางที่}{#1}{#2}}
 
 \renewcommand{\listoffigures}{
   \chapter*{\centering\Large\bfseries สารบัญภาพ}
@@ -390,9 +400,7 @@
   \fancyhead[R]{\thepage}
   \setlength{\headheight}{15pt}
 }
-\renewcommand*\l@figure[2]{%
-  \@dottedtocline{1}{0em}{1.5em}{ภาพที่~#1}{#2}%
-}
+\renewcommand*\l@figure[2]{\cskku@lolentry{ภาพที่}{#1}{#2}}
 
 \makeatother
 

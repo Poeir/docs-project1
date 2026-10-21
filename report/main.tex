@@ -1,6 +1,13 @@
 \documentclass{cskkuproject}
 \usepackage{needspace} % ใช้ \needspace กันย่อหน้า/หัวข้อถูกตัดข้ามหน้าแบบดูไม่ดี
 \usepackage{pgf-umlsd} % Sequence Diagram (บทที่ 4)
+% กล่อง lifeline ที่มี stereotype บรรทัดบน เช่น «database» แล้วขีดเส้นใต้เฉพาะชื่อบรรทัดล่าง
+% \newstereoinst[ระยะห่าง]{ชื่อตัวแปร}{stereotype}{:ชื่อ}
+\newcommand{\newstereoinst}[4][0.2]{%
+  \pgfumlsdunderlinefalse
+  \newinst[#1]{#2}{\begin{tabular}{@{}c@{}}{\small«#3»}\\[-2pt]\underline{#4}\end{tabular}}%
+  \pgfumlsdunderlinetrue
+}
 \usepackage{pdflscape} % หน้าแนวนอนสำหรับ E-R Diagram และ Domain Model
 \usepackage{colortbl} % ใช้ \cellcolor ในตาราง Gantt chart (บทที่ 3)
 \usepackage[style=apa,backend=biber]{biblatex} % รูปแบบการอ้างอิง APA 7th edition
