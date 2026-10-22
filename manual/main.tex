@@ -1,14 +1,14 @@
 % =============================================================
 % เอกสารคู่มือการใช้งาน "ไดโน" (Dino)
-% โครงสร้างอ้างอิงจากคู่มือการใช้งานของโครงงาน "ไปนำแหน่"
+% ใช้ class cskkumanual จาก Template_Manual_2026 (รูปแบบเดียวกับเล่มรายงาน)
+% เนื้อหาคงโครง 3 บทตามคู่มือการใช้งานของโครงงาน "ไปนำแหน่"
 % (ปก > คำนำ > สารบัญ > สารบัญภาพ > บทที่ 1 บทนำ > บทที่ 2 คู่มือการใช้งาน > บทที่ 3 การติดตั้งระบบสำหรับพัฒนา)
-% คอมไพล์ด้วย XeLaTeX:  cd manual && xelatex main.tex  (รัน 2 รอบ)
+% คอมไพล์:  cd manual && latexmk main.tex   (หรือ xelatex main.tex 2 รอบ)
 % =============================================================
-\documentclass{cskkuproject}
-\usepackage{needspace}
-\usepackage{xcolor}
+\documentclass{cskkumanual}
+% ตัวเลือก guides แสดงแนวทางการเขียนของ template — ไม่ใช้ในเล่มนี้
 
-% ความกว้างป้าย "(1)" สำหรับรายการแบบ (1)(2)(3) — ใช้ค่าเดียวกับ report/main.tex
+% ความกว้างป้าย "(1)" สำหรับรายการแบบ (1)(2)(3)
 \newlength{\parenlabelwidth}
 \settowidth{\parenlabelwidth}{(1)}
 
@@ -28,9 +28,6 @@
   {\par\addvspace{0.5em}\noindent\minipage{\linewidth}}%
   {\endminipage\par\addvspace{0.5em}}
 
-% คอลัมน์ข้อความชิดซ้ายในตาราง (ใช้กับ p{} เพื่อไม่ให้ตัดคำเพี้ยน)
-\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
-
 % -------------------------------------------------------------
 % ข้อความที่ยังต้องยืนยัน/กรอกเพิ่ม แสดงเป็นตัวหนาสีแดงในวงเล็บเหลี่ยม
 % ค้นหาในไฟล์ด้วยคำว่า \fillin เพื่อไล่ตรวจก่อนส่งเล่มจริง
@@ -38,10 +35,11 @@
 \newcommand{\fillin}[1]{{\bfseries\color{red}[#1]}}
 
 % -------------------------------------------------------------
-% ภาพหน้าจอ: \screenshot[ความกว้าง]{ชื่อไฟล์ไม่รวมนามสกุล}{คำอธิบายภาพ}
-% วางไฟล์ภาพจริงที่ images/screens/<ชื่อไฟล์>.png ระบบจะแทนกรอบว่างให้อัตโนมัติ
+% ภาพหน้าจอ: \appscreen[ความกว้าง]{ชื่อไฟล์ไม่รวมนามสกุล}{คำอธิบายภาพ}
+% วางไฟล์ภาพจริงที่ images/screens/<ชื่อไฟล์>.png (หรือ .jpg) ระบบจะแทนกรอบว่างให้อัตโนมัติ
+% (ชื่อ \screenshot ใช้ไม่ได้ เพราะ cskkumanual มี environment screenshot สำหรับภาพพร้อมหมายเลขกำกับอยู่แล้ว)
 % -------------------------------------------------------------
-\newcommand{\screenshot}[3][0.85]{%
+\newcommand{\appscreen}[3][0.85]{%
   \begin{figure}[H]
     \centering
     \setlength{\fboxsep}{0pt}%
@@ -58,110 +56,58 @@
 }
 
 % -------------------------------------------------------------
-% ข้อมูลโครงงาน — ใช้ชื่อตัวแปรเดียวกับ report/main.tex
+% ข้อมูลเล่ม — ใช้ชื่อตัวแปรเดียวกับ report/main.tex
 % -------------------------------------------------------------
+\projectCode{CS 2569/C4-2}
 \titleTH{ไดโน : เว็บแอพลิเคชันศูนย์กลางของการท่องเที่ยวจังหวัดขอนแก่น}
 \titleEN{Dino: The central web application for tourism in Khon Kaen}
 
 \firstStudentID{663380203-9}
 \firstStudentPrefixTH{นาย}
-\firstStudentPrefixEN{Mr.}
 \firstStudentNameTH{คเณศ บัวสด}
+\firstStudentPrefixEN{Mr.}
 \firstStudentNameEN{Khanet Buasod}
 
 \secondStudentID{663380228-3}
 \secondStudentPrefixTH{นาย}
-\secondStudentPrefixEN{Mr.}
 \secondStudentNameTH{ภูริ ชาริชา}
+\secondStudentPrefixEN{Mr.}
 \secondStudentNameEN{Phuri Charicha}
+
+\advisorTH{อ.ธนพล ตั้งชูพงศ์}
+\advisorEN{Thanapon Tangchupong}
+
+\courseCode{CP354 771}
+\courseName{โครงงานทางวิทยาการคอมพิวเตอร์ 1}
+\semester{1}
+\academicYearTH{2569}
+\academicYearEN{2026}
+\submitMonthTH{ตุลาคม}
+\submitYearTH{2569}
 
 \degreeTH{วิทยาศาสตรบัณฑิต}
 \degreeEN{Bachelor of Science}
 \majorTH{วิทยาการคอมพิวเตอร์}
 \majorEN{Computer Science}
 
-\advisorTH{อ.ธนพล ตั้งชูพงศ์}
-\advisorEN{Thanapon Tangchupong}
-
-\academicYearTH{2569}
-\academicYearEN{2026}
-
-\courseCode{CP354 771}
-\courseName{โครงงานทางวิทยาการคอมพิวเตอร์ 1}
-\semester{1}
-
 \begin{document}
 
 % ==========================================
-% หน้าปก (ตามรูปแบบปกคู่มือการใช้งาน)
+% ปกและส่วนต้น (เลขหน้า ก ข ค ...)
 % ==========================================
-\coverCode{CS 2569 / C4-2}
-\makeatletter
-\begin{titlepage}
-\thispagestyle{empty}
-\centering
-\vspace*{1cm}
+\makecover
+\frontmatter
 
-\includegraphics[scale=0.5]{./theme/kku-logo.png}
-
-\vspace{1.2cm}
-{\Large\bfseries \@coverCode\par}
-\vspace{0.6cm}
-{\Large\bfseries เอกสารคู่มือการใช้งาน\par}
-\vspace{0.6cm}
-{\large \@titleTH\par}
-\vspace{0.3cm}
-{\large \@titleEN\par}
-
-\vspace{1.5cm}
-{\large โดย\par}
-\vspace{0.3cm}
-{\large \@firstStudentID~\@firstStudentPrefixTH\@firstStudentNameTH\par}
-{\large \@secondStudentID~\@secondStudentPrefixTH\@secondStudentNameTH\par}
-
-\vspace{1cm}
-{\large อาจารย์ที่ปรึกษา: \@advisorTH\par}
-
-\vfill
-{\normalsize รายงานนี้เป็นส่วนหนึ่งของการศึกษาวิชา \@courseCode{} \@courseName\par}
-{\normalsize ภาคเรียนที่ \@semester{} ปีการศึกษา \@academicYearTH\par}
-{\normalsize สาขาวิชา\@majorTH{} วิทยาลัยการคอมพิวเตอร์\par}
-{\normalsize มหาวิทยาลัยขอนแก่น\par}
-{\normalsize (เดือน ตุลาคม พ.ศ. \@academicYearTH)\par}
-\end{titlepage}
-\makeatother
-
-% เลขหน้าส่วนต้นเป็นอักษรไทย (ก, ข, ค, ...)
-\pagenumbering{arabic}
-\setcounter{page}{0}
-\renewcommand{\thepage}{\ThaiAlph{\value{page}}}
-
-% ==========================================
-% คำนำ
-% ==========================================
+\begin{preface}       % ชื่อผู้จัดทำพิมพ์ท้ายคำนำให้อัตโนมัติ
 \input{preface}
+\end{preface}
+
+\makecontents         % สารบัญ -> สารบัญตาราง -> สารบัญภาพ (ข้ามรายการที่ว่าง)
 
 % ==========================================
-% สารบัญ / สารบัญภาพ / สารบัญตาราง
+% เนื้อหา 3 บท (เลขหน้า 1 2 3 ...)
 % ==========================================
-\tableofcontents
-\clearpage
-\listoffigures
-\clearpage
-\listoftables
-\clearpage
-
-% ==========================================
-% เนื้อหา 3 บท
-% ==========================================
-\pagenumbering{arabic}
-\setcounter{page}{1}
-\renewcommand{\thepage}{\arabic{page}}
-
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[R]{\thepage}
-\setlength{\headheight}{15pt}
+\mainmatter
 
 \chapter{บทนำ}
 \input{chapter1}

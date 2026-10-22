@@ -68,10 +68,28 @@ Word document's look) and is easy to break by editing naively:
 - The budget section (`10-budget.tex`) intentionally has no dollar/baht amounts filled in — the source document
   didn't have them either.
 
+## Dino full report (`report/`)
+
+The project report, built on the KKU template v2 (`NewTemplate/Template_Project_2026_v2_3.zip`; a worked example
+is in `NewTemplate/Example_A_SystemDev_Project_2026_v2_1.zip`). Build with `cd report && latexmk main.tex`
+(XeLaTeX + biber, configured in `.latexmkrc`). `cskkuproject.cls` + `cskkucore.sty`/`cskkufront.sty`/`cskkubib.sty`
+and `theme/` are the template's own files — don't edit them; put project-specific preamble in `main.tex`.
+Content: `frontmatter/`, `chapters/chapter1-5.tex`, `backmatter/` (appendices, biography, advisor form).
+
+- The class is loaded with `nobiblatex` on purpose: this report keeps APA author-year citations (`\textcite`,
+  `\parencite`), so `main.tex` loads biblatex `style=apa` itself and re-defines `\printreferences` with the
+  template's heading. Don't drop `nobiblatex` unless switching to the template's numeric `[1]` style.
+- Chapter titles come from the class (`\chapteronetitle` …) per the department guide.
+- Template rules: plain `\begin{enumerate}` (no `[label=...]`), no hand-typed heading numbers, no manual
+  `\vspace` in body text (the advisor form is the exception).
+
 ## Dino user manual (`manual/`)
 
-A separate XeLaTeX document — the user manual (เอกสารคู่มือการใช้งาน) for the Dino project, structured after the
-"ไปนำแหน่" manual PDF at the repo root. It reuses `cskkuproject.cls`, `mermaid.sty` and `theme/` copied from `report/`
-and is built with `cd manual && xelatex main.tex` (twice). Content lives in `preface.tex` and `chapter1-3.tex`.
-Screenshots go in `manual/images/screens/<name>.png`; `\screenshot{<name>}{caption}` shows a red placeholder box until the
-file exists. `\fillin{...}` marks text still needing confirmation against the real app/repo — grep for it before submitting.
+A separate XeLaTeX document — the user manual (เอกสารคู่มือการใช้งาน) for the Dino project. It uses `cskkumanual.cls`
+from `NewTemplate/Template_Manual_2026_1.zip` (same core `.sty` files as the report) but keeps the 3-chapter structure
+of the "ไปนำแหน่" manual PDF at the repo root rather than the template's 8-chapter layout. Build with
+`cd manual && latexmk main.tex`. Content lives in `preface.tex` (inside the class's `preface` environment, which prints
+the authors' names) and `chapter1-3.tex`.
+Screenshots go in `manual/images/screens/<name>.png`; `\appscreen{<name>}{caption}` shows a red placeholder box until the
+file exists (it can't be called `\screenshot` — the class defines a `screenshot` environment for annotated screenshots).
+`\fillin{...}` marks text still needing confirmation against the real app/repo — grep for it before submitting.

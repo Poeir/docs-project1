@@ -1,6 +1,21 @@
-\documentclass{cskkuproject}
-\usepackage{needspace} % ใช้ \needspace กันย่อหน้า/หัวข้อถูกตัดข้ามหน้าแบบดูไม่ดี
-\usepackage{pgf-umlsd} % Sequence Diagram (บทที่ 4)
+% =====================================================================
+%  เล่มรายงานโครงงานคอมพิวเตอร์ (template v2 — Template_Project_2026_v2_3)
+%  สาขาวิชาวิทยาการคอมพิวเตอร์ วิทยาลัยการคอมพิวเตอร์ มหาวิทยาลัยขอนแก่น
+%
+%  Compile: XeLaTeX + Biber
+%    เครื่องตนเอง: latexmk main.tex   (อ่านค่าจาก .latexmkrc)
+%    หรือ xelatex main -> biber main -> xelatex main -> xelatex main
+%
+%  แก้ไขเฉพาะ: ไฟล์นี้ (ข้อมูลโครงงาน), frontmatter/, chapters/, backmatter/,
+%  references.bib และ images/  — ไม่ต้องแก้ไฟล์ .cls / .sty
+% =====================================================================
+% final = เอกสารโครงงานฉบับสมบูรณ์ (progress1 / progress2 = รายงานความก้าวหน้าครั้งที่ 1 / 2)
+% nobiblatex = ไม่ใช้รูปแบบอ้างอิงตัวเลข [1] ของ template เพราะเล่มนี้ใช้ APA (โหลด biblatex เองด้านล่าง)
+\documentclass[final,nobiblatex]{cskkuproject}
+
+\usepackage{adjustbox}           % \adjustbox{max width=...} ย่อแผนภาพ TikZ ให้พอดีหน้า
+\usetikzlibrary{backgrounds}     % on background layer (แผนภาพในบทที่ 3)
+\usepackage{pgf-umlsd}           % Sequence Diagram (บทที่ 4)
 % กล่อง lifeline ที่มี stereotype บรรทัดบน เช่น «database» แล้วขีดเส้นใต้เฉพาะชื่อบรรทัดล่าง
 % \newstereoinst[ระยะห่าง]{ชื่อตัวแปร}{stereotype}{:ชื่อ}
 \newcommand{\newstereoinst}[4][0.2]{%
@@ -8,176 +23,132 @@
   \newinst[#1]{#2}{\begin{tabular}{@{}c@{}}{\small«#3»}\\[-2pt]\underline{#4}\end{tabular}}%
   \pgfumlsdunderlinetrue
 }
-\usepackage{pdflscape} % หน้าแนวนอนสำหรับ E-R Diagram และ Domain Model
-\usepackage{colortbl} % ใช้ \cellcolor ในตาราง Gantt chart (บทที่ 3)
-\usepackage[style=apa,backend=biber]{biblatex} % รูปแบบการอ้างอิง APA 7th edition
+\usepackage{pdflscape}           % หน้าแนวนอนสำหรับ E-R Diagram และ Domain Model
+
+% ---------------------------------------------------------------------
+% การอ้างอิงแบบ APA 7th edition (แทน cskkubib ของ template)
+% หัวข้อ "เอกสารอ้างอิง" และ \printreferences ใช้รูปแบบเดียวกับ cskkubib.sty
+% ---------------------------------------------------------------------
+\usepackage[style=apa,backend=biber]{biblatex}
 \addbibresource{references.bib}
+\setcounter{biburllcpenalty}{7000}
+\setcounter{biburlucpenalty}{8000}
+\setcounter{biburlnumpenalty}{7000}
+\setcounter{biburlbreakpenalty}{100}
+\setcounter{biburlbigbreakpenalty}{400}
+\biburlbigskip=0mu\relax
+\makeatletter
+\defbibheading{cskku}[\cskkuReferencesName]{%
+  \chapter*{#1}%
+  \addcontentsline{toc}{chapter}{#1}%
+  \cskkuSetIndent{0pt}}
+\makeatother
+\newcommand\printreferences[1][]{%
+  \clearpage
+  \printbibliography[heading=cskku,title=\cskkuReferencesName,#1]}
 
 % ตัวเลขและแถวตารางของผลแบบสอบถามความพึงพอใจ (คำสั่ง \survey...) ใช้ในบทคัดย่อ บทที่ 4 และบทที่ 5
 % ไฟล์นี้สร้างจาก CSV ด้วย python survey/build_survey.py -- ดูวิธีใช้ที่หัวไฟล์สคริปต์
 \input{survey/survey-data}
 
-% กันย่อหน้าขาดข้ามหน้า: ห้ามเหลือบรรทัดเดียวท้าย/ต้นหน้า (club/widow) และให้การตัดหน้ากลางย่อหน้ามีราคา
-% (interlinepenalty) ส่วน topskip ที่ยืดได้ ~2.2 บรรทัดทำให้ LaTeX ยอมเหลือที่ว่างท้ายหน้าเพื่อยกทั้งย่อหน้า
-% ไปหน้าถัดไป เมื่อส่วนที่ค้างท้ายหน้าสั้นไม่เกินราว 7 บรรทัด ย่อหน้าที่ยาวกว่านั้นยังตัดข้ามหน้าตามปกติ
-% (หน้าแบบ raggedbottom จึงไม่ยืดช่องว่างจริงบนหน้ากระดาษ)
-\clubpenalty=10000
-\widowpenalty=10000
-\interlinepenalty=5000
-\AtBeginDocument{\addtolength{\topskip}{0pt plus 2.2\baselineskip}}
-
-% ความกว้างจริงของป้าย "(1)" ใช้จัดตำแหน่งรายการแบบ (1)(2)(3) ให้บรรทัดแรกเริ่มพอดีกับ
-% \parindent ปัจจุบัน (เท่ากับตำแหน่งข้อความหัวข้อ เช่น "ขอบเขต") โดยไม่มีช่องว่างเกิน
-\newlength{\parenlabelwidth}
-\settowidth{\parenlabelwidth}{(1)}
-
-% ความกว้างของป้ายย่อยสไตล์ "(2.1)" ใช้กับรายการย่อยซ้อนใน (1)(2)(3) เดิม
-\newlength{\subParenLabelWidth}
-\settowidth{\subParenLabelWidth}{(2.1)}
-
-% ==========================================
-% ข้อมูลโครงงาน — กรอกข้อมูลที่นี่
-% ==========================================
-
+% ---------------------------------------------------------------------
+% 1) ข้อมูลโครงงาน (ใช้สร้างปก บทคัดย่อ และแบบฟอร์มรับรองอัตโนมัติ)
+% ---------------------------------------------------------------------
+\projectCode{CS 2569/C4-2}
 \titleTH{ไดโน : เว็บแอพลิเคชันศูนย์กลางของการท่องเที่ยวจังหวัดขอนแก่น}
 \titleEN{Dino: The central web application for tourism in Khon Kaen}
 
-% ข้อมูลนักศึกษาคนที่ 1
+% นักศึกษาคนที่ 1
 \firstStudentID{663380203-9}
 \firstStudentPrefixTH{นาย}
-\firstStudentPrefixEN{Mr.}
 \firstStudentNameTH{คเณศ บัวสด}
+\firstStudentPrefixEN{Mr.}
 \firstStudentNameEN{Khanet Buasod}
 
-% ข้อมูลนักศึกษาคนที่ 2
+% นักศึกษาคนที่ 2
 \secondStudentID{663380228-3}
 \secondStudentPrefixTH{นาย}
-\secondStudentPrefixEN{Mr.}
 \secondStudentNameTH{ภูริ ชาริชา}
+\secondStudentPrefixEN{Mr.}
 \secondStudentNameEN{Phuri Charicha}
-
-% ข้อมูลหลักสูตร
-\degreeTH{วิทยาศาสตรบัณฑิต}
-\degreeEN{Bachelor of Science}
-\majorTH{วิทยาการคอมพิวเตอร์}
-\majorEN{Computer Science}
 
 % อาจารย์ที่ปรึกษา
 \advisorTH{อ.ธนพล ตั้งชูพงศ์}
 \advisorEN{Thanapon Tangchupong}
 
-% ปีการศึกษา
-\academicYearTH{2569}
-\academicYearEN{2026}
-
-% รหัสวิชา (CP354 771 = โครงงาน 1, CP354 772 = โครงงาน 2)
+% รายวิชาและภาคการศึกษา (CP354 771 = โครงงาน 1, CP354 772 = โครงงาน 2)
 \courseCode{CP354 771}
 \courseName{โครงงานทางวิทยาการคอมพิวเตอร์ 1}
 \semester{1}
+\academicYearTH{2569}
+\academicYearEN{2026}
+\submitMonthTH{ตุลาคม}           % เดือนและปีที่ส่งเล่ม (บรรทัดสุดท้ายของปก)
+\submitYearTH{2569}
 
-% คำสำคัญ -- จาก Research Me (1).docx (บทคัดย่อ)
+% หลักสูตร
+\degreeTH{วิทยาศาสตรบัณฑิต}
+\degreeEN{Bachelor of Science}
+\majorTH{วิทยาการคอมพิวเตอร์}
+\majorEN{Computer Science}
+
+% คำสำคัญ (แสดงท้ายบทคัดย่อ)
 \keywordsTH{แอปพลิเคชันการท่องเที่ยว, ปัญญาประดิษฐ์, การดึงข้อมูลเสริม (RAG), โมเดลภาษาขนาดใหญ่, ไมโครเซอร์วิส, ขอนแก่น}
 \keywordsEN{Tourism Application, Artificial Intelligence, Retrieval-Augmented Generation (RAG), Large Language Models (LLMs), Microservices, Khon Kaen}
 
-
 \begin{document}
 
-% ==========================================
-% หน้าปก
-% ==========================================
-% คำสั่งด้านล่างสร้างหน้าปกอัตโนมัติจากข้อมูลที่กรอกด้านบน
-% ไม่ต้องแก้ไขส่วนนี้
-\maketitlepage
+% ---------------------------------------------------------------------
+% 2) ปกนอก ปกใน และส่วนต้น (เลขหน้า ก ข ค ...)
+% ---------------------------------------------------------------------
+\makecover
+\makeinnercover
+\frontmatter
 
-% ตั้งค่าเลขหน้าส่วนต้นเป็นอักษรไทย (ก, ข, ค, ...)
-\pagenumbering{arabic}
-\setcounter{page}{0}
-\renewcommand{\thepage}{\ThaiAlph{\value{page}}}
-
-% ==========================================
-% บทคัดย่อ
-% ==========================================
 \begin{abstractTH}
-\input{abstractTH}
+\input{frontmatter/abstractTH}
 \end{abstractTH}
 
 \begin{abstractEN}
-\input{abstractEN}
+\input{frontmatter/abstractEN}
 \end{abstractEN}
 
-% ==========================================
-% กิตติกรรมประกาศ
-% ==========================================
 \begin{acknowledgement}
-\input{acknowledgement}
+\input{frontmatter/acknowledgement}
 \end{acknowledgement}
 
-% ==========================================
-% สารบัญ
-% ==========================================
-\tableofcontents
-\clearpage
-\listoffigures
-\clearpage
-\listoftables
-\clearpage
+\makecontents         % สารบัญ -> สารบัญตาราง -> สารบัญภาพ (ข้ามรายการที่ไม่มี)
 
-% ==========================================
-% สัญลักษณ์และคำย่อ (ถ้ามี — uncomment ด้านล่าง)
-% ==========================================
-% \begin{symbolpage}
-% \input{symbols}
-% \end{symbolpage}
+% ---------------------------------------------------------------------
+% 3) เนื้อเรื่อง 5 บท (เลขหน้า 1 2 3 ...) — ชื่อบทกำหนดใน class ตามคู่มือ
+% ---------------------------------------------------------------------
+\mainmatter
 
-% ==========================================
-% เนื้อเรื่อง 5 บท
-% ==========================================
-% เริ่มนับเลขหน้าใหม่เป็นเลขอารบิก (1, 2, 3, ...)
-% ไม่ต้องแก้ไขส่วนนี้
-\pagenumbering{arabic}
-\setcounter{page}{1}
+\chapter{\chapteronetitle}      % บทนำ
+\input{chapters/chapter1}
 
-% กัน pagestyle ของสารบัญตาราง/ภาพ (ต่อ) ค้างข้ามมาที่บทที่ 1 —
-% \pagestyle ของ fancyhdr มีผลเริ่มจากหน้าที่ shipout ถัดไปเท่านั้น
-% ดังนั้นต้องสั่งซ้ำตรงนี้ให้ชัวร์ก่อนเข้าเนื้อหาบทที่ 1
-\pagestyle{fancy}
-\fancyhf{}
-\fancyhead[R]{\thepage}
-\setlength{\headheight}{15pt}
+\chapter{\chaptertwotitle}      % งานวิจัยและทฤษฎีที่เกี่ยวข้อง
+\input{chapters/chapter2}
 
-\chapterone
-\chaptertwo
-\chapterthree
-\chapterfour
-\chapterfive
+\chapter{\chapterthreetitle}    % วิธีการดำเนินงาน
+\input{chapters/chapter3}
 
-% ==========================================
-% เอกสารอ้างอิง
-% ==========================================
-% *** ไม่ต้องแก้ไขส่วนนี้ ***
-% ระบบจะดึงรายการอ้างอิงจากไฟล์ references.bib อัตโนมัติ
-% ให้แก้ไขรายการอ้างอิงในไฟล์ references.bib แทน
-\clearpage
-\makeatletter
-\let\ps@plain\ps@empty
-\makeatother
-\printbibliography[title={เอกสารอ้างอิง},heading=bibintoc]
+\chapter{\chapterfourtitle}     % การวิเคราะห์ระบบ และพัฒนาโปรแกรม
+\input{chapters/chapter4}
 
-% ==========================================
-% ภาคผนวก
-% ==========================================
-\input{appendices}
+\chapter{\chapterfivetitle}     % บทสรุป
+\input{chapters/chapter5}
 
-% ==========================================
-% ประวัติผู้เขียน
-% ==========================================
+% ---------------------------------------------------------------------
+% 4) ส่วนท้าย
+% ---------------------------------------------------------------------
+\printreferences      % เอกสารอ้างอิง: สร้างจาก references.bib เฉพาะรายการที่อ้างถึง
+
+\input{backmatter/appendices}   % หน้าคั่น "ภาคผนวก" แล้วเริ่มภาคผนวก ก ข ค ...
+
 \begin{biography}
-\input{biography}
+\input{backmatter/biography}
 \end{biography}
 
-% ==========================================
-% แบบฟอร์มรับรองจากที่ปรึกษา (หน้าสุดท้าย)
-% ==========================================
-\input{advisor-form}
+\input{backmatter/advisor-form}  % แบบฟอร์มรับรองจากที่ปรึกษา (หน้าสุดท้าย)
 
 \end{document}
