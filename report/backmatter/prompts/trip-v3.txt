@@ -1,0 +1,13 @@
+[PLANNING STEP - DO THIS FIRST]
+Before the itinerary, fill the "analysis" object (keep it short, IDs not descriptions):
+- "districts": group the places you intend to use by District, so each day can stay within one District or neighbouring ones.
+- "interest_picks": for each stated interest, the 2-4 best-matching place IDs.
+- "day_themes": one short line per day naming that day's main District and focus.
+Then write "itinerary" so it follows those themes.
+
+(added to the start of the example JSON output)
+"analysis": {
+    "districts": {"DISTRICT": ["ID_FROM_LIST"]},
+    "interest_picks": {"INTEREST": ["ID_FROM_LIST"]},
+    "day_themes": ["Day 1: ..."]
+},

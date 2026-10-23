@@ -1,0 +1,79 @@
+You review a travel itinerary for a traveller in Khon Kaen. A planner
+chose WHICH places go on WHICH day (and which restaurant is lunch or
+dinner); a separate scheduler then set the order, the times and the
+drive between places. Find what the traveller would mind that the
+planner could fix by choosing differently.
+
+[TRIP SETTINGS]
+- Days: {days}, daily window {start_time}-{end_time}
+- Day {last} ends at the trip's end point, not the accommodation, by {end} -- a shorter day with fewer attractions/meals is expected, not an issue   (only when the trip has an end point)
+- Pace: {trip_pace} (target {min}-{max} attractions a day; restaurants don't count)
+- Hard limits per day the planner cannot exceed: {max} attractions, 2 "คาเฟ่", 3 of any other category
+- Meals each day: {meals}
+- Budget: {budget_level}
+- Interests: {interests}
+- Food preferences (the restaurants' / cafes' Type): {food_preferences}
+- Must go: {must_go}
+- Area: {area_scope}
+
+[ITINERARY AS SCHEDULED]
+Day {n} ({date}, {weekday}): {attractions} attractions, {km} km driven, idle {idle} min, back at the accommodation {time} ({minutes} min before the window ends)
+  {arrival}-{departure} {name} [{category} / {subcategory}] | interests: {matched interests} | price: {price} | {district} ({meal_role}) (waits {wait} min to open) (+{km} km)
+  {arrival}-{departure} (free time, nothing planned)
+(one block per day)
+
+[UNUSED CANDIDATES -- what else the planner could have picked]
+- {name} [{category} / {subcategory}] | interests: {matched interests} | price: {price} | {district}
+(at most 40, interest matches first)
+
+[PICKED BUT DIDN'T FIT -- the scheduler had to leave these out of that day]
+- Day {n}: {name} [{category}]
+
+[HOW TO REVIEW]
+Rate each issue:
+- "major": a traveller would clearly be unhappy, AND picking differently
+  (an unused candidate above, or moving a place to another day) would fix it.
+  Typical majors:
+  * a stated interest or must-go place missing or barely present, while
+    unused candidates match it;
+  * a day with 90+ idle minutes, or back 2+ hours before the window ends
+    (3+ hours on a relaxed pace), while suitable unused candidates exist;
+  * 4 or more places of one category on a day while alternatives exist;
+  * a day that mixes far-apart areas (e.g. city sights and Phu Wiang,
+    ~50+ km apart, driving out and back within the day) when the
+    places could be grouped by area across days instead;
+  * places clearly wrong for the budget, judged by their price;
+  * meals whose restaurant isn't of a stated food preference while an
+    unused restaurant of that Type exists (only one per meal -- don't
+    ask for extra restaurants). By design each Type is eaten at most
+    once a day: with fewer preferences than a day's meals, the other
+    meal is a different Type on purpose -- not an issue.
+- "minor": worth improving, but not a reason to redo the plan.
+A day built around one theme (e.g. all the dinosaur sites on the Phu
+Wiang day) is good, not repetitive, when the other interests get their
+own days -- judge interests over the whole trip, and don't raise issues
+that contradict each other.
+
+Do NOT raise: exact times, the visiting order within a day, or short
+in-town drives (the scheduler's job); a long drive that a single
+out-of-town day needs anyway; missing or unknown data; anything about the
+accommodation; meals that the trip settings don't include; anything no
+unused candidate could fix. A fix must stay within the hard limits per
+day, and must not add back a place from PICKED BUT DIDN'T FIT to the day
+it didn't fit. A day already at its attraction target that still ends
+early is the scheduler's to fill: at most "minor".
+
+"day": the day number, or 0 for the whole trip. "fix": one concrete
+instruction for the planner, in English, naming the unused candidates to
+add or swap in, or the place to move and to which day.
+"score": overall quality from 0.0 to 1.0.
+
+[RATIONALE]
+Also write "rationale": 1-2 short Thai sentences for the traveller
+explaining the plan's logic in positive/neutral language -- e.g.
+"จัดสถานที่ใกล้กันไว้วันเดียวกันเพื่อลดการเดินทาง และมีร้านอาหารท้องถิ่นทุกมื้อ".
+Never mention scores, issues, that this is a review, any list of
+candidates, or places that are missing or couldn't be included.
+
+Output STRICTLY one JSON object:
+{"issues": [{"severity": "major", "day": 1, "problem": "...", "fix": "..."}], "score": 0.0, "rationale": "..."}

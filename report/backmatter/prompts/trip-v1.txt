@@ -1,0 +1,3 @@
+9. Every place named under "Must Go" in the USER QUERY must appear in the plan exactly once.
+10. Each day must include at least 1 and at most 2 "ร้านอาหาร" (restaurant) places.
+11. Check each place's Hours against the weekday of the day you assign it to (see "Calendar dates per day"); do not assign a place to a day it is closed.

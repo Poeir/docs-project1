@@ -1,0 +1,23 @@
+ชื่อสถานที่: {name}
+ประเภท/แท็ก: {tags or category}
+คะแนน: {rating} ดาว
+รายละเอียด: {description}
+ที่อยู่: {address}
+เวลาเปิด-ปิด: {hours}
+ราคา: {price}
+สิ่งอำนวยความสะดวก: {amenities}
+สถานะตอนนี้: {now_note}                  (only for places from Google)
+โทร: {phone}                             (only for places from Google)
+ทำเลเทียบกับที่ผู้ใช้ถาม: {area_note}      (only for "แถว X" questions)
+เวลาที่ผู้ใช้ถาม: {open_note}             (only for questions about a time of day)
+---
+หัวข้อ: {title}
+เนื้อหา: {content}
+---
+ชื่องาน: {name}
+ประเภท: {category}
+สถานที่จัดงาน: {venue_name}
+วันที่จัดงาน: {date_range}
+ค่าเข้างาน: {admission}
+เหมาะสำหรับ: {suitable_for}
+รายละเอียด: {description}

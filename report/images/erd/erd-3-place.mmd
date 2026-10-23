@@ -4,9 +4,12 @@ erDiagram
     places ||--o{ place_reports : "ถูกรายงาน"
     places ||--o{ place_sync_results : "มีผลซิงก์"
     place_sync_jobs ||--o{ place_sync_results : "ประกอบด้วย"
+    places |o--o{ place_candidates : "นำเข้าเป็น"
     users |o--o{ place_reports : "เป็นผู้แจ้ง"
     users |o--o{ place_reports : "เป็นผู้ตอบรับรายงาน"
     users |o--o{ place_sync_jobs : "เป็นผู้สร้างงาน"
+    users |o--o{ place_candidates : "เป็นผู้พิจารณา"
+    users |o--o{ place_auto_sync_settings : "เป็นผู้แก้การตั้งค่า"
 
     users {
         uuid id PK
@@ -19,11 +22,14 @@ erDiagram
         text category
         double lat
         double lng
+        text province
         text district
+        text subdistrict
         jsonb hours_periods
         bool is_active
         text[] locked_fields
         jsonb google_diff
+        timestamptz last_synced_at
     }
     place_photos {
         uuid id PK
@@ -49,6 +55,8 @@ erDiagram
         text[] fields
         text status
         int total
+        text triggered_by
+        int auto_hidden
     }
     place_sync_results {
         uuid id PK
@@ -56,4 +64,23 @@ erDiagram
         uuid place_id FK
         text status
         jsonb diff
+    }
+    place_auto_sync_settings {
+        bool id PK
+        bool enabled
+        smallint run_hour
+        int normal_interval_days
+        int priority_interval_days
+        int monthly_call_cap
+        int daily_max_items
+        uuid updated_by FK
+    }
+    place_candidates {
+        text google_place_id PK
+        text name
+        text area_query
+        int ask_count
+        text status
+        uuid place_id FK
+        uuid decided_by FK
     }

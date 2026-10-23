@@ -1,0 +1,10 @@
+{pace_instruction} -- by trip_pace:
+relaxed:  - PACE (Relaxed): Schedule a slow-paced trip. Leave plenty of free time between activities. If there is a time gap > 45 mins, explicitly add '(coffee emoji) พักผ่อนตามอัธยาศัย'.
+standard: - PACE (Standard): Balance activity time and rest. A moderate schedule is fine.
+packed:   - PACE (Packed): Schedule a fast-paced trip. Minimize idle time and schedule activities back-to-back.
+followed by: Plan {min}-{max} attractions per day (cafes count, restaurants do not) -- never more than {max}.
+
+{budget_instruction} -- by budget_level:
+ประหยัด:  - BUDGET (Economy): Prioritize free or cheap places.
+ปานกลาง: - BUDGET (Standard): Balance cost and the quality of the places.
+หรูหรา:   - BUDGET (Luxury): Build each day around premium restaurants and cafes (see their Price) and shopping malls ("ห้างสรรพสินค้า"); add only one or two other attractions a day. For meals, pick the most expensive suitable restaurant.

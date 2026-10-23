@@ -1,0 +1,1 @@
+- ID: {id} [MUST-GO], Name: {name}, Category: {category}, Rating: {rating} ({review_count} reviews), District: {district}, Tags: {tags}, About: {description}, Hours: {hours}
