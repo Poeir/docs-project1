@@ -47,6 +47,47 @@
   \clearpage
   \printbibliography[heading=cskku,title=\cskkuReferencesName,#1]}
 
+% การขึ้นหน้าใหม่ในรายการ (enumerate/itemize)
+% - ห้ามขึ้นหน้าใหม่ก่อนเริ่มรายการ หัวข้อหรือบรรทัดนำ (เช่น ``ดังนี้'') จึงย้ายไปพร้อมรายการ
+% - รายการไม่เกิน 4 ข้อ ห้ามแบ่งระหว่างข้อ (ย้ายไปหน้าถัดไปทั้งชุด)
+% - รายการตั้งแต่ 5 ข้อ แบ่งระหว่างข้อได้ ยกเว้นหลังข้อแรกและก่อนข้อสุดท้าย จึงไม่มีข้อใดค้างอยู่ข้อเดียว
+% จำนวนข้อของแต่ละรายการบันทึกลงไฟล์ .aux แล้วใช้ในการคอมไพล์รอบถัดไป (latexmk รันซ้ำให้เอง)
+% \listbreaksallowed (ใช้ในกลุ่ม \begingroup ... \endgroup) ปิดกติกานี้ เช่น รายการเอกสารอ้างอิง
+\makeatletter
+\@itempenalty=10000
+\@beginparpenalty=10000
+\newcount\dl@listid
+\newcount\dl@itemno
+\newcount\dl@total
+\newif\ifdl@inlist
+\newif\ifdl@free
+\def\dl@setn#1#2{\expandafter\gdef\csname dl@n@#1\endcsname{#2}}
+\def\dl@startlist{%
+  \global\advance\dl@listid\@ne
+  \edef\dl@thisid{\the\dl@listid}%
+  \dl@itemno=\z@ \dl@inlisttrue
+  \@ifundefined{dl@n@\dl@thisid}{\dl@total=\z@}{\dl@total=\csname dl@n@\dl@thisid\endcsname\relax}}
+\def\dl@endlist{\immediate\write\@auxout{\string\dl@setn{\dl@thisid}{\the\dl@itemno}}}
+\def\dl@setitempenalty{%
+  \ifdl@inlist
+    \advance\dl@itemno\@ne
+    \ifdl@free \@itempenalty=-\@lowpenalty
+    \else\ifnum\dl@total<5 \@itempenalty=\@M
+    \else\ifnum\dl@itemno=\tw@ \@itempenalty=\@M
+    \else\ifnum\dl@itemno=\dl@total \@itempenalty=\@M
+    \else \@itempenalty=-\@lowpenalty
+    \fi\fi\fi\fi
+  \fi}
+\let\dl@orig@item\@item
+\def\@item{\dl@setitempenalty\dl@orig@item}
+\AtBeginEnvironment{enumerate}{\dl@startlist}
+\AtBeginEnvironment{itemize}{\dl@startlist}
+\AtEndEnvironment{enumerate}{\dl@endlist}
+\AtEndEnvironment{itemize}{\dl@endlist}
+\newcommand{\listbreaksallowed}{\dl@freetrue\@itempenalty=-\@lowpenalty}
+\AtBeginBibliography{\listbreaksallowed}
+\makeatother
+
 % ตัวเลขและแถวตารางของผลแบบสอบถามความพึงพอใจ (คำสั่ง \survey...) ใช้ในบทคัดย่อ บทที่ 4 และบทที่ 5
 % ไฟล์นี้สร้างจาก CSV ด้วย python survey/build_survey.py -- ดูวิธีใช้ที่หัวไฟล์สคริปต์
 \input{survey/survey-data}
@@ -55,8 +96,8 @@
 % 1) ข้อมูลโครงงาน (ใช้สร้างปก บทคัดย่อ และแบบฟอร์มรับรองอัตโนมัติ)
 % ---------------------------------------------------------------------
 \projectCode{CS 2569/C4-2}
-\titleTH{ไดโน : เว็บแอพลิเคชันศูนย์กลางของการท่องเที่ยวจังหวัดขอนแก่น}
-\titleEN{Dino: The central web application for tourism in Khon Kaen}
+\titleTH{ไดโน : เว็บแอปพลิเคชันของการท่องเที่ยวจังหวัดขอนแก่น}
+\titleEN{Dino: The web application for tourism in Khon Kaen}
 
 % นักศึกษาคนที่ 1
 \firstStudentID{663380203-9}
@@ -92,8 +133,8 @@
 \majorEN{Computer Science}
 
 % คำสำคัญ (แสดงท้ายบทคัดย่อ)
-\keywordsTH{แอปพลิเคชันการท่องเที่ยว, ปัญญาประดิษฐ์, การดึงข้อมูลเสริม (RAG), โมเดลภาษาขนาดใหญ่, ไมโครเซอร์วิส, ขอนแก่น}
-\keywordsEN{Tourism Application, Artificial Intelligence, Retrieval-Augmented Generation (RAG), Large Language Models (LLMs), Microservices, Khon Kaen}
+\keywordsTH{แอปพลิเคชันการท่องเที่ยว, ปัญญาประดิษฐ์, การสร้างคำตอบแบบเพิ่มพูนการค้นคืนข้อมูล (RAG), โมเดลภาษาขนาดใหญ่ (LLMs), ขอนแก่น}
+\keywordsEN{Tourism Application, Artificial Intelligence, Retrieval-Augmented Generation (RAG), Large Language Models (LLMs), Khon Kaen}
 
 \begin{document}
 
@@ -126,14 +167,28 @@
 \chapter{\chapteronetitle}      % บทนำ
 \input{chapters/chapter1}
 
+% ตั้งแต่บทที่ 2: ย่อหน้าไม่เกิน 7 บรรทัดไม่แบ่งข้ามหน้า (ย้ายไปหน้าถัดไปทั้งย่อหน้า)
+% ย่อหน้าที่ยาวกว่านั้นแบ่งได้ แต่ต้องเหลืออย่างน้อย 4 บรรทัดทั้งท้ายหน้าและต้นหน้าถัดไป
+\clubpenalties=4 10000 10000 10000 0
+\widowpenalties=4 10000 10000 10000 0
+
 \chapter{\chaptertwotitle}      % งานวิจัยและทฤษฎีที่เกี่ยวข้อง
 \input{chapters/chapter2}
+
+% บทที่ 3 และ 4: ย่อหน้าไม่เกิน 11 บรรทัดไม่แบ่งข้ามหน้า
+% ย่อหน้าที่ยาวกว่านั้นแบ่งได้ แต่ต้องเหลืออย่างน้อย 6 บรรทัดทั้งท้ายหน้าและต้นหน้าถัดไป
+\clubpenalties=6 10000 10000 10000 10000 10000 0
+\widowpenalties=6 10000 10000 10000 10000 10000 0
 
 \chapter{\chapterthreetitle}    % วิธีการดำเนินงาน
 \input{chapters/chapter3}
 
 \chapter{\chapterfourtitle}     % การวิเคราะห์ระบบ และพัฒนาโปรแกรม
 \input{chapters/chapter4}
+
+% บทที่ 5 เป็นต้นไป: กลับไปใช้กติกาเดียวกับบทที่ 2
+\clubpenalties=4 10000 10000 10000 0
+\widowpenalties=4 10000 10000 10000 0
 
 \chapter{\chapterfivetitle}     % บทสรุป
 \input{chapters/chapter5}

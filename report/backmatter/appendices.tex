@@ -22,7 +22,7 @@
 % =============================
 \appendiceschapter{ภาพหน้าจอระบบที่พัฒนา}
 
-ภาคผนวกนี้แสดงหน้าจอของระบบที่พัฒนาเสร็จแล้วในส่วนเว็บ เพื่อให้เทียบกับแบบร่างหน้าจอ (Wireframe) ในบทที่ 4 ได้ แบ่งเป็นหน้าจอของผู้ใช้งานทั่วไปและสมาชิก และหน้าจอของผู้ดูแลระบบ ข้อมูลที่ปรากฏในภาพ เช่น ชื่อ อีเมล และเบอร์โทรศัพท์ของผู้ใช้ เป็นข้อมูลตัวอย่างที่สร้างขึ้นสำหรับการจัดทำเอกสาร มิใช่ข้อมูลของผู้ใช้จริง
+ภาคผนวกนี้แสดงหน้าจอของระบบที่พัฒนาเสร็จแล้วในส่วนเว็บ เพื่อให้เทียบกับแบบร่างหน้าจอ ในบทที่ 4 ได้ แบ่งเป็นหน้าจอของผู้ใช้งานทั่วไปและสมาชิก และหน้าจอของผู้ดูแลระบบ ข้อมูลที่ปรากฏในภาพ เช่น ชื่อ อีเมล และเบอร์โทรศัพท์ของผู้ใช้ เป็นข้อมูลตัวอย่างที่สร้างขึ้นสำหรับการจัดทำเอกสาร มิใช่ข้อมูลของผู้ใช้จริง
 
 \section{หน้าจอของผู้ใช้งานทั่วไปและสมาชิก}
 
@@ -109,48 +109,58 @@
 % ถ้า Prompt ในโค้ดเปลี่ยน ให้คัดลอกใหม่และแก้เลขคอมมิตในย่อหน้าแรกของภาคผนวกนี้
 \appendiceschapter{Prompt ที่ใช้ในระบบปัญญาประดิษฐ์}
 
-ภาคผนวกนี้แสดง Prompt ของ 3 ส่วนที่บทที่ 4 อ้างถึง ได้แก่ ตัวสร้างแผนการเดินทาง กลไก LLM-as-a-Judge และแชตบอต คัดจากโค้ดของ AI Service ฉบับคอมมิต 2333f89 (22 ตุลาคม 2569) ยกเว้นฉบับที่ใช้ในการทดลองเปรียบเทียบ Prompt ซึ่งระบุคอมมิตไว้ในหัวข้อนั้น Prompt ทุกชุดเป็นแม่แบบที่ระบบเติมค่าตอนทำงาน ข้อความในวงเล็บปีกกา เช่น \{trip\_duration\_days\} คือตำแหน่งที่ระบบแทนด้วยค่าจริงจากเงื่อนไขของผู้ใช้หรือจากฐานข้อมูล ส่วนข้อความในวงเล็บที่เขียนเป็นภาษาอังกฤษท้ายบรรทัด เช่น (one line per candidate place) เป็นคำอธิบายที่ผู้วิจัยเพิ่มเพื่อการอ่าน ไม่ได้ส่งให้ LLM Prompt ของตัวสร้างแผนและ Judge เขียนเป็นภาษาอังกฤษ แต่สั่งให้เขียนข้อความที่แสดงแก่ผู้ใช้เป็นภาษาไทย ส่วน Prompt ของแชตบอตเขียนเป็นภาษาไทยทั้งหมด
+ภาคผนวกนี้แสดง Prompt ของ 3 ส่วนที่บทที่ 4 อ้างถึง ได้แก่ ตัวสร้างแผนการเดินทาง กลไก LLM-as-a-Judge และแชตบอต คัดจากโค้ดของ AI Service ฉบับคอมมิต 2333f89 (22 ตุลาคม 2569) ยกเว้นฉบับที่ใช้ในการทดลองเปรียบเทียบ Prompt ซึ่งระบุคอมมิตไว้ในหัวข้อนั้น Prompt ทุกชุดเป็นแม่แบบที่ระบบเติมค่าตอนทำงาน ข้อความในวงเล็บปีกกา เช่น \{trip\_duration\_days\} คือตำแหน่งที่ระบบแทนด้วยค่าจริงจากเงื่อนไขของผู้ใช้หรือจากฐานข้อมูล ส่วนข้อความในวงเล็บที่เขียนเป็นภาษาอังกฤษท้ายบรรทัด เช่น (one line per candidate place) เป็นคำอธิบายที่ผู้วิจัยเพิ่มเพื่อการอ่าน ไม่ได้ส่งให้โมเดลภาษาขนาดใหญ่ Prompt ของตัวสร้างแผนและ Judge เขียนเป็นภาษาอังกฤษ แต่สั่งให้เขียนข้อความที่แสดงแก่ผู้ใช้เป็นภาษาไทย ส่วน Prompt ของแชตบอตเขียนเป็นภาษาไทยทั้งหมด
 
 \section{Prompt ของตัวสร้างแผนการเดินทาง}
 
-ตัวสร้างแผนส่งข้อความ 2 ส่วนให้ LLM ส่วนแรกเป็นข้อความระบบ (System Message) ว่า ``You are a helpful travel assistant. Output JSON only.'' ส่วนที่สองเป็น Prompt ตามโปรแกรมที่ \ref{lst:trip_current} โดยตั้งค่า temperature เป็น 0.2 และกำหนดโครงสร้าง JSON ของผลลัพธ์ หัวข้อ [FEEDBACK] ท้าย Prompt จะปรากฏเฉพาะรอบที่สร้างแผนใหม่หลัง Judge หรือ Scheduler พบปัญหา
+ตัวสร้างแผนส่งข้อความ 2 ส่วนให้โมเดลภาษาขนาดใหญ่ ส่วนแรกเป็น System Prompt ว่า ``You are a helpful travel assistant. Output JSON only.'' ส่วนที่สองเป็น Prompt ตามโปรแกรมที่ \ref{lst:trip_current} โดยตั้งค่า temperature เป็น 0.2 และกำหนดโครงสร้าง JSON ของผลลัพธ์ หัวข้อ [FEEDBACK] ท้าย Prompt จะปรากฏเฉพาะรอบที่สร้างแผนใหม่หลัง Judge หรือ Scheduler พบปัญหา
 
 \subsection{ฉบับที่ใช้งานปัจจุบัน}
 
+\Needspace*{10\baselineskip}
 \lstinputlisting[caption={Prompt ของตัวสร้างแผนการเดินทาง ฉบับที่ใช้งานปัจจุบัน},label={lst:trip_current}]{backmatter/prompts/trip-current.txt}
 
 ค่าที่ระบบเติมในโปรแกรมที่ \ref{lst:trip_current} ที่ต้องอธิบายเพิ่ม มีดังนี้ \{meals\} เป็นข้อความบอกมื้ออาหารของแต่ละวันตามช่วงเวลาเดินทาง เช่น ``each day has exactly lunch and dinner -- pick one "ร้านอาหาร" per meal ...'' และเพิ่มคำสั่งเลือกร้านอาหารเช้าใกล้ที่พักเมื่อผู้ใช้เลือก ``อาหารเช้า'' บรรทัด Last day ปรากฏเฉพาะเมื่อวันสุดท้ายไม่ได้จบที่ที่พัก โดยบอกจุดจบ เวลาที่ต้องถึง และให้เลือกสถานที่ที่อยู่ระหว่างทาง ในแต่ละบรรทัดของสถานที่ผู้สมัคร Type แสดงเมื่อสถานที่มีหมวดย่อย Price แสดงเฉพาะร้านอาหารและคาเฟ่ Visit คือเวลาแวะโดยประมาณตามประเภทสถานที่และจังหวะการท่องเที่ยว และ Hours แสดงเฉพาะเวลาทำการของวันในสัปดาห์ที่อยู่ในช่วงทริป ส่วน \{pace\_instruction\} และ \{budget\_instruction\} เลือกตามจังหวะการท่องเที่ยวและงบประมาณดังโปรแกรมที่ \ref{lst:trip_dynamic}
 
+\Needspace*{18\baselineskip}
 \lstinputlisting[caption={ข้อความของ \{pace\_instruction\} และ \{budget\_instruction\} ตามค่าที่ผู้ใช้เลือก},label={lst:trip_dynamic}]{backmatter/prompts/trip-dynamic.txt}
 
 \subsection{ฉบับที่ใช้ในการทดลองเปรียบเทียบ Prompt}
 
 การทดลองเปรียบเทียบ Prompt ในบทที่ 4 เริ่มรันเมื่อวันที่ 7 ตุลาคม 2569 ก่อนที่ Prompt จะถูกปรับเป็นฉบับปัจจุบัน ผู้วิจัยระบุฉบับที่ใช้จากค่าแฮช SHA-256 ของไฟล์ที่ชุดทดลองบันทึกไว้พร้อมผล ซึ่งตรงกับไฟล์ llm\_extractor.py ของคอมมิต c2b8db5 และไฟล์ prompts.py ของคอมมิต 5aaa928 Prompt ที่ใช้งานจริงขณะนั้น (v0\_baseline) แสดงในโปรแกรมที่ \ref{lst:trip_experiment} ซึ่งยังไม่มีประเภทอาหาร บรรทัดกำหนดมื้ออาหารของแต่ละวัน จุดจบทริป เวลาแวะ ระดับราคา และ rationale ขณะนั้น \{budget\_instruction\} ของงบหรูหราคือ ``- BUDGET (Luxury): Focus ONLY on providing the most premium, high-end, and exclusive experiences.'' ส่วนงบอื่นและ \{pace\_instruction\} เหมือนโปรแกรมที่ \ref{lst:trip_dynamic} (ในโปรแกรมที่ \ref{lst:trip_dynamic} คำว่า (coffee emoji) แทนอีโมจิรูปถ้วยกาแฟในโค้ดจริง เพราะฟอนต์ของโค้ดไม่มีอักขระนี้)
 
+\Needspace*{10\baselineskip}
 \lstinputlisting[caption={Prompt ของตัวสร้างแผนการเดินทาง ฉบับที่ใช้ในการทดลอง (v0\_baseline)},label={lst:trip_experiment}]{backmatter/prompts/trip-experiment.txt}
 
 Prompt ทางเลือกทั้ง 3 แบบสร้างจาก v0\_baseline โดยแก้เพียงจุดเดียว และโค้ดของชุดทดลองตรวจว่าข้อความที่แก้พบเพียงครั้งเดียว หากไม่พบ การทดลองจะหยุดทันทีแทนที่จะทดสอบ Prompt ที่ต่างจากที่ตั้งใจ v1\_rules เพิ่มกฎข้อ 9--11 ในโปรแกรมที่ \ref{lst:trip_v1} ต่อท้ายหัวข้อ [STRICT RULES] v2\_context เปลี่ยนบรรทัดของสถานที่ผู้สมัครแต่ละแห่งเป็นรูปแบบในโปรแกรมที่ \ref{lst:trip_v2} ซึ่งเพิ่มจำนวนรีวิว แท็กไม่เกิน 5 แท็ก คำอธิบายย่อไม่เกิน 90 ตัวอักษร และเครื่องหมาย [MUST-GO] ของสถานที่บังคับ และ v3\_plan\_first เพิ่มขั้นตอนวางแผนก่อนเลือกสถานที่ในโปรแกรมที่ \ref{lst:trip_v3} ก่อนหัวข้อ [EXAMPLE JSON OUTPUT FORMAT] พร้อมเพิ่มคีย์ analysis ในตัวอย่าง JSON
 
+\Needspace*{10\baselineskip}
 \lstinputlisting[caption={{กฎที่ v1\_rules เพิ่มต่อท้ายหัวข้อ STRICT RULES}},label={lst:trip_v1}]{backmatter/prompts/trip-v1.txt}
 
+\Needspace*{6\baselineskip}
 \lstinputlisting[caption={รูปแบบบรรทัดของสถานที่ผู้สมัครใน v2\_context},label={lst:trip_v2}]{backmatter/prompts/trip-v2.txt}
 
+\Needspace*{20\baselineskip}
 \lstinputlisting[caption={ขั้นตอนวางแผนที่ v3\_plan\_first เพิ่มเข้าไป},label={lst:trip_v3}]{backmatter/prompts/trip-v3.txt}
 
 \section{Prompt ของกลไก LLM-as-a-Judge}
 
-Judge ส่งข้อความระบบว่า ``You are a meticulous travel-plan quality reviewer. Output JSON only.'' ร่วมกับ Prompt ในโปรแกรมที่ \ref{lst:judge} โดยตั้งค่า temperature เป็น 0 และกำหนดโครงสร้าง JSON ของผลลัพธ์ ข้อมูลในหัวข้อ [TRIP SETTINGS] และ [ITINERARY AS SCHEDULED] เช่น เวลาว่างของแต่ละวัน เวลากลับที่พัก และสถานที่ที่ตรงกับความสนใจ คำนวณด้วยโค้ดก่อนส่ง Judge จึงไม่ต้องอนุมานเองจากตารางเวลา
+Judge ส่ง System Prompt ว่า ``You are a meticulous travel-plan quality reviewer. Output JSON only.'' ร่วมกับ Prompt ในโปรแกรมที่ \ref{lst:judge} โดยตั้งค่า temperature เป็น 0 และกำหนดโครงสร้าง JSON ของผลลัพธ์ ข้อมูลในหัวข้อ [TRIP SETTINGS] และ [ITINERARY AS SCHEDULED] เช่น เวลาว่างของแต่ละวัน เวลากลับที่พัก และสถานที่ที่ตรงกับความสนใจ คำนวณด้วยโค้ดก่อนส่ง Judge จึงไม่ต้องอนุมานเองจากตารางเวลา
 
+\Needspace*{10\baselineskip}
 \lstinputlisting[caption={Prompt ของกลไก LLM-as-a-Judge},label={lst:judge}]{backmatter/prompts/judge.txt}
 
 \section{Prompt ของแชตบอต}
 
-แชตบอตเรียก LLM 2 ขั้น ขั้นแรกเขียนคำถามใหม่ให้เข้าใจได้ด้วยตัวเองเมื่อมีประวัติการสนทนา ตามโปรแกรมที่ \ref{lst:chat_rewrite} โดยตั้งค่า temperature เป็น 0 และระบบใช้เฉพาะข้อความภายในแท็ก <query> หากไม่พบแท็กจะใช้คำถามเดิม ขั้นที่สองสร้างคำตอบด้วย System Prompt ในโปรแกรมที่ \ref{lst:chat_system} ตามด้วยประวัติการสนทนาไม่เกิน 4 ข้อความ และคำถามของผู้ใช้ โดยตั้งค่า temperature เป็น 0.1 ทั้งนี้ ลำดับเลขข้อในหัวข้อ [กฎเหล็ก] เป็นไปตามโค้ดจริง ซึ่งข้อ 7 อยู่ท้ายสุด
+แชตบอตเรียกโมเดลภาษาขนาดใหญ่ 2 ขั้น ขั้นแรกเขียนคำถามใหม่ให้เข้าใจได้ด้วยตัวเองเมื่อมีประวัติการสนทนา ตามโปรแกรมที่ \ref{lst:chat_rewrite} โดยตั้งค่า temperature เป็น 0 และระบบใช้เฉพาะข้อความภายในแท็ก <query> หากไม่พบแท็กจะใช้คำถามเดิม ขั้นที่สองสร้างคำตอบด้วย System Prompt ในโปรแกรมที่ \ref{lst:chat_system} ตามด้วยประวัติการสนทนาไม่เกิน 4 ข้อความ และคำถามของผู้ใช้ โดยตั้งค่า temperature เป็น 0.1 ทั้งนี้ ลำดับเลขข้อในหัวข้อ [กฎเหล็ก] เป็นไปตามโค้ดจริง ซึ่งข้อ 7 อยู่ท้ายสุด
 
+\Needspace*{20\baselineskip}
 \lstinputlisting[caption={Prompt สำหรับเขียนคำถามใหม่ (Query Rewriting)},label={lst:chat_rewrite}]{backmatter/prompts/chat-rewrite.txt}
 
+\Needspace*{10\baselineskip}
 \lstinputlisting[caption={System Prompt สำหรับสร้างคำตอบของแชตบอต},label={lst:chat_system}]{backmatter/prompts/chat-system.txt}
 
 \{context\} ในโปรแกรมที่ \ref{lst:chat_system} คือข้อมูลที่ค้นคืนได้จากตาราง places, knowledge\_base และ events จัดรูปแบบตามโปรแกรมที่ \ref{lst:chat_context} รายการละหนึ่งชุดคั่นด้วย ``---'' รายละเอียดของแต่ละรายการตัดไว้ไม่เกิน 700 ตัวอักษร และหากค้นไม่พบรายการใดเลย ระบบใส่ข้อความ ``ไม่มีข้อมูลที่ตรงกับคำถามในฐานข้อมูล'' แทน
 
+\Needspace*{10\baselineskip}
 \lstinputlisting[caption={รูปแบบข้อมูลบริบทของสถานที่ ความรู้ทั่วไป และกิจกรรม},label={lst:chat_context}]{backmatter/prompts/chat-context.txt}
