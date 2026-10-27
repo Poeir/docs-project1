@@ -8,6 +8,13 @@
 \documentclass{cskkumanual}
 % ตัวเลือก guides แสดงแนวทางการเขียนของ template — ไม่ใช้ในเล่มนี้
 
+% ใช้ TH Sarabun New ทั้งเล่ม รวมถึง \texttt และบล็อกคำสั่ง (แทน TlwgMono ของ template)
+\setmonofont{THSarabunNew}[
+  Path=\cskkufontpath, Extension=.ttf,
+  UprightFont=*-Regular, BoldFont=*-Bold,
+  ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic]
+\lstset{basicstyle=\ttfamily, numberstyle=\scriptsize\ttfamily\color{gray}}
+
 % ความกว้างป้าย "(1)" สำหรับรายการแบบ (1)(2)(3)
 \newlength{\parenlabelwidth}
 \settowidth{\parenlabelwidth}{(1)}
@@ -59,8 +66,8 @@
 % ข้อมูลเล่ม — ใช้ชื่อตัวแปรเดียวกับ report/main.tex
 % -------------------------------------------------------------
 \projectCode{CS 2569/C4-2}
-\titleTH{ไดโน : เว็บแอพลิเคชันศูนย์กลางของการท่องเที่ยวจังหวัดขอนแก่น}
-\titleEN{Dino: The central web application for tourism in Khon Kaen}
+\titleTH{ไดโน : เว็บแอปพลิเคชันของการท่องเที่ยวจังหวัดขอนแก่น}
+\titleEN{Dino: The web application for tourism in Khon Kaen}
 
 \firstStudentID{663380203-9}
 \firstStudentPrefixTH{นาย}
@@ -75,7 +82,7 @@
 \secondStudentNameEN{Phuri Charicha}
 
 \advisorTH{อ.ธนพล ตั้งชูพงศ์}
-\advisorEN{Thanapon Tangchupong}
+\advisorEN{Thanapon Tangchoopong}
 
 \courseCode{CP354 771}
 \courseName{โครงงานทางวิทยาการคอมพิวเตอร์ 1}
