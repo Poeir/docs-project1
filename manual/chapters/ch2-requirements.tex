@@ -1,0 +1,277 @@
+% =============================================================
+% บทที่ 2 ความต้องการของระบบและการติดตั้ง
+% ข้อมูลตรวจจาก main repo: README.md, CLAUDE.md, deploy/ (docker-compose.yml, *.env.example, Caddyfile),
+% backend/src/app.js (/api/health), chatbot-service/src/main.py (/health), chatbot-service/src/core/config.py
+% (ตรวจซ้ำ 29 ต.ค. 2569)
+% =============================================================
+\label{ch:install}
+
+\section{ความต้องการของระบบ}
+
+ระบบเป็นเว็บแอปพลิเคชัน ผู้ใช้งานใช้ผ่านเว็บเบราว์เซอร์โดยไม่ต้องติดตั้งโปรแกรมเพิ่ม ส่วนเครื่องแม่ข่ายรันบริการทั้งหมดในคอนเทนเนอร์ Docker และใช้ฐานข้อมูลและบริการภายนอกผ่านอินเทอร์เน็ต
+
+\subsection{ความต้องการฝั่งผู้ใช้งาน}
+
+อุปกรณ์และซอฟต์แวร์ที่ผู้ใช้งานต้องมีแสดงดังตารางที่~\ref{tab:req-client}
+
+\begin{table}[H]
+\caption{ความต้องการฝั่งผู้ใช้งาน}
+\label{tab:req-client}
+\centering
+\begin{tabular}{|L{3.6cm}|L{9.6cm}|}
+\hline
+\textbf{รายการ} & \textbf{ข้อกำหนด} \\ \hline
+อุปกรณ์ & คอมพิวเตอร์ แท็บเล็ต หรือโทรศัพท์มือถือ \\ \hline
+เว็บเบราว์เซอร์ & Google Chrome, Microsoft Edge, Mozilla Firefox หรือ Safari รุ่นล่าสุด \\ \hline
+การเชื่อมต่อ & อินเทอร์เน็ตตลอดการใช้งาน \\ \hline
+บัญชีผู้ใช้ & อีเมลที่รับข้อความได้ สำหรับยืนยันการสมัครสมาชิกและตั้งรหัสผ่านใหม่ \\ \hline
+การสแกน QR Code & อุปกรณ์ที่มีกล้องและระบุตำแหน่งได้ และอนุญาตให้เบราว์เซอร์ใช้กล้องและตำแหน่งที่ตั้ง \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{ความต้องการของเครื่องแม่ข่าย}
+
+ระบบที่ใช้งานจริงทำงานบนเครื่องแม่ข่ายเสมือน (VPS) เครื่องเดียว คุณสมบัติขั้นต่ำและสเปกของเครื่องที่ใช้งานจริงแสดงดังตารางที่~\ref{tab:req-server}
+
+\begin{table}[H]
+\caption{ความต้องการของเครื่องแม่ข่าย}
+\label{tab:req-server}
+\centering
+\begin{tabular}{|L{3.6cm}|L{4.6cm}|L{4.6cm}|}
+\hline
+\textbf{รายการ} & \textbf{ขั้นต่ำ} & \textbf{เครื่องที่ใช้งานจริง} \\ \hline
+ระบบปฏิบัติการ & Linux ที่ติดตั้ง Docker Engine ได้ & Ubuntu 24.04 LTS \\ \hline
+หน่วยประมวลผล & 2 vCPU & 2 vCPU \\ \hline
+หน่วยความจำ & 4 GB & 4 GB \\ \hline
+พื้นที่ดิสก์ & 20 GB & 40 GB SSD NVMe \\ \hline
+เครือข่าย & เปิดพอร์ต 80 และ 443 และมีชื่อโดเมนที่ชี้มายังเครื่อง & แบนด์วิดท์ 500 Mbps ไม่จำกัดปริมาณข้อมูล \\ \hline
+การสำรองข้อมูลของเครื่อง & -- & ผู้ให้บริการสำรองข้อมูลรายวันย้อนหลัง 24 ชั่วโมง \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{note}
+การสร้าง image ของ AI Service ต้องติดตั้งไลบรารี PyTorch และดาวน์โหลดโมเดลสำหรับสร้าง Embedding จึงใช้หน่วยความจำและพื้นที่ดิสก์มากที่สุด เครื่องที่มีหน่วยความจำน้อยกว่า 4 GB อาจสร้าง image ไม่สำเร็จ
+\end{note}
+
+\subsection{บริการภายนอกที่ต้องเตรียม}
+
+ระบบใช้บริการภายนอกตามตารางที่~\ref{tab:req-services} ผู้ติดตั้งต้องสมัครบัญชีและเตรียมคีย์ของแต่ละบริการก่อนติดตั้ง
+
+\begin{table}[H]
+\caption{บริการภายนอกที่ระบบใช้}
+\label{tab:req-services}
+\centering
+\begin{tabular}{|L{3.6cm}|L{2.4cm}|L{\dimexpr\linewidth-6cm-6\tabcolsep-4\arrayrulewidth\relax}|}
+\hline
+\textbf{บริการ} & \textbf{ความจำเป็น} & \textbf{ใช้สำหรับ} \\ \hline
+Supabase & บังคับ & ฐานข้อมูล PostgreSQL พร้อมส่วนขยาย pgvector \\ \hline
+Cloudinary & บังคับ & จัดเก็บรูปภาพสถานที่ กิจกรรม และรูปโปรไฟล์ \\ \hline
+Gmail หรือ SMTP & บังคับ & ส่งอีเมลยืนยันการสมัครและลิงก์ตั้งรหัสผ่านใหม่ ถ้าใช้ Gmail ต้องเปิดการยืนยันตัวตน 2 ขั้นตอนและสร้าง App Password \\ \hline
+โมเดลภาษาขนาดใหญ่ & บังคับ & แชตบอตและระบบวางแผนทริป เลือกได้ 1 จาก KKU AI Gateway, Anthropic หรือ Vertex AI \\ \hline
+Google Cloud & ไม่บังคับ & Places API (New) สำหรับนำเข้าและซิงก์สถานที่ และ Maps JavaScript API สำหรับแสดงแผนที่ \\ \hline
+ชื่อโดเมน & บังคับ & ที่อยู่เว็บไซต์ ซึ่ง Caddy ใช้ขอใบรับรอง HTTPS \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{ซอฟต์แวร์ที่ต้องติดตั้ง}
+
+ติดตั้งซอฟต์แวร์ในตารางที่~\ref{tab:req-software} บนเครื่องแม่ข่ายก่อนติดตั้งระบบ ส่วน Node.js และ Python ไม่ต้องติดตั้งบนเครื่องแม่ข่าย เพราะทำงานในคอนเทนเนอร์ Docker
+
+\begin{table}[H]
+\caption{ซอฟต์แวร์ที่ต้องติดตั้งบนเครื่องแม่ข่าย}
+\label{tab:req-software}
+\centering
+\begin{tabular}{|L{3.8cm}|L{2.4cm}|L{3.2cm}|L{3.8cm}|}
+\hline
+\textbf{ซอฟต์แวร์} & \textbf{รุ่น} & \textbf{ใช้สำหรับ} & \textbf{คำสั่งตรวจสอบ} \\ \hline
+Git & 2.30 ขึ้นไป & ดาวน์โหลดซอร์สโค้ด & \cmd{git --version} \\ \hline
+Docker Engine & 24 ขึ้นไป & รันบริการทั้งหมด & \cmd{docker --version} \\ \hline
+Docker Compose & 2 ขึ้นไป & จัดการบริการหลายตัว & \cmd{docker compose version} \\ \hline
+\end{tabular}
+\end{table}
+
+\section{ภาพรวมการติดตั้ง}
+
+ระบบที่ใช้งานจริงใช้ Docker Compose~\cite{docker2026} ในโฟลเดอร์ \filename{deploy} จัดการบริการทั้งหมดให้ทำงานร่วมกันภายใต้ชื่อโดเมนเดียว ทำให้ cookie ของการเข้าสู่ระบบเป็นของเว็บไซต์เดียวกัน และไม่ต้องเปิดพอร์ตของ backend หรือ AI Service ออกสู่ภายนอก บริการที่ Docker Compose จัดการมี 3 บริการ ดังตารางที่~\ref{tab:docker-services}
+
+\begin{table}[H]
+\caption{บริการที่ Docker Compose จัดการ}
+\label{tab:docker-services}
+\centering
+\begin{tabular}{|L{2.2cm}|L{3.8cm}|L{7.2cm}|}
+\hline
+\textbf{บริการ} & \textbf{การเข้าถึง} & \textbf{หน้าที่} \\ \hline
+\cmd{caddy} & พอร์ต 80 และ 443 (เปิดสู่ภายนอก) & เว็บเซิร์ฟเวอร์ที่ขอใบรับรอง HTTPS ให้อัตโนมัติ ให้บริการหน้าเว็บที่สร้างจากส่วน \filename{frontend} และส่งต่อคำขอไปยัง backend หรือ AI Service \\ \hline
+\cmd{backend} & ภายในเครือข่าย Docker เท่านั้น (พอร์ต 4000) & REST API ภายใต้เส้นทาง \cmd{/api} ซึ่งเชื่อมต่อฐานข้อมูลและ Cloudinary \\ \hline
+\cmd{chatbot} & ภายในเครือข่าย Docker เท่านั้น & AI Service ซึ่งรับผิดชอบแชตบอตและระบบวางแผนทริป \\ \hline
+\end{tabular}
+\end{table}
+
+Caddy ส่งต่อคำขอตามไฟล์ \filename{deploy/caddy/Caddyfile} โดยเส้นทาง \cmd{/api/*} ส่งไปยัง backend เส้นทาง \cmd{/chat/*}, \cmd{/trip/llm} และ \cmd{/health} ส่งไปยัง AI Service และเส้นทางอื่นทั้งหมดให้บริการเป็นหน้าเว็บของ React นอกจากนี้ Caddy ส่งคำขอจากโปรแกรมค้นหา (crawler) ไปยัง backend เพื่อให้ได้หน้าที่มีข้อมูลสำหรับ SEO และตั้งค่าส่วนหัวด้านความปลอดภัยของทุกการตอบกลับ
+
+image ของ \cmd{backend} และ \cmd{chatbot} สร้างจาก Dockerfile ในโฟลเดอร์ของแต่ละส่วน ส่วน \cmd{caddy} สร้างจากไฟล์ \filename{deploy/Dockerfile.web} ซึ่งสร้างหน้าเว็บด้วย \cmd{npm run build} บน Node.js 20 แล้วคัดลอกผลลัพธ์ไปไว้ใน image ของ Caddy
+
+\section{การเตรียมฐานข้อมูล}
+\label{sec:db-setup}
+
+ขั้นตอนนี้ทำครั้งเดียวเมื่อติดตั้งฐานข้อมูลใหม่ คำสั่งในหัวข้อนี้รันบนเครื่องที่มีซอร์สโค้ดและติดตั้งไลบรารีของ backend แล้วตามหัวข้อ~\ref{sec:dev-setup} เพราะ image ที่ใช้งานจริงไม่มีสคริปต์นำเข้าข้อมูล รายละเอียดการใช้งาน Supabase ศึกษาเพิ่มเติมได้จากเอกสารของผู้ให้บริการ~\cite{supabase2026}
+
+\begin{steps}
+  \item เข้า \cmd{https://supabase.com} สร้างโปรเจกต์ใหม่ และบันทึกรหัสผ่านฐานข้อมูลที่กำหนดไว้
+  \item เปิด \menu{Project Settings > Database > Connection string} แล้วคัดลอก Session pooler (พอร์ต 5432) ไปเป็นค่า \cmd{DATABASE_URL}
+  \item เปิด \menu{Project Settings > API} แล้วคัดลอก Project URL และ service\_role key ไปเป็นค่า \cmd{SUPABASE_URL} และ \cmd{SUPABASE_SERVICE_ROLE_KEY}
+  \item เชื่อมโฟลเดอร์ \filename{backend} กับโปรเจกต์ โดยใช้ project ref จาก \menu{Project Settings > General}
+\begin{terminal}
+cd backend
+npx supabase login
+npx supabase link --project-ref <project-ref>
+\end{terminal}
+  \item สร้างตาราง นำเข้าสถานที่ และเพิ่มข้อมูลกิจกรรมและฐานความรู้ตั้งต้น
+\begin{terminal}
+npx supabase db push --yes
+npm run fetch:places
+npm run import:places
+npm run seed:events-knowledge
+\end{terminal}
+        \result{ฐานข้อมูลมีตาราง ข้อมูลสถานที่ กิจกรรม และฐานความรู้ตั้งต้น}
+  \item สร้างบัญชีผู้ดูแลระบบตามหัวข้อ~\ref{sec:create-admin}
+\end{steps}
+
+ความหมายของคำสั่งในขั้นตอนที่ 5 มีดังนี้
+
+\begin{enumerate}
+\item \cmd{npx supabase db push --yes} สร้างตารางและฟังก์ชันตามไฟล์ migration ใน \filename{backend/supabase/migrations}
+\item \cmd{npm run fetch:places} เรียกข้อมูลสถานที่จาก Google Places API แล้วบันทึกลงไฟล์ \filename{backend/data/places.json} ซึ่งมีค่าใช้จ่ายตามจำนวนสถานที่
+\item \cmd{npm run import:places} นำเข้าข้อมูลจากไฟล์ดังกล่าวเข้าฐานข้อมูล
+\item \cmd{npm run seed:events-knowledge} เพิ่มข้อมูลกิจกรรมและฐานความรู้ตั้งต้น
+\end{enumerate}
+
+\begin{warning}
+ใช้ \cmd{npx supabase db push} กับฐานข้อมูลใหม่เท่านั้น ฐานข้อมูลที่ใช้งานจริงในปัจจุบันไม่มีประวัติ migration คำสั่งนี้จึงจะรัน migration เดิมซ้ำทั้งหมด การนำ migration ใหม่ไปใช้กับฐานข้อมูลเดิมให้ทำตามหัวข้อ~\ref{sec:upgrade}
+\end{warning}
+
+\subsection{การสร้างบัญชีผู้ดูแลระบบ}
+\label{sec:create-admin}
+
+บัญชีผู้ดูแลระบบสร้างด้วยสคริปต์ในโฟลเดอร์ \filename{backend} โดยระบุอีเมลและรหัสผ่านที่ต้องการ ถ้าอีเมลนั้นมีบัญชีอยู่แล้ว สคริปต์จะเปลี่ยนบัญชีนั้นเป็นผู้ดูแลระบบและตั้งรหัสผ่านตามที่ระบุ สคริปต์อ่านค่า \cmd{DATABASE_URL} จากไฟล์ \filename{backend/.env}
+
+\begin{terminal}
+cd backend
+node scripts/create-admin.js <email> <password>
+\end{terminal}
+
+เมื่อสำเร็จจะแสดงข้อความ ``Admin account ready'' และเข้าสู่ระบบได้ที่หน้า \cmd{/admin/login}
+
+\section{การติดตั้งระบบบนเครื่องแม่ข่าย}
+\label{sec:install-steps}
+
+\begin{steps}
+  \item ดาวน์โหลดซอร์สโค้ดลงโฟลเดอร์ \filename{~/dino} บนเครื่องแม่ข่าย แล้วเปิดโฟลเดอร์ \filename{deploy}
+\begin{terminal}
+git clone https://github.com/Poeir/dino-trip.git ~/dino
+cd ~/dino/deploy
+\end{terminal}
+  \item สร้างไฟล์ตั้งค่า 3 ไฟล์จากไฟล์ต้นแบบ แล้วกรอกค่าตามหัวข้อ~\ref{sec:config}
+\begin{terminal}
+cp .env.example .env
+cp backend.env.example backend.env
+cp chatbot.env.example chatbot.env
+\end{terminal}
+  \item สร้าง image และเริ่มบริการทั้งหมด
+\begin{terminal}
+docker compose up -d --build
+\end{terminal}
+        \result{คำสั่ง \cmd{docker compose ps} แสดงบริการ \cmd{caddy}, \cmd{backend} และ \cmd{chatbot} ในสถานะ Up}
+  \item ตรวจสอบระบบตามหัวข้อ~\ref{sec:verify}
+\end{steps}
+
+\begin{note}
+การสร้างครั้งแรกใช้เวลานาน เพราะต้องดาวน์โหลดไลบรารีและโมเดลสำหรับสร้าง Embedding ระบบตั้งให้บริการทุกตัวเริ่มทำงานใหม่เองเมื่อหยุดโดยไม่ได้ตั้งใจ และจำกัดบันทึกการทำงานของแต่ละบริการไว้ 3 ไฟล์ ไฟล์ละไม่เกิน 10 MB
+\end{note}
+
+\section{การตั้งค่าระบบ}
+\label{sec:config}
+
+ระบบที่ใช้งานจริงอ่านค่าตั้งจากไฟล์ 3 ไฟล์ในโฟลเดอร์ \filename{deploy} ตามตารางที่~\ref{tab:deploy-env} ส่วนเครื่องของนักพัฒนาใช้ไฟล์ \filename{.env} ในโฟลเดอร์ของแต่ละส่วน รายละเอียดตัวแปรทั้งหมดแสดงในตารางที่~\ref{tab:env-vars}
+
+\begin{table}[H]
+\caption{ไฟล์ตั้งค่าสำหรับการใช้งานจริงในโฟลเดอร์ deploy}
+\label{tab:deploy-env}
+\centering
+\begin{tabular}{|L{2.6cm}|L{4.6cm}|L{6cm}|}
+\hline
+\textbf{ไฟล์} & \textbf{ตัวแปรหลัก} & \textbf{คำอธิบาย} \\ \hline
+\filename{.env} & \cmd{CHAT_DOMAIN} & ชื่อโฮสต์ของเว็บไซต์ ซึ่ง Caddy ใช้ขอใบรับรอง HTTPS (ต้องกำหนด) \\
+\cline{2-3}
+ & \cmd{OLD_DOMAIN} & ชื่อโฮสต์เดิมที่ต้องการเปลี่ยนเส้นทางมายังชื่อใหม่ (ไม่บังคับ) \\
+\cline{2-3}
+ & \cmd{VITE_GOOGLE_MAPS_API_KEY} & คีย์ Google Maps ที่ฝังในหน้าเว็บตอนสร้าง image (ไม่บังคับ แต่ถ้าไม่กำหนดจะไม่แสดงแผนที่) \\ \hline
+\filename{backend.env} & \cmd{DATABASE_URL}\newline\cmd{CLOUDINARY_*}\newline\cmd{GMAIL_*}\newline\cmd{GOOGLE_PLACES_API_KEY} & ค่าเดียวกับไฟล์ \filename{backend/.env} ยกเว้น \cmd{PORT}, \cmd{FRONTEND_ORIGIN} และ \cmd{CHATBOT_SERVICE_URL} ซึ่ง Docker Compose กำหนดให้เอง \\ \hline
+\filename{chatbot.env} & \cmd{SUPABASE_URL}\newline\cmd{SUPABASE_SERVICE_ROLE_KEY}\newline\cmd{LLM_PROVIDER}\newline\cmd{MODEL_NAME}\newline คีย์ของผู้ให้บริการโมเดล\newline\cmd{CORS_ORIGINS} & ค่าเดียวกับไฟล์ \filename{chatbot-service/.env} ต้องกำหนด \cmd{MODEL_NAME} เสมอ และ \cmd{CORS_ORIGINS} ต้องเป็น origin ของเว็บไซต์จริง \\ \hline
+\end{tabular}
+\end{table}
+
+{\small\renewcommand{\arraystretch}{1.2}
+\begin{longtable}{|L{1.9cm}|L{4.5cm}|L{2.2cm}|L{\dimexpr\linewidth-8.6cm-8\tabcolsep-5\arrayrulewidth\relax}|}
+\caption{ตัวแปรสภาพแวดล้อมของแต่ละส่วน}\label{tab:env-vars}\\
+\hline
+\textbf{ส่วนของระบบ} & \textbf{ตัวแปร} & \textbf{ความจำเป็น} & \textbf{คำอธิบาย} \\ \hline
+\endfirsthead
+\caption[]{ตัวแปรสภาพแวดล้อมของแต่ละส่วน~\cskkuContinued}\\
+\hline
+\textbf{ส่วนของระบบ} & \textbf{ตัวแปร} & \textbf{ความจำเป็น} & \textbf{คำอธิบาย} \\ \hline
+\endhead
+backend & \cmd{DATABASE_URL} & บังคับ & connection string ของ PostgreSQL ใช้ Session pooler พอร์ต 5432 \\ \hline
+backend & \cmd{CLOUDINARY_CLOUD_NAME}\newline\cmd{CLOUDINARY_API_KEY}\newline\cmd{CLOUDINARY_API_SECRET} & บังคับ & ค่าจาก \menu{Cloudinary Dashboard > Settings > API Keys} ใช้อัปโหลดรูปภาพ \\ \hline
+backend & \cmd{GMAIL_USER}\newline\cmd{GMAIL_APP_PASSWORD} & บังคับ (ยกเว้นเมื่อใช้ SMTP) & บัญชี Gmail และ App Password สำหรับส่งอีเมล \\ \hline
+backend & \cmd{SMTP_HOST}\newline\cmd{SMTP_PORT}\newline\cmd{SMTP_USER}\newline\cmd{SMTP_PASSWORD} & ไม่บังคับ & ส่งอีเมลผ่าน SMTP ของผู้ให้บริการอื่นแทน Gmail เมื่อกำหนด \cmd{SMTP_HOST} \\ \hline
+backend & \cmd{MAIL_FROM_NAME}\newline\cmd{MAIL_FROM} & ไม่บังคับ & ชื่อและที่อยู่ผู้ส่งอีเมล ค่าเริ่มต้นคือ Dino และ \cmd{GMAIL_USER} \\ \hline
+backend & \cmd{FRONTEND_ORIGIN} & ต้องกำหนดเมื่อใช้งานจริง & origin ของ frontend ต้องตรงกันทุกตัวอักษรและไม่มี / ท้าย ค่าเริ่มต้น \cmd{http://localhost:5173} \\ \hline
+backend & \cmd{CHATBOT_SERVICE_URL} & ต้องกำหนดเมื่อใช้งานจริง & ที่อยู่ของ AI Service ค่าเริ่มต้น \cmd{http://localhost:8000} \\ \hline
+backend & \cmd{PORT} & ไม่บังคับ & พอร์ตของ backend ค่าเริ่มต้น 4000 \\ \hline
+backend & \cmd{GOOGLE_PLACES_API_KEY} & บังคับเฉพาะการนำเข้าและซิงก์สถานที่ & คีย์ Google Places ต้องเปิดใช้ Places API (New) และผูกบัญชีชำระเงิน \\ \hline
+backend & \cmd{SUPABASE_URL}\newline\cmd{SUPABASE_SERVICE_ROLE_KEY} & บังคับเฉพาะสคริปต์นำเข้ากิจกรรม & ใช้กับคำสั่ง \cmd{npm run seed:events-knowledge} ค่าเดียวกับของ AI Service \\ \hline
+frontend & \cmd{VITE_API_URL} & ไม่บังคับ & ที่อยู่ของ backend ค่าเริ่มต้น \cmd{http://localhost:4000} \\ \hline
+frontend & \cmd{VITE_CHATBOT_SERVICE_URL} & ไม่บังคับ & ที่อยู่ของ AI Service ค่าเริ่มต้น \cmd{http://localhost:8000} \\ \hline
+frontend & \cmd{VITE_GOOGLE_MAPS_API_KEY} & ไม่บังคับ (ถ้าไม่กำหนดจะไม่แสดงแผนที่) & คีย์ Google Maps แยกจากคีย์ของ backend ต้องเปิดใช้ Maps JavaScript API และ Places API และควรจำกัดด้วย HTTP referrer \\ \hline
+frontend & \cmd{VITE_SITE_URL} & ไม่บังคับ & ที่อยู่เว็บไซต์จริงสำหรับแท็กแสดงตัวอย่างลิงก์ \\ \hline
+AI Service & \cmd{SUPABASE_URL}\newline\cmd{SUPABASE_SERVICE_ROLE_KEY} & บังคับ & ใช้ค้นข้อมูลสถานที่และค้นหาเชิงเวกเตอร์ \\ \hline
+AI Service & \cmd{LLM_PROVIDER} & ไม่บังคับ & ผู้ให้บริการโมเดลภาษา ได้แก่ \cmd{kku} (ค่าเริ่มต้น) \cmd{anthropic} หรือ \cmd{vertex} ใช้โมเดลเดียวกับทุกงาน \\ \hline
+AI Service & \cmd{MODEL_NAME} & ต้องกำหนดเมื่อใช้งานจริง & ชื่อโมเดลที่ใช้กับแชตบอต ระบบวางแผนทริป และเครื่องมือ AI ของผู้ดูแลระบบ \\ \hline
+AI Service & \cmd{KKU_API_KEY} & บังคับเมื่อใช้ \cmd{kku} & คีย์ของ KKU AI Gateway \\ \hline
+AI Service & \cmd{ANTHROPIC_API_KEY} & บังคับเมื่อใช้ \cmd{anthropic} & คีย์ของ Anthropic API \\ \hline
+AI Service & \cmd{VERTEX_PROJECT}\newline\cmd{VERTEX_LOCATION} & บังคับเฉพาะรหัสโปรเจกต์ เมื่อใช้ \cmd{vertex} & รหัสโปรเจกต์และภูมิภาคของ Google Cloud ค่าเริ่มต้นของภูมิภาคคือ \cmd{global} \\ \hline
+AI Service & \cmd{CORS_ORIGINS} & ต้องกำหนดเมื่อใช้งานจริง & origin ที่เรียกใช้ AI Service ได้ คั่นด้วย , และไม่มี / ท้าย ค่าเริ่มต้น \cmd{http://localhost:5173} \\ \hline
+AI Service & \cmd{SERPER_API_KEY} & ไม่บังคับ & ใช้เฉพาะสคริปต์สร้างคำอธิบายสถานที่ \\ \hline
+\end{longtable}
+}
+
+คำว่า ``บังคับ'' หมายถึงต้องกำหนดค่าก่อนเริ่มระบบ ส่วน ``ไม่บังคับ'' หมายถึงระบบมีค่าเริ่มต้นหรือเป็นฟังก์ชันเสริม ค่าเริ่มต้นของตัวแปรที่ระบุว่าต้องกำหนดเมื่อใช้งานจริงเหมาะกับการพัฒนาบนเครื่องเท่านั้น รายละเอียดเพิ่มเติมอยู่ในไฟล์ \filename{.env.example} ของแต่ละส่วน
+
+\begin{warning}
+ไฟล์ \filename{.env}, \filename{backend.env} และ \filename{chatbot.env} มีรหัสผ่านและคีย์ลับ ห้ามบันทึกเข้า Git และต้องเริ่มบริการใหม่ทุกครั้งหลังแก้ไขไฟล์เหล่านี้ด้วยคำสั่ง \cmd{docker compose up -d}
+\end{warning}
+
+ถ้าใช้ Vertex AI ให้วางไฟล์กุญแจของ service account ในโฟลเดอร์ \filename{deploy/secrets} ซึ่งไม่ถูกบันทึกเข้า Git แล้วเมานต์เข้าบริการ \cmd{chatbot} แบบอ่านอย่างเดียว ตามคำอธิบายในไฟล์ \filename{docker-compose.yml}
+
+\section{การตรวจสอบหลังติดตั้ง}
+\label{sec:verify}
+
+\begin{steps}
+  \item ตรวจว่า backend เชื่อมต่อฐานข้อมูลได้
+\begin{terminal}
+curl https://<CHAT_DOMAIN>/api/health
+\end{terminal}
+        \result{ได้ข้อความ \cmd{{"status":"ok"}} ถ้าได้ \cmd{{"status":"error"}} แสดงว่าเชื่อมต่อฐานข้อมูลไม่ได้}
+  \item ตรวจว่า AI Service ทำงาน
+\begin{terminal}
+curl https://<CHAT_DOMAIN>/health
+\end{terminal}
+        \result{ได้ข้อความ \cmd{{"status":"ok"}} หลังเริ่มบริการใหม่ AI Service ต้องใช้เวลาโหลดโมเดลก่อน จึงอาจยังไม่ตอบทันที}
+  \item เปิด \cmd{https://<CHAT_DOMAIN>} ด้วยเว็บเบราว์เซอร์
+        \result{พบหน้าแรกของไดโน พร้อมรายการสถานที่และกิจกรรม}
+  \item เข้าสู่ระบบที่ \cmd{/admin/login} ด้วยบัญชีจากหัวข้อ~\ref{sec:create-admin}
+        \result{หน้าแดชบอร์ดแสดงจำนวนสถานที่และกิจกรรม และการ์ดเวอร์ชันระบบแสดงเวอร์ชันของทุกบริการ}
+  \item ที่การ์ด ``ดัชนีค้นหาแชทบอท (Embedding)'' บนแดชบอร์ด คลิกปุ่ม \btn{อัปเดตดัชนีค้นหา} แล้วถามแชตบอตว่า ``แนะนำคาเฟ่ในขอนแก่น''
+        \result{แชตบอตตอบพร้อมการ์ดสถานที่ แสดงว่าดัชนีค้นหาและโมเดลภาษาพร้อมใช้งาน}
+\end{steps}
