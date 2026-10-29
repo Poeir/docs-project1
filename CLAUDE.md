@@ -86,10 +86,25 @@ Content: `frontmatter/`, `chapters/chapter1-5.tex`, `backmatter/` (appendices, b
 ## Dino user manual (`manual/`)
 
 A separate XeLaTeX document — the user manual (เอกสารคู่มือการใช้งาน) for the Dino project. It uses `cskkumanual.cls`
-from `NewTemplate/Template_Manual_2026_1.zip` (same core `.sty` files as the report) but keeps the 3-chapter structure
-of the "ไปนำแหน่" manual PDF at the repo root rather than the template's 8-chapter layout. Build with
-`cd manual && latexmk main.tex`. Content lives in `preface.tex` (inside the class's `preface` environment, which prints
-the authors' names) and `chapter1-3.tex`.
-Screenshots go in `manual/images/screens/<name>.png`; `\appscreen{<name>}{caption}` shows a red placeholder box until the
-file exists (it can't be called `\screenshot` — the class defines a `screenshot` environment for annotated screenshots).
-`\fillin{...}` marks text still needing confirmation against the real app/repo — grep for it before submitting.
+from `NewTemplate/Template_Manual_2026_1.zip` (same core `.sty` files as the report) and follows the template's
+8-chapter layout (restructured 2026-10-29): `chapters/ch1-overview` … `ch8-troubleshooting`, `appendix-a-glossary`,
+`appendix-b-api`, plus `chapters/preface.tex` (inside the class's `preface` environment, which prints the authors'
+names) and `references.bib`. Ch4 = tourist (Guest + member) usage, ch5 = admin web panel, ch6 = server-side
+administration (upgrade, monitoring; backup section removed at user request). The admin data-maintenance section is ch5 "การเพิ่มและอัปเดตฐานข้อมูล" (sec:data-update), written from the admin role only. Build with `cd manual && latexmk main.tex`
+(XeLaTeX + biber). The revision-history page was removed on purpose — don't add it back.
+- Use the class macros: `steps` + `\result`, `\btn`/`\field`/`\menu`/`\keys`/`\cmd`/`\filename`, `note`/`tip`/
+  `warning`/`important` boxes, `troubleshooting`/`faq`/`glossarylist`, and `screenshot` + `\callout`/`\calloutline` +
+  `calloutlist` for numbered screenshots (coordinates are 0–1 fractions from the top-left; add the `grid` option
+  temporarily to find them). Plain screenshots use `\appscreen{<name>}{caption}` from `images/screens/<name>.png|jpg`,
+  which shows a red placeholder box until the file exists.
+- Formal plain style (user request 2026-10-29), done as overrides in `main.tex` only: body is black-and-white, only
+  the callout numbers drawn on screenshots stay red; `note`/`tip`/`warning`/`important` render as a plain paragraph
+  starting with "หมายเหตุ : " (not bold, with a colon); `\result{...}` prints its text as an ordinary sentence with no "ผลลัพธ์:" label;
+  inside `\cmd`/`\filename` write characters literally (`~`, `_`, `\`) — they don't expand LaTeX macros; `steps`/`calloutlist` are numbered 1) 2); `\btn`/`\field`/`\menu` print as quoted
+  text (so write "คลิกปุ่ม \btn{X}", "เมนู \btn{X}" — the word ปุ่ม/เมนู must be in the source); `\keys` is plain text;
+  button/menu names drop any on-screen symbol or icon prefix (write `\btn{สร้างแผนใหม่}`, not `\btn{+ สร้างแผนใหม่}`);
+  terminal/code blocks have a black frame on white. Don't reintroduce colored boxes, icons, or button chips.
+  Never put two หมายเหตุ paragraphs back to back — keep one and turn the other into ordinary body text.
+- `appendix-b-api.tex`'s REST table is generated from `main repo/backend/openapi.yaml` — regenerate it when the API
+  changes rather than hand-editing rows.
+- `\fillin{...}` marks text still needing confirmation against the real app/repo — grep for it before submitting.

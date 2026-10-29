@@ -1,0 +1,220 @@
+% ภาคผนวก ข รายการ API ของระบบ
+% ตาราง REST API ของ backend สร้างอัตโนมัติจาก main repo/backend/openapi.yaml (148 รายการ, 29 ต.ค. 2569)
+% เมื่อ API เปลี่ยน ให้สร้างตารางใหม่จาก openapi.yaml แทนการแก้ทีละบรรทัด
+\label{app:api}
+
+API ของระบบแบ่งเป็น 2 ส่วน ส่วนแรกคือ REST API ของ backend จำนวน 148 รายการ ตามตารางที่~\ref{tab:api} ซึ่งสรุปจากไฟล์ \filename{backend/openapi.yaml} ส่วนที่สองคือ API ของ AI Service ตามตารางที่~\ref{tab:api-ai}
+
+ช่องสิทธิ์ ``ทุกคน'' หมายถึงเรียกได้โดยไม่ต้องเข้าสู่ระบบ ``สมาชิก'' หมายถึงต้องเข้าสู่ระบบ และ ``ผู้ดูแลระบบ'' หมายถึงต้องเข้าสู่ระบบด้วยบัญชีบทบาท \cmd{admin} พารามิเตอร์และรูปแบบข้อมูลของแต่ละรายการดูได้จากไฟล์ดังกล่าว หรือจากหน้า \cmd{http://localhost:4000/api/docs} ขณะพัฒนา
+
+{\small
+\begin{longtable}{|C{1.6cm}|L{5.6cm}|L{2.5cm}|L{\dimexpr\linewidth-9.7cm-8\tabcolsep-5\arrayrulewidth\relax}|}
+\caption{รายการ REST API ของ backend}\label{tab:api}\\
+\hline
+\textbf{Method} & \textbf{เส้นทาง} & \textbf{สิทธิ์} & \textbf{การทำงาน} \\ \hline
+\endfirsthead
+\caption[]{รายการ REST API ของ backend~\cskkuContinued}\\
+\hline
+\textbf{Method} & \textbf{เส้นทาง} & \textbf{สิทธิ์} & \textbf{การทำงาน} \\ \hline
+\endhead
+\multicolumn{4}{|l|}{\textbf{ตรวจสถานะระบบ}} \\* \hline\nopagebreak
+GET & \cmd{/} & ทุกคน & ข้อมูลชื่อ API \\ \hline
+GET & \cmd{/health} & ทุกคน & Health check (ภายใน) \\ \hline
+GET & \cmd{/api/health} & ทุกคน & Health check (ผ่าน reverse proxy) \\ \hline
+\multicolumn{4}{|l|}{\textbf{SEO สำหรับโปรแกรมค้นหา}} \\* \hline\nopagebreak
+GET & \cmd{/robots.txt} & ทุกคน & robots.txt \\ \hline
+GET & \cmd{/sitemap.xml} & ทุกคน & sitemap.xml \\ \hline
+GET & \cmd{/api/seo/page/:path} & ทุกคน & หน้า HTML pre-render สำหรับ crawler \\ \hline
+\multicolumn{4}{|l|}{\textbf{การยืนยันตัวตน}} \\* \hline\nopagebreak
+POST & \cmd{/api/auth/signup} & ทุกคน & สมัครสมาชิก \\ \hline
+POST & \cmd{/api/auth/confirm} & ทุกคน & ยืนยันอีเมลจากลิงก์ \\ \hline
+POST & \cmd{/api/auth/login} & ทุกคน & เข้าสู่ระบบ \\ \hline
+POST & \cmd{/api/auth/forgot-password} & ทุกคน & ขอลิงก์รีเซ็ตรหัสผ่าน \\ \hline
+POST & \cmd{/api/auth/reset-password} & ทุกคน & ตั้งรหัสผ่านใหม่ด้วย token \\ \hline
+POST & \cmd{/api/auth/logout} & ทุกคน & ออกจากระบบ \\ \hline
+GET & \cmd{/api/auth/me} & ทุกคน (ผลต่างกันเมื่อเข้าสู่ระบบ) & ผู้ใช้ปัจจุบันจาก cookie \\ \hline
+\pagebreak
+\multicolumn{4}{|l|}{\textbf{สถานที่}} \\* \hline\nopagebreak
+GET & \cmd{/api/places} & ทุกคน & รายการสถานที่ \\ \hline
+POST & \cmd{/api/places} & ผู้ดูแลระบบ & เพิ่มสถานที่ \\ \hline
+GET & \cmd{/api/places/meta/names} & ทุกคน & รายชื่อสถานที่แบบย่อ (id + name) \\ \hline
+GET & \cmd{/api/places/meta/areas} & ทุกคน & อำเภอและตำบล พร้อมจำนวนสถานที่ \\ \hline
+POST & \cmd{/api/places/describe} & ผู้ดูแลระบบ & สร้างคำอธิบายสถานที่ด้วย AI \\ \hline
+GET & \cmd{/api/places/:id} & ทุกคน & สถานที่ 1 แห่ง \\ \hline
+PUT & \cmd{/api/places/:id} & ผู้ดูแลระบบ & แก้ไขสถานที่ \\ \hline
+DELETE & \cmd{/api/places/:id} & ผู้ดูแลระบบ & ลบสถานที่ \\ \hline
+GET & \cmd{/api/places/:id/photos} & ทุกคน & รูปที่ admin อัปโหลดของสถานที่ \\ \hline
+POST & \cmd{/api/places/:id/photos} & ผู้ดูแลระบบ & อัปโหลดรูปสถานที่ \\ \hline
+DELETE & \cmd{/api/places/:id/photos/:photoId} & ผู้ดูแลระบบ & ลบรูปสถานที่ \\ \hline
+\multicolumn{4}{|l|}{\textbf{รายงานข้อมูลสถานที่}} \\* \hline\nopagebreak
+POST & \cmd{/api/places/:id/reports} & สมาชิก & แจ้งข้อมูลสถานที่ไม่ถูกต้อง \\ \hline
+GET & \cmd{/api/places/:id/reports/mine} & สมาชิก & ฟิลด์ที่ฉันรายงานค้างไว้ \\ \hline
+GET & \cmd{/api/admin/place-reports} & ผู้ดูแลระบบ & คิวรายงานสถานที่ (จัดกลุ่มต่อสถานที่) \\ \hline
+GET & \cmd{/api/admin/place-reports/count} & ผู้ดูแลระบบ & จำนวนรายงานสถานที่ที่รอตรวจ (badge) \\ \hline
+POST & \cmd{/api/admin/place-reports/resolve} & ผู้ดูแลระบบ & ปิดรายงานทั้งหมดของสถานที่ + ฟิลด์ \\ \hline
+\multicolumn{4}{|l|}{\textbf{กิจกรรม}} \\* \hline\nopagebreak
+GET & \cmd{/api/events} & ทุกคน & รายการอีเวนท์ \\ \hline
+POST & \cmd{/api/events} & ผู้ดูแลระบบ & เพิ่มอีเวนท์ \\ \hline
+POST & \cmd{/api/events/extract} & ผู้ดูแลระบบ & ดึงข้อมูลอีเวนท์จากข้อความโพสต์ด้วย AI \\ \hline
+GET & \cmd{/api/events/:id} & ทุกคน & อีเวนท์ 1 รายการ \\ \hline
+PUT & \cmd{/api/events/:id} & ผู้ดูแลระบบ & แก้ไขอีเวนท์ \\ \hline
+DELETE & \cmd{/api/events/:id} & ผู้ดูแลระบบ & ลบอีเวนท์ \\ \hline
+GET & \cmd{/api/events/:id/photos} & ทุกคน & รูปของอีเวนท์ \\ \hline
+POST & \cmd{/api/events/:id/photos} & ผู้ดูแลระบบ & อัปโหลดรูปอีเวนท์ \\ \hline
+DELETE & \cmd{/api/events/:id/photos/:photoId} & ผู้ดูแลระบบ & ลบรูปอีเวนท์ \\ \hline
+\multicolumn{4}{|l|}{\textbf{รายงานข้อมูลกิจกรรม}} \\* \hline\nopagebreak
+POST & \cmd{/api/events/:id/reports} & สมาชิก & แจ้งข้อมูลอีเวนท์ไม่ถูกต้อง \\ \hline
+GET & \cmd{/api/events/:id/reports/mine} & สมาชิก & ฟิลด์ที่ฉันรายงานค้างไว้ \\ \hline
+GET & \cmd{/api/admin/event-reports} & ผู้ดูแลระบบ & คิวรายงานอีเวนท์ (จัดกลุ่มต่ออีเวนท์) \\ \hline
+GET & \cmd{/api/admin/event-reports/count} & ผู้ดูแลระบบ & จำนวนรายงานอีเวนท์ที่รอตรวจ \\ \hline
+POST & \cmd{/api/admin/event-reports/resolve} & ผู้ดูแลระบบ & ปิดรายงานทั้งหมดของอีเวนท์ + ฟิลด์ \\ \hline
+\multicolumn{4}{|l|}{\textbf{คำขอเพิ่มกิจกรรม}} \\* \hline\nopagebreak
+POST & \cmd{/api/event-requests} & สมาชิก & เสนออีเวนท์ใหม่ \\ \hline
+POST & \cmd{/api/event-requests/extract} & สมาชิก & ดึงข้อมูลอีเวนท์จากโพสต์ด้วย AI (ผู้ใช้ทั่วไป) \\ \hline
+GET & \cmd{/api/event-requests/mine} & สมาชิก & คำขอของฉัน \\ \hline
+PUT & \cmd{/api/event-requests/:id} & สมาชิก & แก้ไขคำขอที่ยังรออนุมัติ \\ \hline
+DELETE & \cmd{/api/event-requests/:id} & สมาชิก & ถอนคำขอที่ยังรออนุมัติ \\ \hline
+GET & \cmd{/api/event-requests/:id/photos} & สมาชิก & รูปของคำขอ (เฉพาะเจ้าของ) \\ \hline
+POST & \cmd{/api/event-requests/:id/photos} & สมาชิก & อัปโหลดรูปให้คำขอที่ยังรออนุมัติ \\ \hline
+DELETE & \cmd{/api/event-requests/:id/photos/:photoId} & สมาชิก & ลบรูปของคำขอ \\ \hline
+GET & \cmd{/api/admin/event-requests} & ผู้ดูแลระบบ & คิวคำขออีเวนท์ \\ \hline
+GET & \cmd{/api/admin/event-requests/count} & ผู้ดูแลระบบ & จำนวนคำขอที่รออนุมัติ \\ \hline
+POST & \cmd{/api/admin/event-requests/:id/approve} & ผู้ดูแลระบบ & อนุมัติคำขอและสร้างกิจกรรม \\ \hline
+POST & \cmd{/api/admin/event-requests/:id/reject} & ผู้ดูแลระบบ & ปฏิเสธคำขอ \\ \hline
+\multicolumn{4}{|l|}{\textbf{แบบสอบถามความพึงพอใจ}} \\* \hline\nopagebreak
+GET & \cmd{/api/survey/questions} & ทุกคน & คำถามแบบสอบถาม \\ \hline
+GET & \cmd{/api/survey/status} & ทุกคน & เครื่องนี้ตอบแล้วหรือยัง \\ \hline
+POST & \cmd{/api/survey} & ทุกคน & ส่งแบบสอบถาม \\ \hline
+\multicolumn{4}{|l|}{\textbf{ฐานความรู้แชตบอต}} \\* \hline\nopagebreak
+GET & \cmd{/api/knowledge-base} & ทุกคน & รายการฐานความรู้ \\ \hline
+POST & \cmd{/api/knowledge-base} & ผู้ดูแลระบบ & เพิ่มความรู้ \\ \hline
+GET & \cmd{/api/knowledge-base/:id} & ทุกคน & ความรู้ 1 รายการ \\ \hline
+PUT & \cmd{/api/knowledge-base/:id} & ผู้ดูแลระบบ & แก้ไขความรู้ \\ \hline
+DELETE & \cmd{/api/knowledge-base/:id} & ผู้ดูแลระบบ & ลบความรู้ \\ \hline
+\multicolumn{4}{|l|}{\textbf{QR Code และพอยท์}} \\* \hline\nopagebreak
+GET & \cmd{/api/qrs} & ทุกคน & รายการ QR \\ \hline
+POST & \cmd{/api/qrs} & ผู้ดูแลระบบ & สร้าง QR ให้สถานที่ \\ \hline
+GET & \cmd{/api/qrs/meta/stats} & ผู้ดูแลระบบ & จำนวนสแกนและแต้มที่แจกต่อ QR \\ \hline
+GET & \cmd{/api/qrs/meta/places} & ทุกคน & สถานที่ที่สแกนรับแต้มได้ตอนนี้ \\ \hline
+GET & \cmd{/api/qrs/:id} & ทุกคน & QR 1 รายการ \\ \hline
+PUT & \cmd{/api/qrs/:id} & ผู้ดูแลระบบ & แก้ไข QR \\ \hline
+DELETE & \cmd{/api/qrs/:id} & ผู้ดูแลระบบ & ลบ QR \\ \hline
+POST & \cmd{/api/qrs/:id/scan} & สมาชิก & สแกน QR รับแต้ม \\ \hline
+GET & \cmd{/api/points/me} & สมาชิก & ยอดแต้มของฉัน \\ \hline
+\pagebreak
+\multicolumn{4}{|l|}{\textbf{ของรางวัล}} \\* \hline\nopagebreak
+GET & \cmd{/api/rewards} & ทุกคน & รายการของรางวัล \\ \hline
+POST & \cmd{/api/rewards} & ผู้ดูแลระบบ & เพิ่มของรางวัล \\ \hline
+GET & \cmd{/api/rewards/:id} & ทุกคน & ของรางวัล 1 รายการ \\ \hline
+PUT & \cmd{/api/rewards/:id} & ผู้ดูแลระบบ & แก้ไขของรางวัล \\ \hline
+DELETE & \cmd{/api/rewards/:id} & ผู้ดูแลระบบ & ลบของรางวัล \\ \hline
+POST & \cmd{/api/rewards/:id/image} & ผู้ดูแลระบบ & อัปโหลด/เปลี่ยนรูปของรางวัล \\ \hline
+DELETE & \cmd{/api/rewards/:id/image} & ผู้ดูแลระบบ & ลบรูปของรางวัล \\ \hline
+\multicolumn{4}{|l|}{\textbf{แผนทริป}} \\* \hline\nopagebreak
+GET & \cmd{/api/trips} & สมาชิก & แผนทริปของฉัน \\ \hline
+POST & \cmd{/api/trips} & ทุกคน (ผลต่างกันเมื่อเข้าสู่ระบบ) & บันทึกแผนทริป \\ \hline
+GET & \cmd{/api/trips/:id} & สมาชิก & แผนทริปของฉัน 1 แผน \\ \hline
+PATCH & \cmd{/api/trips/:id} & สมาชิก & เปลี่ยนชื่อ / ติดดาวทริป \\ \hline
+DELETE & \cmd{/api/trips/:id} & สมาชิก & ลบทริป \\ \hline
+PATCH & \cmd{/api/trips/:id/items/:itemId} & สมาชิก & กดชอบ/ไม่ชอบ stop ในทริป \\ \hline
+POST & \cmd{/api/trips/:id/duplicate} & สมาชิก & ทำสำเนาทริป \\ \hline
+\multicolumn{4}{|l|}{\textbf{โปรไฟล์}} \\* \hline\nopagebreak
+GET & \cmd{/api/profile} & สมาชิก & โปรไฟล์ของฉัน \\ \hline
+PATCH & \cmd{/api/profile} & สมาชิก & แก้ข้อมูลส่วนตัว \\ \hline
+DELETE & \cmd{/api/profile} & สมาชิก & ลบบัญชีของฉัน (soft delete) \\ \hline
+GET & \cmd{/api/profile/history} & สมาชิก & ประวัติแต้ม (สแกน / แลก / ปรับโดย admin) \\ \hline
+PUT & \cmd{/api/profile/avatar} & สมาชิก & ตั้งรูปโปรไฟล์ (อัปโหลด หรือ preset) \\ \hline
+DELETE & \cmd{/api/profile/avatar} & สมาชิก & ลบรูปโปรไฟล์ \\ \hline
+POST & \cmd{/api/profile/password} & สมาชิก & เปลี่ยนรหัสผ่าน \\ \hline
+POST & \cmd{/api/profile/email} & สมาชิก & ขอเปลี่ยนอีเมล \\ \hline
+DELETE & \cmd{/api/profile/email} & สมาชิก & ยกเลิกคำขอเปลี่ยนอีเมล \\ \hline
+POST & \cmd{/api/profile/email/confirm} & ทุกคน & ยืนยันอีเมลใหม่จากลิงก์ \\ \hline
+\multicolumn{4}{|l|}{\textbf{รูปโปรไฟล์สาธารณะ}} \\* \hline\nopagebreak
+GET & \cmd{/api/users/:id/avatar} & ทุกคน & รูปโปรไฟล์ที่อัปโหลด (ไบต์รูป) \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: จัดการผู้ใช้}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/users} & ผู้ดูแลระบบ & รายชื่อผู้ใช้ \\ \hline
+GET & \cmd{/api/admin/users/:id} & ผู้ดูแลระบบ & รายละเอียดผู้ใช้ \\ \hline
+POST & \cmd{/api/admin/users/:id/suspend} & ผู้ดูแลระบบ & ระงับบัญชี \\ \hline
+POST & \cmd{/api/admin/users/:id/unsuspend} & ผู้ดูแลระบบ & ยกเลิกการระงับ \\ \hline
+POST & \cmd{/api/admin/users/:id/delete} & ผู้ดูแลระบบ & ลบบัญชี (soft delete) \\ \hline
+POST & \cmd{/api/admin/users/:id/restore} & ผู้ดูแลระบบ & กู้คืนบัญชีที่ถูกลบ \\ \hline
+POST & \cmd{/api/admin/users/:id/points} & ผู้ดูแลระบบ & ปรับแต้มผู้ใช้ \\ \hline
+POST & \cmd{/api/admin/users/:id/revoke-sessions} & ผู้ดูแลระบบ & บังคับออกจากระบบทุกเครื่อง \\ \hline
+POST & \cmd{/api/admin/users/:id/resend-verification} & ผู้ดูแลระบบ & ส่งอีเมลยืนยันอีกครั้ง \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: แลกที่เคาน์เตอร์}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/redemptions} & ผู้ดูแลระบบ & รายการแลกของรางวัลล่าสุด 100 รายการ \\ \hline
+POST & \cmd{/api/admin/redemptions} & ผู้ดูแลระบบ & แลกของรางวัลให้ผู้ใช้ที่เคาน์เตอร์ \\ \hline
+POST & \cmd{/api/admin/redemptions/:id/cancel} & ผู้ดูแลระบบ & ยกเลิกการแลก (คืนแต้ม) \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: แดชบอร์ดและเวอร์ชัน}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/stats} & ผู้ดูแลระบบ & ตัวเลขแดชบอร์ด (ผู้ใช้ แต้ม การแลก) \\ \hline
+GET & \cmd{/api/admin/stats/system} & ผู้ดูแลระบบ & เวอร์ชัน/SHA ของแต่ละ service \\ \hline
+GET & \cmd{/api/admin/stats/trips} & ผู้ดูแลระบบ & สถิติการวางแผนทริป \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: ทริป}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/trips} & ผู้ดูแลระบบ & แผนทริปทั้งหมด \\ \hline
+GET & \cmd{/api/admin/trips/:id} & ผู้ดูแลระบบ & แผนทริป 1 แผน \\ \hline
+POST & \cmd{/api/admin/trips/:id/delete} & ผู้ดูแลระบบ & ลบแผนทริปถาวร \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: ผลความพึงพอใจ}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/survey/summary} & ผู้ดูแลระบบ & สรุปผลแบบสอบถาม (mean / S.D. / ระดับ) \\ \hline
+GET & \cmd{/api/admin/survey/responses} & ผู้ดูแลระบบ & คำตอบรายคน \\ \hline
+GET & \cmd{/api/admin/survey/export} & ผู้ดูแลระบบ & ดาวน์โหลด CSV ทุกคำตอบ \\ \hline
+DELETE & \cmd{/api/admin/survey/:id} & ผู้ดูแลระบบ & ลบคำตอบ (เช่นข้อมูลทดสอบ) \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: ซิงก์สถานที่จาก Google}} \\* \hline\nopagebreak
+POST & \cmd{/api/admin/place-sync/preview} & ผู้ดูแลระบบ & ดูตัวอย่างว่าจะซิงก์กี่แห่ง (ไม่เรียก Google) \\ \hline
+GET & \cmd{/api/admin/place-sync/jobs} & ผู้ดูแลระบบ & งานซิงก์ล่าสุด 20 งาน \\ \hline
+POST & \cmd{/api/admin/place-sync/jobs} & ผู้ดูแลระบบ & สร้างงานซิงก์จาก Google (ทำงานเบื้องหลัง) \\ \hline
+GET & \cmd{/api/admin/place-sync/jobs/:id} & ผู้ดูแลระบบ & สถานะงานซิงก์ + ผลรายสถานที่ (สูงสุด 500) \\ \hline
+POST & \cmd{/api/admin/place-sync/jobs/:id/cancel} & ผู้ดูแลระบบ & ยกเลิกงานซิงก์ที่กำลังทำ \\ \hline
+GET & \cmd{/api/admin/place-sync/places/:id} & ผู้ดูแลระบบ & สถานะล็อก ค่าจาก Google ที่พักไว้ และจำนวนรายงาน ของสถานที่ \\ \hline
+POST & \cmd{/api/admin/place-sync/places/:id/sync} & ผู้ดูแลระบบ & ซิงก์สถานที่ 1 แห่งทันที \\ \hline
+POST & \cmd{/api/admin/place-sync/places/:id/diff/:field} & ผู้ดูแลระบบ & รับ/ปัดตกค่าใหม่จาก Google ของฟิลด์ที่ล็อก \\ \hline
+PUT & \cmd{/api/admin/place-sync/places/:id/locked-fields} & ผู้ดูแลระบบ & ตั้งรายการฟิลด์ที่ล็อกทั้งหมด \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: นำเข้าสถานที่จาก Google Maps}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/place-import/search} & ผู้ดูแลระบบ & ค้นหาสถานที่ใน Google Maps \\ \hline
+POST & \cmd{/api/admin/place-import} & ผู้ดูแลระบบ & นำเข้าสถานที่จาก Google เป็นร่าง (ซ่อนไว้) \\ \hline
+POST & \cmd{/api/admin/place-import/area-search} & ผู้ดูแลระบบ & ค้นหาสถานที่ใกล้พื้นที่ที่ระบุ (ยังไม่นำเข้า) \\ \hline
+POST & \cmd{/api/admin/place-import/publish} & ผู้ดูแลระบบ & เผยแพร่สถานที่ที่ซ่อนอยู่เป็นชุด แล้วสั่ง embed ให้ \\ \hline
+POST & \cmd{/api/admin/place-import/batch} & ผู้ดูแลระบบ & นำเข้าหลายสถานที่จาก Google เป็นร่าง (งานเบื้องหลัง) \\ \hline
+GET & \cmd{/api/admin/place-import/batch/:id} & ผู้ดูแลระบบ & ดูความคืบหน้างานนำเข้าเป็นชุด \\ \hline
+POST & \cmd{/api/admin/place-import/batch/:id/cancel} & ผู้ดูแลระบบ & ยกเลิกงานนำเข้าเป็นชุดที่เหลือ \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: สถานที่จาก Google ที่แชตบอตแนะนำ}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/place-candidates} & ผู้ดูแลระบบ & รายการสถานที่จาก Google ที่แชทบอทแนะนำ (เรียงตามจำนวนครั้งที่แสดงในคำตอบ) \\ \hline
+GET & \cmd{/api/admin/place-candidates/count} & ผู้ดูแลระบบ & จำนวนที่รอพิจารณา \\ \hline
+GET & \cmd{/api/admin/place-candidates/usage} & ผู้ดูแลระบบ & จำนวนครั้งที่แชทบอทค้น Google วันนี้/เดือนนี้ และค่าใช้จ่ายโดยประมาณ \\ \hline
+POST & \cmd{/api/admin/place-candidates/:gid/import} & ผู้ดูแลระบบ & นำเข้า + เขียนคำอธิบายด้วย AI + ตรวจคุณภาพ แล้วเผยแพร่ถ้าผ่าน \\ \hline
+POST & \cmd{/api/admin/place-candidates/:gid/dismiss} & ผู้ดูแลระบบ & ไม่สนใจสถานที่นี้ (ไม่แสดงในคิวอีก) \\ \hline
+POST & \cmd{/api/admin/place-candidates/:gid/restore} & ผู้ดูแลระบบ & นำรายการที่ไม่สนใจกลับเข้าคิว \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: ซิงก์อัตโนมัติ}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/place-auto-sync} & ผู้ดูแลระบบ & ดูการตั้งค่าและสถานะซิงก์อัตโนมัติ \\ \hline
+PUT & \cmd{/api/admin/place-auto-sync} & ผู้ดูแลระบบ & บันทึกการตั้งค่าซิงก์อัตโนมัติ \\ \hline
+POST & \cmd{/api/admin/place-auto-sync/run} & ผู้ดูแลระบบ & สั่งซิงก์อัตโนมัติทันที (1 รอบ) \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: ประมาณค่าใช้จ่าย}} \\* \hline\nopagebreak
+GET & \cmd{/api/admin/cost-estimates} & ผู้ดูแลระบบ & ประมาณค่าใช้จ่ายต่อครั้งของปุ่มที่เรียก API เสียเงิน \\ \hline
+\multicolumn{4}{|l|}{\textbf{ผู้ดูแลระบบ: ดัชนีค้นหาแชตบอต}} \\* \hline\nopagebreak
+POST & \cmd{/api/reindex} & ผู้ดูแลระบบ & เริ่ม embed รายการที่ยังไม่มี embedding \\ \hline
+GET & \cmd{/api/reindex/status} & ผู้ดูแลระบบ & สถานะการ embed \\ \hline
+GET & \cmd{/api/reindex/pending} & ผู้ดูแลระบบ & รายการที่รอ embed \\ \hline
+\end{longtable}
+}
+
+AI Service ไม่มีระบบยืนยันตัวตน Caddy จึงเปิดให้เข้าถึงจากภายนอกเฉพาะ \cmd{/chat}, \cmd{/trip/llm} และ \cmd{/health} ส่วนเส้นทางอื่นเรียกได้จากภายในเครือข่าย Docker โดย backend ส่งต่อให้หลังตรวจสิทธิ์ผู้ดูแลระบบแล้ว ตามตารางที่~\ref{tab:api-ai}
+
+\begin{table}[H]
+\caption{รายการ API ของ AI Service}
+\label{tab:api-ai}
+\centering
+\small
+\begin{tabular}{|C{1.5cm}|L{4.4cm}|L{2.6cm}|L{\dimexpr\linewidth-8.5cm-8\tabcolsep-5\arrayrulewidth\relax}|}
+\hline
+\textbf{Method} & \textbf{เส้นทาง} & \textbf{การเข้าถึง} & \textbf{การทำงาน} \\ \hline
+POST & \cmd{/chat/} & ทุกคน & ถามแชตบอต ตอบกลับแบบสตรีมทีละส่วน \\ \hline
+POST & \cmd{/trip/llm} & ทุกคน & สร้างแผนการเดินทาง \\ \hline
+GET & \cmd{/health} & ทุกคน & ตรวจสถานะ AI Service \\ \hline
+GET & \cmd{/version} & ภายในเท่านั้น & เวอร์ชันของ AI Service \\ \hline
+POST & \cmd{/events/extract} & ผ่าน backend & ดึงข้อมูลกิจกรรมจากข้อความโพสต์ \\ \hline
+POST & \cmd{/admin/reindex} & ผ่าน backend & สร้าง Embedding ใหม่ \\ \hline
+GET & \cmd{/admin/reindex/status} & ผ่าน backend & สถานะการสร้าง Embedding \\ \hline
+GET & \cmd{/admin/reindex/pending} & ผ่าน backend & จำนวนรายการที่ยังไม่อยู่ในดัชนีค้นหา \\ \hline
+POST & \cmd{/admin/places/describe} & ผ่าน backend & สร้างคำอธิบายสถานที่ด้วย AI \\ \hline
+POST & \cmd{/admin/places/classify} & ผ่าน backend & จัดหมวดหมู่สถานที่ด้วย AI \\ \hline
+\end{tabular}
+\end{table}

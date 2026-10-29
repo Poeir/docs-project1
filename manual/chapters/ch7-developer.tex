@@ -1,0 +1,327 @@
+% =============================================================
+% บทที่ 7 คู่มือสำหรับนักพัฒนา
+% ข้อมูลตรวจจาก main repo: README.md, CLAUDE.md, package.json/requirements.txt ของแต่ละส่วน,
+% backend/openapi.yaml, backend/test, chatbot-service/tests, backend/supabase/migrations (29 ต.ค. 2569)
+% =============================================================
+\label{ch:dev}
+
+\section{สถาปัตยกรรมของระบบ}
+
+ระบบเป็นแบบ Microservices Architecture แบ่งเป็น 3 ส่วนที่แยกโฟลเดอร์และรันแยกกัน ดังภาพที่~\ref{fig:architecture} ส่วนติดต่อผู้ใช้ (frontend) เรียก REST API ของ backend สำหรับข้อมูลทั้งหมด และเรียก AI Service โดยตรงเฉพาะแชตบอตและการวางแผนทริป frontend ไม่ติดต่อฐานข้อมูลโดยตรง ส่วน AI Service ไม่มีระบบยืนยันตัวตน งานของผู้ดูแลระบบที่ต้องใช้ AI Service เช่น การอัปเดตดัชนีค้นหาและการดึงข้อมูลกิจกรรม จึงต้องผ่าน backend ซึ่งตรวจสิทธิ์ก่อนส่งต่อ
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[
+    box/.style={draw=cskkuStep, fill=cskkuStep!8, rounded corners=3pt, align=center,
+      font=\normalfont\small, minimum height=34bp, text width=74bp, inner sep=3bp},
+    ext/.style={box, draw=black!45, fill=black!4},
+    arr/.style={{Stealth[length=5bp]}-{Stealth[length=5bp]}, line width=0.8pt, draw=black!60},
+    one/.style={-{Stealth[length=5bp]}, line width=0.8pt, draw=black!60},
+    lbl/.style={font=\normalfont\footnotesize, text=black!75, inner sep=2bp, align=center}]
+  \node[ext] (br) at (-0.7,0) {เว็บเบราว์เซอร์};
+  \node[box] (cd) at (3.7,0) {Caddy\\HTTPS และหน้าเว็บ\\React + Vite};
+  \node[box] (be) at (7.6,1.5) {backend\\Node.js + Express};
+  \node[box] (ai) at (7.6,-1.5) {AI Service\\Python + FastAPI};
+  \node[box] (db) at (11.6,0) {Supabase\\PostgreSQL 17\\+ pgvector};
+  \node[ext] (sv) at (11.6,3) {Cloudinary\\Google Places\\Gmail SMTP};
+  \node[ext] (lm) at (11.6,-3) {โมเดลภาษา\\KKU AI Gateway\\Anthropic / Vertex AI};
+  \draw[arr] (br) -- node[lbl, above]{HTTPS} (cd);
+  \draw[arr] (cd) |- node[lbl, pos=0.75, above]{\cmd{/api}} (be);
+  \draw[arr] (cd) |- node[lbl, pos=0.75, below]{\cmd{/chat}, \cmd{/trip/llm}} (ai);
+  \draw[arr] (be) -| node[lbl, pos=0.25, above]{knex + pg} (db);
+  \draw[arr] (ai) -| node[lbl, pos=0.25, below]{supabase-py} (db);
+  \draw[one] (be) |- (sv);
+  \draw[one] (ai) |- (lm);
+  \draw[one] (be) -- node[lbl, right]{งานผู้ดูแลระบบ} (ai);
+\end{tikzpicture}
+\caption{สถาปัตยกรรมของระบบ}
+\label{fig:architecture}
+\end{figure}
+
+เทคโนโลยีหลักของแต่ละส่วนแสดงดังตารางที่~\ref{tab:tech}
+
+\begin{table}[H]
+\caption{เทคโนโลยีที่ใช้ในระบบ}
+\label{tab:tech}
+\centering
+\begin{tabular}{|L{2.8cm}|L{6.8cm}|L{3.6cm}|}
+\hline
+\textbf{ส่วน} & \textbf{เทคโนโลยี} & \textbf{รุ่น} \\ \hline
+frontend & React, react-router-dom, Vite (JavaScript ไม่ใช้ TypeScript) & 18.3 / 6.28 / 5.4 \\ \hline
+backend & Node.js, Express, knex, pg & 20 / 4.21 / 3.3 / 8.23 \\ \hline
+AI Service & Python, FastAPI, Uvicorn, sentence-transformers & 3.11 \\ \hline
+การค้นหาเชิงความหมาย & โมเดล \cmd{paraphrase-multilingual-MiniLM-L12-v2} (เวกเตอร์ 384 มิติ) และฟังก์ชัน \cmd{match_places}, \cmd{match_knowledge_base} ในฐานข้อมูล & -- \\ \hline
+ฐานข้อมูล & PostgreSQL บน Supabase พร้อมส่วนขยาย pgvector & 17 \\ \hline
+การนำขึ้นใช้งานจริง & Docker Compose, Caddy, GitHub Actions & -- \\ \hline
+\end{tabular}
+\end{table}
+
+\section{โครงสร้างซอร์สโค้ด}
+
+ซอร์สโค้ดแบ่งโฟลเดอร์ตามตารางที่~\ref{tab:folders} โฟลเดอร์ที่ต้องแก้ไขบ่อยแสดงดังโครงสร้างด้านล่าง
+
+\begin{table}[H]
+\caption{โฟลเดอร์หลักของโครงงาน}
+\label{tab:folders}
+\centering
+\begin{tabular}{|L{3.4cm}|L{9.8cm}|}
+\hline
+\textbf{โฟลเดอร์} & \textbf{หน้าที่} \\ \hline
+\filename{frontend} & หน้าเว็บที่ผู้ใช้งานและผู้ดูแลระบบใช้ \\ \hline
+\filename{backend} & REST API โฟลเดอร์ย่อย \filename{scripts} เก็บสคริปต์นำเข้าข้อมูลและสร้างบัญชีผู้ดูแลระบบ \filename{data} เก็บข้อมูลสถานที่ตั้งต้น \filename{supabase} เก็บ migration และ \filename{test} เก็บชุดทดสอบ \\ \hline
+\filename{chatbot-service} & AI Service ได้แก่ แชตบอต ระบบวางแผนทริป การดึงข้อมูลกิจกรรม และการสร้าง Embedding \\ \hline
+\filename{deploy} & ไฟล์สำหรับนำระบบขึ้นใช้งานจริง (บทที่~\ref{ch:install} และ~\ref{ch:admin}) \\ \hline
+\filename{.github/workflows} & ขั้นตอนตรวจสอบและปรับรุ่นอัตโนมัติ (หัวข้อ~\ref{sec:github-actions}) \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{terminal}
+dino-trip/
+|-- VERSION                      เลขเวอร์ชันของทั้งระบบ
+|-- frontend/src/
+|   |-- App.jsx                  เส้นทางของหน้าเว็บ (routing)
+|   |-- pages/  components/      หน้าและส่วนประกอบของผู้ใช้
+|   |-- admin/                   หน้าผู้ดูแลระบบ
+|   |-- profile/                 แท็บต่าง ๆ ของหน้าโปรไฟล์
+|   |-- context/AppContext.jsx   สถานะกลางและการโหลดข้อมูล
+|   `-- lib/apiClient.js         ฟังก์ชันเรียก API
+|-- backend/
+|   |-- src/app.js               จุดเริ่มต้นและการผูกเส้นทาง /api
+|   |-- src/routes/              เส้นทาง API แยกตามทรัพยากร
+|   |-- src/middleware/          ตรวจการเข้าสู่ระบบและสิทธิ์ผู้ดูแลระบบ
+|   |-- src/lib/  src/services/  ฟังก์ชันช่วยและงานซิงก์/นำเข้าสถานที่
+|   |-- supabase/migrations/     ไฟล์ migration ของฐานข้อมูล
+|   |-- openapi.yaml             เอกสาร API
+|   `-- test/                    ชุดทดสอบ API
+`-- chatbot-service/
+    |-- src/main.py              จุดเริ่มต้นของ AI Service
+    |-- src/api/                 เส้นทาง /chat /trip /events /admin
+    |-- src/core/                ค่าตั้ง การเชื่อมต่อฐานข้อมูล และ LLM
+    |-- src/services/            แชตบอต RAG และระบบวางแผนทริป
+    |-- scripts/embed_content.py สร้าง Embedding ใหม่
+    `-- tests/                   ชุดทดสอบ pytest
+\end{terminal}
+
+\section{การเตรียมเครื่องสำหรับพัฒนา}
+\label{sec:dev-setup}
+
+หัวข้อนี้อธิบายการติดตั้งบนเครื่องที่ใช้ระบบปฏิบัติการ Windows 11 ซอฟต์แวร์ที่ต้องมีแสดงดังตารางที่~\ref{tab:dev-software}
+
+\begin{table}[H]
+\caption{ซอฟต์แวร์สำหรับเครื่องของนักพัฒนา}
+\label{tab:dev-software}
+\centering
+\begin{tabular}{|L{3.6cm}|L{2.4cm}|C{1.6cm}|L{5.2cm}|}
+\hline
+\textbf{ซอฟต์แวร์} & \textbf{รุ่น} & \textbf{จำเป็น} & \textbf{คำสั่งตรวจสอบ} \\ \hline
+Node.js และ npm & 20 ขึ้นไป & \cmark & \cmd{node -v} และ \cmd{npm -v} \\ \hline
+Python & 3.11 & \cmark & \cmd{python --version} \\ \hline
+Git & 2.30 ขึ้นไป & \cmark & \cmd{git --version} \\ \hline
+Visual Studio Code & รุ่นล่าสุด & -- & -- \\ \hline
+Docker Desktop & รุ่นล่าสุด & -- & \cmd{docker --version} \\ \hline
+\end{tabular}
+\end{table}
+
+Docker ไม่จำเป็นสำหรับการพัฒนา ใช้เฉพาะเมื่อต้องการทดลองชุดไฟล์ในโฟลเดอร์ \filename{deploy} บนเครื่องตนเอง
+
+\subsection{การติดตั้ง Node.js และ Python}
+
+\begin{steps}
+  \item เข้า \cmd{https://nodejs.org} แล้วดาวน์โหลดรุ่น LTS (ภาพที่~\ref{fig:install-nodejs}) เปิดไฟล์ติดตั้งแล้วคลิกปุ่ม \btn{Next} จนติดตั้งเสร็จ
+  \item เข้า \cmd{https://www.python.org/downloads/windows/} แล้วดาวน์โหลด Windows installer (64-bit) รุ่น 3.11 (ภาพที่~\ref{fig:install-python}) ขณะติดตั้งเลือก \field{Add python.exe to PATH} แล้วคลิกปุ่ม \btn{Install Now}
+  \item เปิด PowerShell แล้วตรวจรุ่นตามคำสั่งในตารางที่~\ref{tab:dev-software}
+        \result{ทุกคำสั่งแสดงหมายเลขรุ่น}
+\end{steps}
+
+\appscreen{install-nodejs}{หน้าดาวน์โหลด Node.js}
+
+\appscreen{install-python}{หน้าดาวน์โหลด Python}
+
+\subsection{การติดตั้งโครงงาน}
+
+\begin{steps}
+  \item ดาวน์โหลดซอร์สโค้ด แล้วเปิดโฟลเดอร์ด้วย Visual Studio Code
+\begin{terminal}
+git clone https://github.com/Poeir/dino-trip.git
+cd dino-trip
+code .
+\end{terminal}
+  \item ติดตั้งไลบรารีของแต่ละส่วน
+\begin{terminal}
+cd backend
+npm install
+cd ../frontend
+npm install
+cd ../chatbot-service
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+\end{terminal}
+  \item คัดลอกไฟล์ตั้งค่าตัวอย่างของแต่ละส่วน แล้วกรอกค่าตามตารางที่~\ref{tab:env-vars}
+\begin{terminal}
+copy backend\.env.example backend\.env
+copy frontend\.env.example frontend\.env
+copy chatbot-service\.env.example chatbot-service\.env
+\end{terminal}
+  \item ถ้ายังไม่มีฐานข้อมูล ให้เตรียมฐานข้อมูลตามหัวข้อ~\ref{sec:db-setup} แล้วสร้าง Embedding
+\begin{terminal}
+cd chatbot-service
+venv\Scripts\activate
+python scripts/embed_content.py
+\end{terminal}
+  \item เปิด Terminal 3 หน้าต่าง แล้วเริ่มแต่ละส่วน
+\begin{terminal}
+# Terminal 1: backend (http://localhost:4000)
+cd backend
+npm run dev
+
+# Terminal 2: AI Service (http://localhost:8000)
+cd chatbot-service
+venv\Scripts\activate
+uvicorn src.main:app --reload --port 8000
+
+# Terminal 3: frontend (http://localhost:5173)
+cd frontend
+npm run dev
+\end{terminal}
+        \result{เปิด \cmd{http://localhost:5173} แล้วพบหน้าแรกของไดโน}
+\end{steps}
+
+\begin{warning}
+ควรใช้โปรเจกต์ Supabase แยกสำหรับการพัฒนา ถ้าไฟล์ \filename{backend/.env} ชี้ไปยังฐานข้อมูลจริง ทุกการแก้ไขระหว่างพัฒนาจะกระทบข้อมูลที่ผู้ใช้เห็นทันที
+\end{warning}
+
+ระหว่างพัฒนาดูเอกสาร API แบบโต้ตอบได้ที่ \cmd{http://localhost:4000/api/docs} (backend) และ \cmd{http://localhost:8000/docs} (AI Service) หน้าเอกสารของ backend ปิดไว้ในระบบที่ใช้งานจริง
+
+\section{การทดสอบ}
+\label{sec:testing}
+
+แต่ละส่วนมีวิธีทดสอบตามตารางที่~\ref{tab:tests}
+
+\begin{table}[H]
+\caption{การทดสอบของแต่ละส่วน}
+\label{tab:tests}
+\centering
+\begin{tabular}{|L{2.6cm}|L{4.4cm}|L{6.2cm}|}
+\hline
+\textbf{ส่วน} & \textbf{คำสั่ง} & \textbf{สิ่งที่ทดสอบ} \\ \hline
+backend & \cmd{npm test} & ชุดทดสอบใน \filename{backend/test} รวมถึงการเรียก API จริงผ่าน Express โดยแทนฐานข้อมูลและบริการภายนอกด้วยตัวจำลอง จึงไม่แตะข้อมูลจริง \\ \hline
+backend & \cmd{npm run lint:openapi} & ตรวจความถูกต้องของไฟล์ \filename{openapi.yaml} \\ \hline
+AI Service & \cmd{pytest} & ชุดทดสอบใน \filename{chatbot-service/tests} โดยไม่เรียกโมเดลภาษาและฐานข้อมูลจริง \\ \hline
+AI Service & \cmd{pytest -m live} & ทดสอบกับโมเดลภาษาและฐานข้อมูลจริง มีค่าใช้จ่ายและใช้เวลานาน \\ \hline
+frontend & \cmd{npm run build} & ตรวจว่าสร้างไฟล์หน้าเว็บได้ (frontend ไม่มีชุดทดสอบอัตโนมัติ) \\ \hline
+\end{tabular}
+\end{table}
+
+รันชุดทดสอบไฟล์เดียวได้ด้วยคำสั่ง \cmd{node --test test/seo.test.js} ที่โฟลเดอร์ \filename{backend} หรือ \cmd{pytest tests/test_hours.py} ที่โฟลเดอร์ \filename{chatbot-service}
+
+\begin{note}
+โฟลเดอร์ \filename{backend/bruno} มีชุดคำขอของโปรแกรม Bruno สำหรับลองเรียก API ด้วยตนเอง สร้างใหม่จาก \filename{openapi.yaml} ได้ด้วยคำสั่ง \cmd{npm run bruno:generate}
+\end{note}
+
+\section{ฐานข้อมูล}
+
+ฐานข้อมูลมีตารางหลักตามตารางที่~\ref{tab:db-tables} โครงสร้างตาราง ฟังก์ชัน และ policy ทั้งหมดกำหนดในไฟล์ migration ใน \filename{backend/supabase/migrations} เรียงตามวันที่ในชื่อไฟล์ การแก้ไขโครงสร้างต้องเพิ่มไฟล์ migration ใหม่เสมอ ห้ามแก้ไฟล์เดิม
+
+{\small
+\begin{longtable}{|L{4cm}|L{6.4cm}|L{\dimexpr\linewidth-10.4cm-6\tabcolsep-4\arrayrulewidth\relax}|}
+\caption{ตารางในฐานข้อมูล}\label{tab:db-tables}\\
+\hline
+\textbf{ตาราง} & \textbf{ข้อมูลที่เก็บ} & \textbf{เชื่อมกับตาราง} \\ \hline
+\endfirsthead
+\caption[]{ตารางในฐานข้อมูล~\cskkuContinued}\\
+\hline
+\textbf{ตาราง} & \textbf{ข้อมูลที่เก็บ} & \textbf{เชื่อมกับตาราง} \\ \hline
+\endhead
+\multicolumn{3}{|l|}{\textbf{ผู้ใช้และการยืนยันตัวตน}} \\* \hline\nopagebreak
+\cmd{users} & บัญชีผู้ใช้ บทบาท (\cmd{tourist}, \cmd{admin}) และพอยท์ & -- \\ \hline
+\cmd{sessions} & session ของการเข้าสู่ระบบ & \cmd{users} \\ \hline
+\cmd{email_verification_tokens}\newline\cmd{password_reset_tokens}\newline\cmd{email_change_tokens} & โทเค็นของลิงก์ยืนยันอีเมล ตั้งรหัสผ่านใหม่ และเปลี่ยนอีเมล & \cmd{users} \\ \hline
+\cmd{admin_audit_log} & ประวัติการดำเนินการของผู้ดูแลระบบ & \cmd{users} \\ \hline
+\multicolumn{3}{|l|}{\textbf{เนื้อหา}} \\* \hline\nopagebreak
+\cmd{places} & สถานที่ พร้อมข้อมูลจาก Google และเวกเตอร์สำหรับค้นหา & -- \\ \hline
+\cmd{place_photos} & รูปภาพของสถานที่ & \cmd{places} \\ \hline
+\cmd{events} & กิจกรรม พร้อมเวกเตอร์สำหรับค้นหา & -- \\ \hline
+\cmd{event_photos} & รูปภาพของกิจกรรม & \cmd{events} \\ \hline
+\cmd{knowledge_base} & ฐานความรู้ของแชตบอต พร้อมเวกเตอร์สำหรับค้นหา & -- \\ \hline
+\multicolumn{3}{|l|}{\textbf{คิวตรวจสอบ}} \\* \hline\nopagebreak
+\cmd{place_reports}\newline\cmd{event_reports} & รายงานข้อมูลไม่ถูกต้อง & \cmd{places} หรือ \cmd{events}, \cmd{users} \\ \hline
+\cmd{event_requests}\newline\cmd{event_request_photos} & คำขอเพิ่มกิจกรรมจากสมาชิก & \cmd{users}, \cmd{places}, \cmd{events} \\ \hline
+\cmd{place_candidates} & สถานที่จาก Google ที่แชตบอตแนะนำ & \cmd{places}, \cmd{users} \\ \hline
+\cmd{google_fallback_usage} & จำนวนครั้งที่แชตบอตค้น Google & -- \\ \hline
+\multicolumn{3}{|l|}{\textbf{การซิงก์กับ Google}} \\* \hline\nopagebreak
+\cmd{place_sync_jobs}\newline\cmd{place_sync_results} & งานซิงก์และผลรายสถานที่ & \cmd{users}, \cmd{places} \\ \hline
+\cmd{place_auto_sync_settings} & ค่าตั้งของการซิงก์อัตโนมัติ & \cmd{users} \\ \hline
+\multicolumn{3}{|l|}{\textbf{พอยท์และของรางวัล}} \\* \hline\nopagebreak
+\cmd{qrs} & QR Code ของสถานที่ จำนวนพอยท์ และรัศมี & \cmd{places} \\ \hline
+\cmd{qr_scans} & ประวัติการสแกน & \cmd{qrs}, \cmd{users} \\ \hline
+\cmd{rewards} & ของรางวัลและสต็อก & -- \\ \hline
+\cmd{redemptions} & รายการแลกของรางวัล & \cmd{rewards}, \cmd{users} \\ \hline
+\cmd{points_adjustments} & การปรับพอยท์โดยผู้ดูแลระบบ & \cmd{users} \\ \hline
+\pagebreak
+\multicolumn{3}{|l|}{\textbf{ทริปและแบบสอบถาม}} \\* \hline\nopagebreak
+\cmd{trips}\newline\cmd{trip_days}\newline\cmd{trip_items} & แผนทริป วันในทริป และจุดแวะของแต่ละวัน & \cmd{users}, \cmd{places} \\ \hline
+\cmd{survey_responses} & คำตอบแบบสอบถามความพึงพอใจ (ไม่ระบุตัวตน) & -- \\ \hline
+\end{longtable}
+}
+
+
+\section{API}
+
+backend ให้บริการ REST API ภายใต้เส้นทาง \cmd{/api} รับและส่งข้อมูลแบบ JSON รายการทั้งหมดอยู่ในภาคผนวก~ข และไฟล์ \filename{backend/openapi.yaml} หลักการที่ใช้ร่วมกันทุก API มีดังนี้
+
+\begin{enumerate}
+\item เข้าสู่ระบบด้วย \cmd{POST /api/auth/login} แล้วระบบส่ง cookie ชื่อ \cmd{session_token} (httpOnly อายุ 30 วัน) กลับมา frontend เรียก API ทุกครั้งด้วย \cmd{credentials: 'include'} โดยไม่มี bearer token
+\item สิทธิ์ของแต่ละเส้นทางมี 4 ระดับ ได้แก่ ทุกคน ไม่บังคับเข้าสู่ระบบ สมาชิก และผู้ดูแลระบบ ไม่มี cookie ได้รหัส 401 และไม่ใช่ผู้ดูแลระบบได้รหัส 403 เส้นทางของผู้ดูแลระบบอยู่ใน \filename{src/routes/admin*.routes.js} และตรวจสิทธิ์ด้วย \filename{middleware/requireAdmin.js}
+\item ข้อผิดพลาดตอบกลับด้วยรหัสสถานะ HTTP และข้อความภาษาไทยในรูปแบบ \cmd{{ "error": { "message": "..." } }}
+\item ทุกเส้นทางใต้ \cmd{/api} จำกัดไม่เกิน 1,200 ครั้งต่อนาทีต่อ IP และบางเส้นทางมีเพดานเฉพาะ เมื่อเกินได้รหัส 429
+\item รายการจากตารางเนื้อหาถูกเก็บในหน่วยความจำ 25 วินาที ข้อมูลที่เพิ่งแก้จึงอาจเห็นช้าไม่เกิน 25 วินาที
+\end{enumerate}
+
+ตัวอย่างการเรียก API ด้วย curl โดยเก็บ cookie ไว้ในไฟล์ แล้วใช้ cookie นั้นเรียกเส้นทางที่ต้องเข้าสู่ระบบ
+
+\begin{terminal}
+curl -c cookie.txt -X POST http://localhost:4000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "<password>"}'
+curl -b cookie.txt http://localhost:4000/api/profile
+\end{terminal}
+
+\section{แนวทางการพัฒนาต่อ}
+
+\subsection{การเพิ่มฟังก์ชันใหม่}
+
+\begin{steps}
+  \item ถ้าต้องเพิ่มหรือแก้ตาราง ให้สร้างไฟล์ migration ใหม่ใน \filename{backend/supabase/migrations} พร้อม policy ของตาราง
+  \item เพิ่มเส้นทาง API ใน \filename{backend/src/routes} แล้วผูกเส้นทางใน \filename{src/app.js} เส้นทางของผู้ดูแลระบบใช้ \cmd{requireAdmin} ส่วนตารางแบบง่ายใช้ \filename{lib/crudRouter.js} ได้
+  \item ถ้าต้องเรียก AI Service ด้วยสิทธิ์ผู้ดูแลระบบ ให้ส่งต่อผ่าน \filename{backend/src/lib/chatbotProxy.js} ห้ามเรียก AI Service จาก frontend โดยตรง
+  \item เพิ่มรายการใน \filename{backend/openapi.yaml} และกรณีทดสอบใน \filename{backend/test} แล้วรัน \cmd{npm test}
+  \item เพิ่มฟังก์ชันเรียก API ใน \filename{frontend/src/lib/apiClient.js} และหน้าใหม่ใน \filename{frontend/src/pages} หรือ \filename{admin} แล้วเพิ่มเส้นทางใน \filename{App.jsx}
+  \item รัน \cmd{npm run build} ที่ \filename{frontend} และ \cmd{pytest} ที่ \filename{chatbot-service} ถ้าแก้ส่วนนั้น
+  \item ปรับคู่มือเล่มนี้ และสร้างตารางในภาคผนวก~ข ใหม่
+\end{steps}
+
+\subsection{ข้อตกลงในการพัฒนา}
+
+\begin{enumerate}
+\item ข้อความที่แสดงต่อผู้ใช้และข้อความข้อผิดพลาดของ API เป็นภาษาไทย ชื่อตัวแปร ฟังก์ชัน และความคิดเห็นในโค้ดเป็นภาษาอังกฤษ
+\item ไฟล์ \filename{VERSION} ที่ root เป็นเลขเวอร์ชันของทั้งระบบ เมื่อเปลี่ยนต้องแก้ \filename{frontend/package.json} และ \filename{backend/package.json} ให้ตรงกัน
+\item รูปภาพในหน้าเว็บโหลดผ่านฟังก์ชัน \cmd{cld()} ใน \filename{frontend/src/lib/cloudinary.js} และหน้าที่ไม่ใช่หน้าแรกโหลดแบบแยกไฟล์ด้วย \cmd{lazyPage()} ใน \filename{App.jsx}
+\item คำอธิบายสถานที่ต้องไม่มีเวลาทำการหรือราคา เพราะข้อมูลเหล่านี้มีฟิลด์ที่ซิงก์จาก Google แยกไว้แล้ว
+\item ไฟล์ shell script และ Dockerfile ต้องใช้การขึ้นบรรทัดแบบ LF แม้พัฒนาบน Windows
+\item แยก branch ต่อหนึ่งฟังก์ชัน แล้วรวมเข้า \cmd{main} ผ่าน pull request หลังทดสอบผ่าน เพราะการรวมเข้า \cmd{main} ปรับรุ่นระบบจริงทันที
+\item ห้าม commit ไฟล์ \filename{.env} และไฟล์กุญแจใด ๆ
+\end{enumerate}
+
+\section{การนำรุ่นใหม่ขึ้นใช้งานจริง}
+
+ขั้นตอนติดตั้งบนเครื่องแม่ข่ายอยู่ในหัวข้อ~\ref{sec:install-steps} และการปรับรุ่นอยู่ในหัวข้อ~\ref{sec:upgrade} ก่อนรวมโค้ดเข้าสาขา \cmd{main} นักพัฒนาต้องตรวจรายการต่อไปนี้
+
+\begin{enumerate}
+\item \cmd{npm test} ของ backend และ \cmd{pytest} ของ AI Service ผ่านทุกกรณี
+\item \cmd{npm run build} ของ frontend ไม่มีข้อผิดพลาด
+\item ปรับเลขใน \filename{VERSION} และ \filename{package.json} ทั้งสองไฟล์
+\item ถ้ามี migration ใหม่ ให้นำไปใช้กับฐานข้อมูลจริงตามหัวข้อ~\ref{sec:upgrade} ก่อนรวมโค้ด
+\item หลังปรับรุ่น ตรวจการ์ดเวอร์ชันระบบบนแดชบอร์ดว่าแสดงเวอร์ชันใหม่ครบทุกบริการ
+\item ปรับคู่มือเล่มนี้ให้ตรงกับรุ่นใหม่
+\end{enumerate}

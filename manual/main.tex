@@ -1,12 +1,10 @@
 % =============================================================
 % เอกสารคู่มือการใช้งาน "ไดโน" (Dino)
-% ใช้ class cskkumanual จาก Template_Manual_2026 (รูปแบบเดียวกับเล่มรายงาน)
-% เนื้อหาคงโครง 3 บทตามคู่มือการใช้งานของโครงงาน "ไปนำแหน่"
-% (ปก > คำนำ > สารบัญ > สารบัญภาพ > บทที่ 1 บทนำ > บทที่ 2 คู่มือการใช้งาน > บทที่ 3 การติดตั้งระบบสำหรับพัฒนา)
-% คอมไพล์:  cd manual && latexmk main.tex   (หรือ xelatex main.tex 2 รอบ)
+% ใช้ class cskkumanual และโครงเล่ม 8 บทตาม Template_Manual_2026 (NewTemplate/Template_Manual_2026_1.zip)
+% คอมไพล์:  cd manual && latexmk main.tex   (XeLaTeX + biber ตาม .latexmkrc)
+% ระหว่างเขียนใส่ตัวเลือก guides เพื่อดูแนวทางการเขียนของ template ได้ ก่อนส่งเล่มต้องเอาออก
 % =============================================================
 \documentclass{cskkumanual}
-% ตัวเลือก guides แสดงแนวทางการเขียนของ template — ไม่ใช้ในเล่มนี้
 
 % ใช้ TH Sarabun New ทั้งเล่ม รวมถึง \texttt และบล็อกคำสั่ง (แทน TlwgMono ของ template)
 \setmonofont{THSarabunNew}[
@@ -16,36 +14,72 @@
 \lstset{basicstyle=\ttfamily, numberstyle=\scriptsize\ttfamily\color{gray},
   backgroundcolor=\color{white}, rulecolor=\color{black}}
 
-% ความกว้างป้าย "(1)" สำหรับรายการแบบ (1)(2)(3)
-\newlength{\parenlabelwidth}
-\settowidth{\parenlabelwidth}{(1)}
+% -------------------------------------------------------------
+% รูปแบบทางการ: เขียนทับรูปแบบของ cskkumanual/cskkucore (ไม่แก้ไฟล์ของเทมเพลต)
+% เนื้อความเป็นขาวดำ หมายเลขกำกับบนภาพหน้าจอเท่านั้นที่เป็นสีแดง
+% -------------------------------------------------------------
+\definecolor{cskkuStep}{gray}{0}
+\definecolor{cskkuNote}{gray}{0}
+\definecolor{cskkuNoteBg}{gray}{1}
+\definecolor{cskkuTip}{gray}{0}
+\definecolor{cskkuTipBg}{gray}{1}
+\definecolor{cskkuWarn}{gray}{0}
+\definecolor{cskkuWarnBg}{gray}{1}
+\definecolor{cskkuImp}{gray}{0}
+\definecolor{cskkuImpBg}{gray}{1}
+\definecolor{cskkuFrame}{gray}{0.35}
+\definecolor{cskkuTermBg}{gray}{0.95}
+\definecolor{cskkuCodeBg}{gray}{1}
+\definecolor{cskkuCodeFrame}{gray}{0}
+\definecolor{cskkuCodeKey}{gray}{0}
+\definecolor{cskkuCodeStr}{gray}{0}
+\definecolor{cskkuCodeCom}{gray}{0.35}
+% note/tip/warning/important: ย่อหน้าธรรมดาที่ขึ้นต้นด้วย "หมายเหตุ : " (ไม่มีกรอบและไอคอน)
+\RenewDocumentEnvironment{note}{O{}}{\par หมายเหตุ :\ \ignorespaces}{\par}
+\RenewDocumentEnvironment{tip}{O{}}{\par หมายเหตุ :\ \ignorespaces}{\par}
+\RenewDocumentEnvironment{warning}{O{}}{\par หมายเหตุ :\ \ignorespaces}{\par}
+\RenewDocumentEnvironment{important}{O{}}{\par หมายเหตุ :\ \ignorespaces}{\par}
 
-% รายการแบบ (1)(2)(3) ให้บรรทัดแรกเริ่มตรงกับย่อหน้าปัจจุบัน
-\newlist{parenlist}{enumerate}{1}
-\setlist[parenlist]{label=(\arabic*),leftmargin=0pt,
-  itemindent=\dimexpr\parindent+\parenlabelwidth+1em\relax,
-  align=right,labelwidth=\parenlabelwidth,labelsep=1em}
+% ผลที่ควรเห็นหลังทำขั้นตอน: ต่อท้ายข้อความของขั้นตอนเป็นประโยคธรรมดา ไม่มีคำว่า "ผลลัพธ์:"
+\renewcommand\result[1]{\ifvmode\noindent\else\unskip\space\fi #1}
 
-% รายการเลขลำดับธรรมดา 1. 2. 3. (ไม่ใช้รูปแบบ 2.1.1. ของคลาส)
-\newlist{numlist}{enumerate}{1}
-\setlist[numlist]{label=\arabic*.,leftmargin=*,labelindent=\dimexpr\parindent+1em\relax,
-  labelwidth=2em,labelsep=0.5em,itemsep=0pt,topsep=0.3\baselineskip}
+% ขั้นตอน (steps) และคำอธิบายหมายเลขใต้ภาพ (calloutlist) เป็นเลขข้อปกติ 1) 2) 3)
+\setlist*[steps,1]{label=\arabic*)}
+\setlist*[calloutlist]{label=\arabic*)}
+% หมายเลขที่อ้างถึงในเนื้อความเป็นตัวเลขธรรมดา
+\DeclareRobustCommand\calloutmark[1]{#1}
 
-% บล็อกคำสั่ง: ห่อ lstlisting ด้วย minipage เพื่อไม่ให้กรอบถูกตัดข้ามหน้า
-\newenvironment{codeblock}%
-  {\par\addvspace{0.5em}\noindent\minipage{\linewidth}}%
-  {\endminipage\par\addvspace{0.5em}}
+% ปุ่ม ช่องกรอก เมนู และแป้นพิมพ์เป็นข้อความธรรมดา (ชื่อบนหน้าจออยู่ในเครื่องหมายคำพูด)
+\DeclareRobustCommand\btn[1]{``#1''}
+\DeclareRobustCommand\field[1]{``#1''}
+\RenewDocumentCommand\menu{m}{``#1''}
+\RenewDocumentCommand\keys{m}{#1}
+
+% บล็อกคำสั่ง: กรอบเส้นสีดำ พื้นหลังสีขาว
+\makeatletter
+\lstdefinestyle{cskkuterminal}{style=cskku, numbers=none,
+  backgroundcolor=\color{white}, frame=single, rulecolor=\color{black},
+  framesep=5bp, xleftmargin=5bp, framexleftmargin=5bp,
+  xrightmargin=5bp, framexrightmargin=5bp}
+% ไม่ให้บล็อกคำสั่งถูกตัดข้ามหน้า และให้อยู่หน้าเดียวกับข้อความที่นำหน้า
+% ในรายการ บล็อกเริ่มตรงกับข้อความของข้อ นอกรายการเริ่มตรงกับย่อหน้าของหัวข้อ
+\newlength\cskkutermind
+\BeforeBeginEnvironment{terminal}{\par\nopagebreak%
+  \ifnum\@listdepth=\z@ \setlength\cskkutermind{\cskku@curindent}\else\setlength\cskkutermind{\z@}\fi
+  \noindent\hspace*{\cskkutermind}\begin{minipage}[t]{\dimexpr\linewidth-\cskkutermind\relax}\vspace{0pt}}
+\AfterEndEnvironment{terminal}{\end{minipage}\par}
+\makeatother
 
 % -------------------------------------------------------------
-% ข้อความที่ยังต้องยืนยัน/กรอกเพิ่ม แสดงเป็นตัวหนาสีแดงในวงเล็บเหลี่ยม
+% ข้อความที่ยังต้องยืนยัน/กรอกเพิ่ม แสดงเป็นตัวหนาในวงเล็บเหลี่ยม
 % ค้นหาในไฟล์ด้วยคำว่า \fillin เพื่อไล่ตรวจก่อนส่งเล่มจริง
 % -------------------------------------------------------------
-\newcommand{\fillin}[1]{{\bfseries\color{red}[#1]}}
+\newcommand{\fillin}[1]{{\bfseries[#1]}}
 
 % -------------------------------------------------------------
-% ภาพหน้าจอ: \appscreen[ความกว้าง]{ชื่อไฟล์ไม่รวมนามสกุล}{คำอธิบายภาพ}
-% วางไฟล์ภาพจริงที่ images/screens/<ชื่อไฟล์>.png (หรือ .jpg) ระบบจะแทนกรอบว่างให้อัตโนมัติ
-% (ชื่อ \screenshot ใช้ไม่ได้ เพราะ cskkumanual มี environment screenshot สำหรับภาพพร้อมหมายเลขกำกับอยู่แล้ว)
+% ภาพหน้าจอแบบไม่มีหมายเลขกำกับ: \appscreen[ความกว้าง]{ชื่อไฟล์ไม่รวมนามสกุล}{คำอธิบายภาพ}
+% วางไฟล์ภาพที่ images/screens/<ชื่อไฟล์>.png หรือ .jpg ถ้ายังไม่มีไฟล์จะแสดงกรอบแดงแทน
+% ภาพที่มีหมายเลขกำกับใช้ environment screenshot ของ cskkumanual แทน
 % -------------------------------------------------------------
 \newcommand{\appscreen}[3][0.85]{%
   \begin{figure}[H]
@@ -98,6 +132,12 @@
 \majorTH{วิทยาการคอมพิวเตอร์}
 \majorEN{Computer Science}
 
+% รุ่นของระบบตามไฟล์ VERSION ใน main repo และที่อยู่เว็บไซต์จริง
+\systemVersion{0.1.0}
+\systemURL{https://dinokhonkaen.app}
+
+\addbibresource{references.bib}
+
 \begin{document}
 
 % ==========================================
@@ -107,23 +147,49 @@
 \frontmatter
 
 \begin{preface}       % ชื่อผู้จัดทำพิมพ์ท้ายคำนำให้อัตโนมัติ
-\input{preface}
+\input{chapters/preface}
 \end{preface}
 
 \makecontents         % สารบัญ -> สารบัญตาราง -> สารบัญภาพ (ข้ามรายการที่ว่าง)
 
+\writingguide{chapters/writing-guide}   % แสดงเฉพาะเมื่อใช้ตัวเลือก guides
+
 % ==========================================
-% เนื้อหา 3 บท (เลขหน้า 1 2 3 ...)
+% เนื้อหา (เลขหน้า 1 2 3 ...)
 % ==========================================
 \mainmatter
 
-\chapter{บทนำ}
-\input{chapter1}
+\chapter{ภาพรวมของระบบ}
+\input{chapters/ch1-overview}
 
-\chapter{คู่มือการใช้งาน}
-\input{chapter2}
+\chapter{ความต้องการของระบบและการติดตั้ง}
+\input{chapters/ch2-requirements}
 
-\chapter{การติดตั้งระบบสำหรับพัฒนา}
-\input{chapter3}
+\chapter{การเริ่มต้นใช้งาน}
+\input{chapters/ch3-getting-started}
+
+\chapter{การใช้งานสำหรับนักท่องเที่ยว}
+\input{chapters/ch4-tourist}
+
+\chapter{การใช้งานสำหรับผู้ดูแลระบบ}
+\input{chapters/ch5-admin}
+
+\chapter{การดูแลระบบ}
+\input{chapters/ch6-administration}
+
+\chapter{คู่มือสำหรับนักพัฒนา}
+\input{chapters/ch7-developer}
+
+\chapter{การแก้ไขปัญหาเบื้องต้น}
+\input{chapters/ch8-troubleshooting}
+
+\printreferences
+
+\appendix             % หน้าคั่น "ภาคผนวก" แล้วเริ่มภาคผนวก ก
+\chapter{อภิธานศัพท์}
+\input{chapters/appendix-a-glossary}
+
+\chapter{รายการ API ของระบบ}
+\input{chapters/appendix-b-api}
 
 \end{document}

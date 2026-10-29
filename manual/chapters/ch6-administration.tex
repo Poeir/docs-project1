@@ -1,0 +1,152 @@
+% =============================================================
+% บทที่ 6 การดูแลระบบ
+% ข้อมูลตรวจจาก main repo: deploy/ (deploy.sh, docker-compose.yml), .github/workflows,
+% CLAUDE.md (migration caveat), backend/scripts/create-admin.js, backend/supabase (Postgres 17)
+% =============================================================
+\label{ch:admin}
+
+\section{งานประจำของผู้ดูแลระบบ}
+
+งานที่ผู้ดูแลระบบต้องทำเป็นประจำแสดงดังตารางที่~\ref{tab:routine}
+
+\begin{table}[H]
+\caption{งานประจำของผู้ดูแลระบบ}
+\label{tab:routine}
+\centering
+\begin{tabular}{|L{7.4cm}|L{3.4cm}|C{2.4cm}|}
+\hline
+\textbf{งาน} & \textbf{ความถี่} & \textbf{หัวข้อ} \\ \hline
+ตรวจคิวรายงานข้อมูล คำขอกิจกรรม และสถานที่จาก Google & ทุกวัน & \ref{sec:admin-reports} \\ \hline
+อัปเดตดัชนีค้นหาของแชตบอต & ทุกครั้งที่แก้ไขข้อมูล & \ref{sec:admin-knowledge} \\ \hline
+ตรวจผลการซิงก์อัตโนมัติและค่าใช้จ่ายของ Google & ทุกสัปดาห์ & \ref{sec:auto-sync} \\ \hline
+ตรวจสถานะบริการและพื้นที่ดิสก์ & ทุกสัปดาห์ & \ref{sec:monitor} \\ \hline
+ปรับรุ่นระบบ & เมื่อมีรุ่นใหม่ & \ref{sec:upgrade} \\ \hline
+\end{tabular}
+\end{table}
+
+\section{การจัดการผู้ใช้และสิทธิ์}
+
+ระบบมี 2 บทบาทในฐานข้อมูล ได้แก่ \cmd{tourist} (สมาชิก) และ \cmd{admin} (ผู้ดูแลระบบ) สมาชิกสมัครเองผ่านหน้าเว็บ (หัวข้อ~\ref{sec:register}) ส่วนการระงับ ลบ กู้คืนบัญชี ปรับพอยท์ และส่งอีเมลยืนยันใหม่ทำผ่านหน้าผู้ดูแลระบบตามหัวข้อ~\ref{sec:admin-users}
+
+\subsection{การเพิ่มผู้ดูแลระบบ}
+
+รันสคริปต์ตามหัวข้อ~\ref{sec:create-admin} บนเครื่องที่มีซอร์สโค้ดและไฟล์ \filename{backend/.env} ที่ชี้ไปยังฐานข้อมูลจริง ถ้าอีเมลมีบัญชีสมาชิกอยู่แล้ว สคริปต์จะเปลี่ยนบัญชีนั้นเป็นผู้ดูแลระบบ
+
+\begin{tip}
+ควรมีผู้ดูแลระบบอย่างน้อย 2 บัญชี แดชบอร์ดจะเตือนเมื่อมีเพียงบัญชีเดียว เพราะถ้าลืมรหัสผ่านของบัญชีเดียวจะต้องรันสคริปต์ใหม่เพื่อกู้
+\end{tip}
+
+\subsection{การตั้งรหัสผ่านใหม่ให้ผู้ใช้}
+
+สมาชิกที่ลืมรหัสผ่านตั้งใหม่ได้เองตามหัวข้อ~\ref{sec:forgot-password} ผู้ดูแลระบบไม่ต้องตั้งรหัสผ่านให้ ส่วนผู้ดูแลระบบที่ลืมรหัสผ่าน ให้รันสคริปต์ \cmd{create-admin.js} ด้วยอีเมลเดิมและรหัสผ่านใหม่
+
+\section{การปรับรุ่นระบบ}
+\label{sec:upgrade}
+
+ระบบปรับรุ่นอัตโนมัติผ่าน GitHub Actions เมื่อรวมโค้ดเข้าสาขา \cmd{main} (หัวข้อ~\ref{sec:github-actions}) หรือปรับรุ่นด้วยตนเองตามขั้นตอนต่อไปนี้
+
+\begin{steps}
+  \item ถ้ารุ่นใหม่มีไฟล์ migration ใหม่ใน \filename{backend/supabase/migrations} ให้นำไปใช้ทีละไฟล์ โดยแต่ละไฟล์รันในทรานแซกชันเดียว
+\begin{terminal}
+set -a; . ~/dino/deploy/backend.env; set +a
+docker run --rm -v ~/dino/backend/supabase/migrations:/m postgres:17 \
+  psql "$DATABASE_URL" -1 -f /m/<ชื่อไฟล์ migration>.sql
+\end{terminal}
+  \item รันสคริปต์ปรับรุ่น
+\begin{terminal}
+bash ~/dino/deploy/deploy.sh
+\end{terminal}
+        \result{สคริปต์แสดงข้อความ ``deploy ok'' และการ์ดเวอร์ชันระบบบนแดชบอร์ดแสดงเวอร์ชันใหม่}
+  \item ตรวจสอบระบบตามหัวข้อ~\ref{sec:verify}
+\end{steps}
+
+\begin{important}
+\cmd{deploy.sh} ไม่นำ migration ไปใช้ให้ และฐานข้อมูลที่ใช้งานจริงไม่มีประวัติ migration จึงห้ามใช้ \cmd{npx supabase db push} กับฐานข้อมูลนี้ หลังนำ migration ไปใช้ ให้ตรวจ policy และสิทธิ์ของตารางที่เกี่ยวข้องอีกครั้ง
+\end{important}
+
+สคริปต์ \filename{deploy/deploy.sh} ทำงานตามลำดับดังนี้
+
+\begin{enumerate}
+\item ดึงโค้ดล่าสุดของสาขา \cmd{main} จาก GitHub โดยอนุญาตเฉพาะการรวมแบบ fast-forward
+\item อ่านเลขเวอร์ชันจากไฟล์ \filename{VERSION} และรหัส commit เพื่อแสดงในหน้าผู้ดูแลระบบ
+\item สร้าง image ของบริการ \cmd{chatbot}, \cmd{backend} และ \cmd{caddy} ทีละบริการ เพื่อไม่ให้หน่วยความจำของเครื่องแม่ข่ายไม่พอ
+\item เริ่มบริการด้วย \cmd{docker compose up -d} แล้วสั่งให้ Caddy อ่านไฟล์ตั้งค่าใหม่
+\item ตรวจ \cmd{/health} ซ้ำไม่เกิน 3 นาที ถ้าสำเร็จแสดง ``deploy ok'' ถ้าไม่สำเร็จแสดงบันทึกการทำงานล่าสุดของ \cmd{chatbot} และจบด้วยสถานะผิดพลาด
+\end{enumerate}
+
+\subsection{การปรับรุ่นอัตโนมัติด้วย GitHub Actions}
+\label{sec:github-actions}
+
+โครงงานใช้ GitHub Actions ที่กำหนดไว้ในโฟลเดอร์ \filename{.github/workflows} ตามตารางที่~\ref{tab:workflows}
+
+\begin{table}[H]
+\caption{ขั้นตอนอัตโนมัติของ GitHub Actions}
+\label{tab:workflows}
+\centering
+\begin{tabular}{|L{3.4cm}|L{4.4cm}|L{5.4cm}|}
+\hline
+\textbf{ไฟล์} & \textbf{เงื่อนไขที่ทำงาน} & \textbf{สิ่งที่ดำเนินการ} \\ \hline
+\filename{ci-frontend.yml} & pull request หรือการรวมเข้าสาขา \cmd{main} ที่แก้ไขโฟลเดอร์ \filename{frontend} & ติดตั้งไลบรารีด้วย \cmd{npm ci} และสร้างไฟล์ด้วย \cmd{npm run build} \\ \hline
+\filename{ci-chatbot.yml} & pull request หรือการรวมเข้าสาขา \cmd{main} ที่แก้ไขโฟลเดอร์ \filename{chatbot-service} & ติดตั้ง Python 3.11 และไลบรารี แล้วรัน \cmd{pytest} โดยใช้ค่าจำลองแทนคีย์จริง \\ \hline
+\filename{deploy-chatbot.yml} & การรวมเข้าสาขา \cmd{main} ที่แก้ไข \filename{frontend}, \filename{backend}, \filename{chatbot-service} หรือ \filename{deploy} หรือสั่งเริ่มเอง & เชื่อมต่อเครื่องแม่ข่ายผ่าน SSH แล้วรัน \cmd{deploy.sh} \\ \hline
+\end{tabular}
+\end{table}
+
+ก่อนใช้การปรับรุ่นอัตโนมัติ ต้องเพิ่มค่าลับที่ \menu{Settings > Secrets and variables > Actions} ของ repository ตามตารางที่~\ref{tab:gh-secrets}
+
+\begin{table}[H]
+\caption{ค่าลับของ GitHub Actions สำหรับการปรับรุ่นอัตโนมัติ}
+\label{tab:gh-secrets}
+\centering
+\begin{tabular}{|L{4.2cm}|L{9cm}|}
+\hline
+\textbf{ชื่อค่าลับ} & \textbf{คำอธิบาย} \\ \hline
+\cmd{VPS_HOST} & ชื่อโฮสต์หรือที่อยู่ของเครื่องแม่ข่าย \\ \hline
+\cmd{VPS_USER} & ชื่อผู้ใช้ที่ใช้เชื่อมต่อ SSH \\ \hline
+\cmd{VPS_SSH_KEY} & กุญแจส่วนตัวของคู่กุญแจที่สร้างสำหรับ CI เท่านั้น \\ \hline
+\cmd{VPS_KNOWN_HOSTS} & ผลลัพธ์ของคำสั่ง \cmd{ssh-keyscan -t ed25519} ตามด้วยค่า \cmd{VPS_HOST} สำหรับยืนยันตัวตนของเครื่องแม่ข่าย \\ \hline
+\end{tabular}
+\end{table}
+
+กุญแจสาธารณะของคู่กุญแจดังกล่าวต้องเพิ่มในไฟล์ \filename{~/.ssh/authorized_keys} บนเครื่องแม่ข่าย โดยกำหนดคำสั่งบังคับ (forced command) ให้รันได้เฉพาะ \cmd{deploy.sh} แม้กุญแจรั่วไหลก็เปิดเชลล์เข้าเครื่องไม่ได้ รูปแบบของบรรทัดดังกล่าวอยู่ในความคิดเห็นต้นไฟล์ \filename{deploy/deploy.sh}
+
+\begin{warning}
+ขั้นตอนตรวจสอบ (CI) และขั้นตอนปรับรุ่น (deploy) ทำงานแยกกัน การปรับรุ่นจึงไม่รอผลการทดสอบ ผู้พัฒนาต้องตรวจให้การทดสอบผ่านก่อนรวมโค้ดเข้าสาขา \cmd{main} และ backend ยังไม่มีขั้นตอน CI ต้องรัน \cmd{npm test} เองก่อนรวมโค้ด
+\end{warning}
+
+\section{การตรวจสถานะและบันทึกการทำงาน}
+\label{sec:monitor}
+
+ตรวจสถานะของระบบด้วยคำสั่งในตารางที่~\ref{tab:monitor} ที่โฟลเดอร์ \filename{~/dino/deploy} นอกจากนี้การ์ดเวอร์ชันระบบบนแดชบอร์ดแสดงเวอร์ชันและรหัส commit ของทุกบริการ ใช้ตรวจว่าปรับรุ่นสำเร็จหรือไม่
+
+\begin{table}[H]
+\caption{การตรวจสถานะของระบบ}
+\label{tab:monitor}
+\centering
+\begin{tabular}{|L{3.2cm}|L{5.4cm}|L{4.6cm}|}
+\hline
+\textbf{สิ่งที่ตรวจ} & \textbf{คำสั่ง} & \textbf{ผลที่ปกติ} \\ \hline
+สถานะบริการ & \cmd{docker compose ps} & \cmd{caddy}, \cmd{backend} และ \cmd{chatbot} มีสถานะ Up \\ \hline
+backend และฐานข้อมูล & \cmd{curl https://<CHAT_DOMAIN>/api/health} & \cmd{{"status":"ok"}} \\ \hline
+AI Service & \cmd{curl https://<CHAT_DOMAIN>/health} & \cmd{{"status":"ok"}} \\ \hline
+บันทึกการทำงาน & \cmd{docker compose logs --tail 100 backend} และ \cmd{chatbot} & ไม่มีข้อความ Error ซ้ำ ๆ \\ \hline
+พื้นที่ดิสก์ & \cmd{df -h} และ \cmd{docker system df} & พื้นที่ว่างมากกว่าร้อยละ 20 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{tip}
+image รุ่นเก่าที่เหลือจากการปรับรุ่นกินพื้นที่ดิสก์ ลบได้ด้วยคำสั่ง \cmd{docker image prune -f}
+\end{tip}
+
+\section{ข้อควรระวังด้านความปลอดภัย}
+
+\begin{enumerate}
+\item ไฟล์ \filename{.env}, \filename{backend.env} และ \filename{chatbot.env} ต้องไม่ถูกบันทึกเข้า Git และควรจำกัดสิทธิ์ด้วยคำสั่ง \cmd{chmod 600}
+\item \cmd{SUPABASE_SERVICE_ROLE_KEY} ข้ามการตรวจสิทธิ์ของฐานข้อมูลได้ทั้งหมด ใช้เฉพาะในฝั่งเครื่องแม่ข่าย ห้ามใส่ในตัวแปรของ frontend
+\item จำกัดคีย์ Google Maps ของ frontend ด้วย HTTP referrer ของเว็บไซต์ และตั้งการแจ้งเตือนงบประมาณใน Google Cloud สำหรับคีย์ Places ของ backend
+\item เปิดเฉพาะพอร์ต 80, 443 และ SSH บนเครื่องแม่ข่าย พอร์ตของ backend และ AI Service ต้องเข้าถึงได้ภายในเครือข่าย Docker เท่านั้น
+\item ใช้รหัสผ่านที่คาดเดายากสำหรับบัญชีผู้ดูแลระบบ และมีผู้ดูแลระบบอย่างน้อย 2 บัญชี
+\item กุญแจ SSH ของ CI ต้องมีคำสั่งบังคับให้รันได้เฉพาะ \cmd{deploy.sh}
+\item ถ้าใช้ Vertex AI ให้ใช้ service account ที่มีเฉพาะสิทธิ์ \cmd{roles/aiplatform.user} และกำหนดสิทธิ์ไฟล์กุญแจเป็น 0400
+\item ถ้าสงสัยว่าคีย์รั่วไหล ให้สร้างคีย์ใหม่ที่ผู้ให้บริการ แก้ไฟล์ตั้งค่า แล้วรัน \cmd{docker compose up -d} และสั่ง \btn{ออกจากระบบทุกอุปกรณ์} ให้บัญชีที่เกี่ยวข้อง
+\end{enumerate}
