@@ -82,6 +82,9 @@ Content: `frontmatter/`, `chapters/chapter1-5.tex`, `backmatter/` (appendices, b
 - Chapter titles come from the class (`\chapteronetitle` …) per the department guide.
 - Template rules: plain `\begin{enumerate}` (no `[label=...]`), no hand-typed heading numbers, no manual
   `\vspace` in body text (the advisor form is the exception).
+- The E-R overview `images/erd/erd-0-overview.tex` (all 29 tables, key columns only) is generated — edit table
+  positions/keys/relationships in `images/erd/gen_overview.py` and rerun `python -I gen_overview.py` from that
+  folder (it measures text with xelatex and auto-routes the lines). The five per-section ERDs are Mermaid `.mmd` files.
 
 ## Dino user manual (`manual/`)
 

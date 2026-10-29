@@ -2181,7 +2181,11 @@ chatbot & สร้างจากโฟลเดอร์ chatbot-service & 800
 
 \subsection{การออกแบบฐานข้อมูล}
 
-ระบบใช้ฐานข้อมูลเชิงสัมพันธ์ PostgreSQL ที่ให้บริการผ่าน Supabase เป็นแหล่งจัดเก็บข้อมูลเพียงแหล่งเดียว และติดตั้งส่วนขยาย pgvector เพื่อให้คอลัมน์ embedding ในตาราง places, knowledge\_base และ events จัดเก็บและค้นคืนเวกเตอร์เชิงความหมายได้โดยตรง จึงไม่จำเป็นต้องมีฐานข้อมูลเวกเตอร์แยกต่างหาก ส่วนข้อมูลกึ่งโครงสร้างจาก Google Places API ที่ไม่สามารถแตกเป็นคอลัมน์ตายตัวได้ทั้งหมด จัดเก็บไว้ในคอลัมน์ประเภท jsonb (raw\_data) การอ่านและเขียนข้อมูลทั้งหมดดำเนินการผ่าน Backend และ AI Service ด้วยสิทธิ์ service\_role ตารางเนื้อหาเปิดสิทธิ์อ่านแบบสาธารณะเท่านั้น ส่วนตารางบัญชีผู้ใช้ รายงาน และคำขอถูกเพิกถอนสิทธิ์ของบทบาท anon และ authenticated ทั้งหมด ร่วมกับการเปิดใช้ Row Level Security เพื่อป้องกันการเข้าถึงตารางโดยตรงจากเบราว์เซอร์ โครงสร้างฐานข้อมูลถูกควบคุมด้วยไฟล์ migration ใน Backend 
+ระบบใช้ฐานข้อมูลเชิงสัมพันธ์ (Relational Database) คือ PostgreSQL ที่ให้บริการผ่าน Supabase เป็นแหล่งจัดเก็บข้อมูลเพียงแหล่งเดียว ข้อมูลทั้งหมดจัดเก็บเป็นตารางจำนวน 29 ตาราง แต่ละตารางมีคีย์หลัก (Primary Key) และเชื่อมโยงกันด้วยคีย์นอก (Foreign Key) ซึ่งฐานข้อมูลบังคับความถูกต้องของการอ้างอิง (Referential Integrity) ให้โดยตรง รวมถึงกำหนดพฤติกรรมเมื่อแถวต้นทางถูกลบ (on delete cascade, set null หรือ restrict) ไว้ในระดับฐานข้อมูล
+
+นอกจากโครงสร้างเชิงสัมพันธ์แล้ว ระบบใช้ความสามารถเพิ่มเติมของ PostgreSQL สองอย่าง ซึ่งยังคงทำงานอยู่ภายในฐานข้อมูลเดียวกัน ไม่ได้แยกเป็นฐานข้อมูลประเภทอื่น ได้แก่ ส่วนขยาย pgvector ที่ทำให้คอลัมน์ embedding ในตาราง places, knowledge\_base และ events จัดเก็บและค้นคืนเวกเตอร์เชิงความหมายได้โดยตรง จึงไม่จำเป็นต้องมีฐานข้อมูลเวกเตอร์แยกต่างหาก และคอลัมน์ประเภท jsonb (raw\_data) สำหรับข้อมูลกึ่งโครงสร้างจาก Google Places API ที่ไม่สามารถแตกเป็นคอลัมน์ตายตัวได้ทั้งหมด
+
+ด้านความปลอดภัย การอ่านและเขียนข้อมูลทั้งหมดดำเนินการผ่าน Backend และ AI Service ด้วยสิทธิ์ service\_role ตารางเนื้อหาเปิดสิทธิ์อ่านแบบสาธารณะเท่านั้น ส่วนตารางบัญชีผู้ใช้ รายงาน และคำขอถูกเพิกถอนสิทธิ์ของบทบาท anon และ authenticated ทั้งหมด ร่วมกับการเปิดใช้ Row Level Security เพื่อป้องกันการเข้าถึงตารางโดยตรงจากเบราว์เซอร์ โครงสร้างฐานข้อมูลถูกควบคุมด้วยไฟล์ migration ใน Backend 
 
 ก่อนออกแบบโครงสร้างตาราง ผู้วิจัยจำลอง Domain Model เพื่อแสดงแนวคิดเชิงวัตถุหลักของระบบ คุณลักษณะโดยสังเขป และความสัมพันธ์ระหว่างวัตถุในระดับแนวคิด ดังภาพที่ \ref{fig:domainmodel}
 
@@ -2237,7 +2241,20 @@ chatbot & สร้างจากโฟลเดอร์ chatbot-service & 800
 
 ภาพที่ \ref{fig:domainmodel} เขียนตามสัญกรณ์แผนภาพคลาสของ UML กล่าวคือ เส้นเชื่อมแต่ละเส้นเป็นความสัมพันธ์ (Association) ที่มีชื่อกำกับและระบุจำนวนความสัมพันธ์ (Multiplicity) ที่ปลายทั้งสองข้าง โดย * หมายถึงศูนย์ถึงหลายรายการ และ 0..1 หมายถึงมีหรือไม่มีก็ได้ไม่เกินหนึ่งรายการ ผู้ใช้กับ QR และผู้ใช้กับของรางวัลเป็นความสัมพันธ์แบบกลุ่มต่อกลุ่มที่มีแอตทริบิวต์ของตนเอง (พอยท์ที่ได้ เวลาที่สแกน ต้นทุนที่แลก) จึงแสดงเป็นคลาสความสัมพันธ์ (Association Class) ด้วยเส้นประ ส่วนรายงานข้อมูลเกี่ยวกับสถานที่หรือกิจกรรมอย่างใดอย่างหนึ่งเท่านั้น จึงระบุเงื่อนไข \{xor\} กำกับ นอกจากนี้ หนึ่งสถานที่มี QR ได้เพียงหนึ่งอัน และกิจกรรมมีสถานที่ได้ไม่เกินหนึ่งแห่ง เพราะกิจกรรมบางรายการไม่ได้ผูกกับสถานที่ในตาราง places โดยตรง (ระบุเพียงชื่อสถานที่จัดงานใน venue\_name)
 
-จากนั้นผู้วิจัยนำแนวคิดดังกล่าวไปออกแบบเป็น E-R Diagram ที่ระบุตารางและคอลัมน์จริง ภาพที่ \ref{fig:erd_account} ถึง \ref{fig:erd_trip} ใช้สัญกรณ์ Crow's Foot โดยแบ่งเป็นห้าส่วนเพื่อให้อ่านได้ชัดเจน ปลายเส้นแต่ละข้างบอกจำนวนความสัมพันธ์ กล่าวคือ เส้นคู่แสดงว่าต้องมีหนึ่งรายการเสมอ วงกลมกับเส้นเดี่ยวแสดงว่ามีหรือไม่มีก็ได้ไม่เกินหนึ่งรายการ และขาสามแฉกแสดงว่ามีได้หลายรายการ ตารางบางตาราง เช่น users และ places ปรากฏซ้ำในหลายภาพเพื่อให้เห็นคีย์นอกที่อ้างถึง โดยแสดงเฉพาะคอลัมน์ที่จำเป็น
+จากนั้นผู้วิจัยนำแนวคิดดังกล่าวไปออกแบบเป็น E-R Diagram ด้วยสัญกรณ์ Crow's Foot ซึ่งปลายเส้นแต่ละข้างบอกจำนวนความสัมพันธ์ กล่าวคือ เส้นคู่แสดงว่าต้องมีหนึ่งรายการเสมอ วงกลมกับเส้นเดี่ยวแสดงว่ามีหรือไม่มีก็ได้ไม่เกินหนึ่งรายการ และวงกลมกับขาสามแฉกแสดงว่ามีได้ตั้งแต่ศูนย์ถึงหลายรายการ ภาพที่ \ref{fig:erd_overview} แสดงภาพรวมของฐานข้อมูลทั้ง 29 ตารางและความสัมพันธ์ทั้งหมดในภาพเดียว โดยแสดงเฉพาะคอลัมน์ที่เป็นคีย์ ได้แก่ คีย์หลัก (PK) คีย์นอก (FK) และคอลัมน์ที่กำหนดให้มีค่าไม่ซ้ำ (UK) ไม่แสดงชนิดข้อมูลและคอลัมน์อื่น
+
+ในภาพที่ \ref{fig:erd_overview} เส้นความสัมพันธ์แต่ละเส้นลากจากแถวคีย์นอกของตารางลูกไปยังตารางที่ถูกอ้างอิง หนึ่งเส้นจึงแทนคีย์นอกหนึ่งคอลัมน์ ตาราง users และ places อยู่ตรงกลางเนื่องจากเป็นตารางที่ตารางอื่นอ้างอิงถึงมากที่สุด ตารางที่อ้างอิงทั้งผู้ใช้และสถานที่ เช่น place\_reports และ place\_candidates จึงวางอยู่ระหว่างสองตารางนี้ สีพื้นของหัวตารางแบ่งตามส่วนการทำงานห้าส่วน ได้แก่ บัญชีผู้ใช้ พอยท์สะสม สถานที่ กิจกรรม และแผนการเดินทาง ส่วนตารางอิสระที่ไม่มีความสัมพันธ์กับตารางอื่นสามตาราง ได้แก่ knowledge\_base, survey\_responses และ google\_fallback\_usage แสดงด้วยกรอบเส้นประ ทุกเส้นมีชื่อความสัมพันธ์กำกับไว้ข้างแถวคีย์นอกของตารางลูก โดยใช้ชื่อเดียวกับใน E-R Diagram รายส่วน ในกรณีที่ตารางหนึ่งมีคีย์นอกอ้างอิง users มากกว่าหนึ่งคอลัมน์ ชื่อความสัมพันธ์จะบอกบทบาทที่ต่างกันของแต่ละคอลัมน์ เช่น redemptions ที่อ้างอิง users ทั้งในฐานะผู้แลก (user\_id) เจ้าหน้าที่ผู้ดำเนินการ (admin\_id) และเจ้าหน้าที่ผู้ยกเลิก (cancelled\_by)
+
+\begin{landscape}
+\begin{figure}[H]
+\centering
+\adjustbox{max width=\linewidth, max height=0.9\textheight}{\input{images/erd/erd-0-overview.tex}}
+\caption{E-R Diagram ภาพรวมของฐานข้อมูลทั้งระบบ}
+\label{fig:erd_overview}
+\end{figure}
+\end{landscape}
+
+เพื่อให้เห็นชนิดข้อมูลและคอลัมน์อื่นของแต่ละตาราง ภาพที่ \ref{fig:erd_account} ถึง \ref{fig:erd_trip} ขยายภาพรวมออกเป็นห้าส่วนตามสีข้างต้น ตารางบางตาราง เช่น users และ places ปรากฏซ้ำในหลายภาพเพื่อให้เห็นคีย์นอกที่อ้างถึง โดยแสดงเฉพาะคอลัมน์ที่จำเป็น
 \nopagebreak
 \begin{figure}[H]
 \centering
@@ -2290,12 +2307,12 @@ chatbot & สร้างจากโฟลเดอร์ chatbot-service & 800
 
 {\small
 \begin{longtable}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
-\caption{ตารางฐานข้อมูล places (สถานที่ท่องเที่ยว)}\label{tab:db_place}\\
+\caption{ตาราง places (สถานที่ท่องเที่ยว)}\label{tab:db_place}\\
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
 \endfirsthead
-\caption[]{ตารางฐานข้อมูล places (สถานที่ท่องเที่ยว)~(\textnormal{ต่อ})}\\
+\caption[]{ตาราง places (สถานที่ท่องเที่ยว)~(\textnormal{ต่อ})}\\
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
@@ -2346,7 +2363,7 @@ updated\_at & timestamptz & วันที่แก้ไขรายการ�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล knowledge\_base}
+\caption{ตาราง knowledge\_base}
 \label{tab:db_kb}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2367,7 +2384,7 @@ updated\_at & timestamptz & วันที่แก้ไขรายการ�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล events}
+\caption{ตาราง events}
 \label{tab:db_event}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2396,7 +2413,7 @@ updated\_at & timestamptz & วันที่แก้ไขรายการ�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล rewards (ของรางวัลแลกพอยท์)}
+\caption{ตาราง rewards (ของรางวัลแลกพอยท์)}
 \label{tab:db_reward}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2416,7 +2433,7 @@ updated\_at & timestamptz & วันที่แก้ไขรายการ�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล qrs (QR Code สะสมพอยท์)}
+\caption{ตาราง qrs (QR Code สะสมพอยท์)}
 \label{tab:db_qr}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2434,12 +2451,12 @@ created\_at & timestamptz & วันที่สร้าง \\
 \end{table}
 
 \begin{longtable}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
-\caption{ตารางฐานข้อมูล users (บัญชีผู้ใช้งานของระบบ ครอบคลุมทั้งนักท่องเที่ยวและผู้ดูแลระบบ)}\label{tab:db_users}\\
+\caption{ตาราง users (บัญชีผู้ใช้งานของระบบ ครอบคลุมทั้งนักท่องเที่ยวและผู้ดูแลระบบ)}\label{tab:db_users}\\
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
 \endfirsthead
-\caption[]{ตารางฐานข้อมูล users (บัญชีผู้ใช้งานของระบบ ครอบคลุมทั้งนักท่องเที่ยวและผู้ดูแลระบบ)~(\textnormal{ต่อ})}\\
+\caption[]{ตาราง users (บัญชีผู้ใช้งานของระบบ ครอบคลุมทั้งนักท่องเที่ยวและผู้ดูแลระบบ)~(\textnormal{ต่อ})}\\
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
@@ -2483,7 +2500,7 @@ updated\_at & timestamptz & วันที่แก้ไขรายการ�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล qr\_scans (ประวัติการสแกน QR)}
+\caption{ตาราง qr\_scans (ประวัติการสแกน QR)}
 \label{tab:db_qrscans}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2501,7 +2518,7 @@ scanned\_at & timestamptz & เวลาที่สแกน \\ \hline
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล redemptions (ประวัติการแลกของรางวัล)}
+\caption{ตาราง redemptions (ประวัติการแลกของรางวัล)}
 \label{tab:db_redemptions}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2524,7 +2541,7 @@ redeemed\_at & timestamptz & เวลาที่แลก \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล trips (แผนการเดินทางที่ระบบบันทึกไว้)}
+\caption{ตาราง trips (แผนการเดินทางที่ระบบบันทึกไว้)}
 \label{tab:db_trips}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2547,7 +2564,7 @@ created\_at / updated\_at & timestamptz & วันที่บันทึก�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล trip\_days (วันแต่ละวันของแผนการเดินทาง)}
+\caption{ตาราง trip\_days (วันแต่ละวันของแผนการเดินทาง)}
 \label{tab:db_tripdays}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2564,12 +2581,12 @@ day\_travel\_\allowbreak time\_total & integer & เวลาเดินทา�
 \end{table}
 
 \begin{longtable}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
-\caption{ตารางฐานข้อมูล trip\_items (จุดแวะแต่ละจุดในแต่ละวันของแผนการเดินทาง)}\label{tab:db_tripitems}\\
+\caption{ตาราง trip\_items (จุดแวะแต่ละจุดในแต่ละวันของแผนการเดินทาง)}\label{tab:db_tripitems}\\
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
 \endfirsthead
-\caption[]{ตารางฐานข้อมูล trip\_items (จุดแวะแต่ละจุดในแต่ละวันของแผนการเดินทาง)~(\textnormal{ต่อ})}\\
+\caption[]{ตาราง trip\_items (จุดแวะแต่ละจุดในแต่ละวันของแผนการเดินทาง)~(\textnormal{ต่อ})}\\
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
@@ -2592,7 +2609,7 @@ liked & boolean (nullable) & ความเห็นถูกใจ/ไม่�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล place\_reports (รายงานข้อมูลสถานที่ที่คลาดเคลื่อน)}
+\caption{ตาราง place\_reports (รายงานข้อมูลสถานที่ที่คลาดเคลื่อน)}
 \label{tab:db_reports}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2614,7 +2631,7 @@ created\_at & timestamptz & วันที่แจ้ง \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล event\_reports (รายงานข้อมูลกิจกรรมที่คลาดเคลื่อน)}
+\caption{ตาราง event\_reports (รายงานข้อมูลกิจกรรมที่คลาดเคลื่อน)}
 \label{tab:db_eventreports}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2636,7 +2653,7 @@ created\_at & timestamptz & วันที่แจ้ง \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล event\_requests (คำขอเพิ่มกิจกรรมจากผู้ใช้)}
+\caption{ตาราง event\_requests (คำขอเพิ่มกิจกรรมจากผู้ใช้)}
 \label{tab:db_eventrequests}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2668,7 +2685,7 @@ updated\_at & timestamptz & วันที่แก้ไขรายการ�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล place\_sync\_jobs (ชุดงานซิงก์ข้อมูลสถานที่)}
+\caption{ตาราง place\_sync\_jobs (ชุดงานซิงก์ข้อมูลสถานที่)}
 \label{tab:db_sync}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2697,7 +2714,7 @@ finished\_at & timestamptz & เวลาที่ชุดงานสิ้น
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล place\_sync\_results (ผลการซิงก์รายสถานที่)}
+\caption{ตาราง place\_sync\_results (ผลการซิงก์รายสถานที่)}
 \label{tab:db_syncresults}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2718,7 +2735,7 @@ created\_at & timestamptz & เวลาที่บันทึกผล ใช
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล place\_auto\_sync\_settings (การตั้งค่าการซิงก์อัตโนมัติ)}
+\caption{ตาราง place\_auto\_sync\_settings (การตั้งค่าการซิงก์อัตโนมัติ)}
 \label{tab:db_autosync}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2740,7 +2757,7 @@ updated\_at / updated\_by & timestamptz / uuid & เวลาและผู้�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล place\_candidates (สถานที่จาก Google ที่ผู้ใช้ถามถึงผ่านแชตบอต)}
+\caption{ตาราง place\_candidates (สถานที่จาก Google ที่ผู้ใช้ถามถึงผ่านแชตบอต)}
 \label{tab:db_candidates}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2762,7 +2779,7 @@ decided\_at / decided\_by & timestamptz / uuid & เวลาและผู้�
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล google\_fallback\_usage (จำนวนการค้นจาก Google ของแชตบอตรายวัน)}
+\caption{ตาราง google\_fallback\_usage (จำนวนการค้นจาก Google ของแชตบอตรายวัน)}
 \label{tab:db_fallback_usage}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2775,12 +2792,12 @@ calls & integer & จำนวนการค้นที่ใช้ไปใ�
 \end{table}
 
 \begin{longtable}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
-\caption{ตารางฐานข้อมูล survey\_responses (คำตอบแบบสอบถามความพึงพอใจ)}\label{tab:db_survey}\\
+\caption{ตาราง survey\_responses (คำตอบแบบสอบถามความพึงพอใจ)}\label{tab:db_survey}\\
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
 \endfirsthead
-\caption[]{ตารางฐานข้อมูล survey\_responses (คำตอบแบบสอบถามความพึงพอใจ)~(\textnormal{ต่อ})}\\
+\caption[]{ตาราง survey\_responses (คำตอบแบบสอบถามความพึงพอใจ)~(\textnormal{ต่อ})}\\
 \hline
 \textbf{Field} & \textbf{Type} & \textbf{Description} \\
 \hline
@@ -2821,7 +2838,7 @@ created\_at & timestamptz & เวลาที่ตอบ \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล sessions (โทเคนเซสชันของผู้ใช้)}
+\caption{ตาราง sessions (โทเคนเซสชันของผู้ใช้)}
 \label{tab:db_sessions}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2838,7 +2855,7 @@ created\_at & timestamptz & วันที่สร้างเซสชัน 
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล email\_verification\_tokens (โทเคนยืนยันอีเมลตอนสมัคร)}
+\caption{ตาราง email\_verification\_tokens (โทเคนยืนยันอีเมลตอนสมัคร)}
 \label{tab:db_evtokens}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2855,7 +2872,7 @@ created\_at & timestamptz & วันที่สร้างโทเคน \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล password\_reset\_tokens (โทเคนตั้งรหัสผ่านใหม่)}
+\caption{ตาราง password\_reset\_tokens (โทเคนตั้งรหัสผ่านใหม่)}
 \label{tab:db_prtokens}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2872,7 +2889,7 @@ created\_at & timestamptz & วันที่สร้างโทเคน \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล email\_change\_tokens (โทเคนยืนยันอีเมลใหม่)}
+\caption{ตาราง email\_change\_tokens (โทเคนยืนยันอีเมลใหม่)}
 \label{tab:db_ectokens}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2890,7 +2907,7 @@ created\_at & timestamptz & วันที่สร้างโทเคน \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล place\_photos (คลังรูปภาพของสถานที่)}
+\caption{ตาราง place\_photos (คลังรูปภาพของสถานที่)}
 \label{tab:db_pphotos}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2908,7 +2925,7 @@ created\_at & timestamptz & วันที่เพิ่มรูป \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล event\_photos (คลังรูปภาพของกิจกรรม)}
+\caption{ตาราง event\_photos (คลังรูปภาพของกิจกรรม)}
 \label{tab:db_ephotos}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2926,7 +2943,7 @@ created\_at & timestamptz & วันที่เพิ่มรูป \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล event\_request\_photos (รูปภาพของคำขอเพิ่มกิจกรรม)}
+\caption{ตาราง event\_request\_photos (รูปภาพของคำขอเพิ่มกิจกรรม)}
 \label{tab:db_erphotos}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2944,7 +2961,7 @@ created\_at & timestamptz & วันที่แนบรูป \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล points\_adjustments (ประวัติการปรับพอยท์โดยผู้ดูแลระบบ)}
+\caption{ตาราง points\_adjustments (ประวัติการปรับพอยท์โดยผู้ดูแลระบบ)}
 \label{tab:db_adjust}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
@@ -2963,7 +2980,7 @@ created\_at & timestamptz & วันที่ปรับพอยท์ \\
 
 \begin{table}[H]
 \centering
-\caption{ตารางฐานข้อมูล admin\_audit\_log (บันทึกการดำเนินการของผู้ดูแลระบบ)}
+\caption{ตาราง admin\_audit\_log (บันทึกการดำเนินการของผู้ดูแลระบบ)}
 \label{tab:db_support}
 \begin{tabular}{|p{3.6cm}|p{2.6cm}|p{6.8cm}|}
 \hline
